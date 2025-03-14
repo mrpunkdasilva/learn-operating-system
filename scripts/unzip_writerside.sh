@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Diretório onde o .zip é gerado
-ZIP_DIR="./"
+ZIP_DIR="../"
 # Diretório de destino para descompactar
-DEST_DIR="./docs/"
+DEST_DIR="../docs/"
 
 # Encontra o arquivo .zip mais recente na pasta
 LATEST_ZIP=$(ls -t "$ZIP_DIR"/*.zip | head -n 1)
