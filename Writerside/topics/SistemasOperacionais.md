@@ -17,3 +17,12 @@ Para aproveitar ao máximo este guia, recomendamos a seguinte abordagem:
 4. **Explore além do material**: Encorajamos você a pesquisar tópicos adicionais que despertem seu interesse. A área de sistemas operacionais é vasta e está em constante evolução.
 
 5. **Aplique o conhecimento**: Sempre que possível, relacione o que você aprendeu com situações do dia a dia ou problemas reais de computação. Isso ajudará a contextualizar o conhecimento adquirido.
+
+
+<note>
+
+Livro usado:
+
+<resource src="../../resources/sistemas-operacionais-com-java Silberschatz.pdf"></resource>
+
+</note>

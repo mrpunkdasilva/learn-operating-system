@@ -68,8 +68,8 @@ flowchart TD
     end
 ```
 
-<br>
-<br>
+<br/>
+<br/>
 
 ## 1.5.2 Sistema multi-processador
 Esse tipo de sistema em que temos mais de um processador, de uso geral, dentro de um mesmo sistema computadorizado tem ganhado cada vez mais espaço por diversas razões o lugar dos sistema mono processador.
