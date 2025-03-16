@@ -44,15 +44,29 @@
         <toc-element topic="Prática.md"/>
         <toc-element topic="Respostas.md"/>
     </toc-element>
-    <toc-element toc-title="Domus 4">
+    <toc-element toc-title="Workers and Scheduler">
+        <toc-element toc-title="Domus 4">
 
-        <toc-element topic="a.md">
-            <toc-element topic="Usos.md"/>
-            <toc-element topic="4-2-Beneficios.md"/>
-            <toc-element topic="4-3-Programação-multicore.md"/>
-            <toc-element topic="4-4-Modelos-de-múltiplas-threads-multithreading.md"/>
-            <toc-element topic="4-5-Bibliotecas-de-threads.md"/>
-            <toc-element topic="4-6-Threads-em-Java.md"/>
+            <toc-element topic="a.md">
+                <toc-element topic="Usos.md"/>
+                <toc-element topic="4-2-Beneficios.md"/>
+                <toc-element topic="4-3-Programação-multicore.md"/>
+                <toc-element topic="4-4-Modelos-de-múltiplas-threads-multithreading.md"/>
+                <toc-element topic="4-5-Bibliotecas-de-threads.md"/>
+                <toc-element topic="4-6-Threads-em-Java.md"/>
+                <toc-element topic="4-7-Aspectos-do-Uso-de-Threads.md"/>
+                <toc-element topic="4-8-Exemplos-em-Sistemas-Operacionais.md">
+                </toc-element>
+            </toc-element>
+            <toc-element topic="Exercícios-Pŕaticos-4.md"/>
+        </toc-element>
+
+        <toc-element toc-title="Domus 5">
+            <toc-element topic="Domus-5.md">
+                <toc-element topic="5-1-Conceitos-básicos.md"/>
+                <toc-element topic="5-2-Crterios.md"/>
+                <toc-element topic="5-3-Algortimos-de-Escalonamento.md"/>
+            </toc-element>
         </toc-element>
     </toc-element>
     <toc-element topic="Bibliografia.md">

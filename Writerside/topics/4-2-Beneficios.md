@@ -94,7 +94,6 @@ Em um servidor Web multithreaded rodando em uma máquina com 8 núcleos de CPU:
 - Cada thread pode ser executada em um núcleo diferente.
 - Isso permite que o servidor atenda a múltiplas requisições simultaneamente, aumentando a capacidade de processamento.
 
-### Analogia com Minecraft
 Imagine que você está jogando Minecraft em um computador com 8 núcleos de CPU. Com múltiplas threads, o jogo pode distribuir tarefas como renderização, física e IA de mobs entre os núcleos, resultando em um desempenho muito melhor do que se tudo fosse executado em um único núcleo.
 
 ## 4.2.5 Resumo dos Benefícios

@@ -5,6 +5,11 @@
 
 Em computação, um **processo** é um programa em execução, como um navegador Web, um jogo ou um servidor. Tradicionalmente, um processo tinha apenas uma **thread de controle**, ou seja, uma única sequência de execução de instruções. Isso significa que, em um processo single-threaded, todas as tarefas são executadas de forma sequencial, uma após a outra. Por exemplo, se você estivesse rodando um navegador Web single-threaded, ele não poderia carregar uma página enquanto responde aos cliques do mouse ou verifica a ortografia de um texto.
 
+![Single Thread](SingleThread.png)
+
+![Multi-Threaded](MultiThread.png)
+
+
 No entanto, com o avanço da tecnologia e a necessidade de maior eficiência e desempenho, os sistemas operacionais modernos passaram a suportar **processos multithreaded**, ou seja, processos que contêm múltiplas threads de controle. Uma **thread** é uma unidade básica de execução dentro de um processo, capaz de realizar tarefas de forma independente. Isso permite que um processo execute várias operações simultaneamente, melhorando a utilização de recursos e a responsividade das aplicações.
 
 ## **Por Que Threads São Importantes?**
@@ -86,7 +91,7 @@ mindmap
 
 ---
 
-### **3. Sistema Operacional Multithread (Minecraft com Mods)**
+### **3. Sistema Operacional Multithread**
 
 ```mermaid
 mindmap
