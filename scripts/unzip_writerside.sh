@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Diretório onde o .zip é gerado
-ZIP_DIR="../"
+ZIP_DIR=".."
 # Diretório de destino para descompactar
 DEST_DIR="../docs/"
 

@@ -5,9 +5,10 @@
 <instance-profile id="in"
                   name="Operating System" start-page="SistemasOperacionais.md">
 
-    <toc-element toc-title="Starter">
+    <toc-element topic="SistemasOperacionais.md"/>
+
+    <toc-element toc-title="Overview">
         <toc-element toc-title="Domus 1">
-            <toc-element topic="SistemasOperacionais.md"/>
             <toc-element topic="1-1.md">
                 <toc-element topic="Hardware.md"/>
                 <toc-element topic="Software.md"/>
