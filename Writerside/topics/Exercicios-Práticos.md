@@ -139,7 +139,3 @@ Sim, threads em tempo real precisam ser vinculadas a LWPs (Lightweight Processes
 
 **Explicação:**  
 - LWPs atuam como intermediários entre threads de usuário e threads de kernel, garantindo que threads em tempo real sejam tratadas com a urgência necessária.
-
---- 
-
-Espero que essas explicações ajudem a entender os conceitos e as respostas! 😊
