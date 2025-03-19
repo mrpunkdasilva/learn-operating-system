@@ -2,8 +2,7 @@
 
 **SILBERSCHATZ, Abraham; GALVIN, Peter B.**; GAGNE, Greg. Sistemas Operacionais com Java. 8. ed. Rio de Janeiro: Elsevier, 2010.
 
-**TutorialsPoint - Operating System**. **TUTORIALSPOINT.** **Operating System Tutorial. **Disponível em: <https://www.tutorialspoint.com/operating_system/index.htm>.   
-
+**TutorialsPoint - Operating System**. **TUTORIALSPOINT.** **Operating System Tutorial.** Disponível em: <https://www.tutorialspoint.com/operating_system/index.htm>.   
 
 **TutorialsPoint - OS Overview**. **TUTORIALSPOINT.** **Operating System - Overview.** Disponível em: <https://www.tutorialspoint.com/operating_system/os_overview.htm>.   
 
