@@ -6,12 +6,6 @@ COMMIT_MESSAGE="Atualização automática do repositório - $(date '+%Y-%m-%d %H
 # Obtém a URL remota do repositório
 REPO_URL="$(git config --get remote.origin.url)"
 
-# Converte a URL do formato SSH para HTTPS
-if [[ $REPO_URL == git@* ]]; then
-    REPO_URL="https://${REPO_URL:4/${REPO_URL##*:}/}/"
-    REPO_URL="${REPO_URL/:/\/}"
-fi
-
 # Verifica se há alterações no repositório
 if [[ -n $(git status -s) ]]; then
     echo "Há alterações no repositório. Preparando para subir para o GitHub..."
