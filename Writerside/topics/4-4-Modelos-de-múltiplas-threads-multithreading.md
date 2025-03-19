@@ -1,7 +1,5 @@
 # 4.4 Modelos de múltiplas threads (multithreading)
 
-
-
 ```mermaid
 mindmap
   root((Modelos de Múltiplas Threads))

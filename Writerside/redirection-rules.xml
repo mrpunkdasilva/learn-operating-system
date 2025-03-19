@@ -182,4 +182,8 @@
         <description>Created after removal of "Referências" from Instance Name</description>
         <accepts>Referênrcias.html</accepts>
     </rule>
+    <rule id="77cf138f">
+        <description>Created after removal of "Teste" from Operating System</description>
+        <accepts>Teste.html</accepts>
+    </rule>
 </rules>
