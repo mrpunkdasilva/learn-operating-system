@@ -15,7 +15,7 @@ mindmap
         Green Threads - Solaris
         GNU Portable Threads
     Modelo Um para Um
-      Descrição
+      Descrição 
         1 thread de usuário → 1 thread de kernel
       Vantagens
         Concorrência e paralelismo em multiprocessadores

@@ -19,29 +19,29 @@
             <toc-element topic="004 - Estrutura de IO.md"/>
             <toc-element topic="005 - Arquitetura do Sistema.md"/>
             <toc-element topic="1-6-Estrutura-do-sistema-operacional.md"/>
-            <toc-element topic="1-7-Operações-do-Computador.md"/>
-            <toc-element topic="1-6-Gerência-de-processos.md"/>
-            <toc-element topic="1-9-Gerência-de-memória.md"/>
-            <toc-element topic="1-10-Gerência-de-armazenamento.md"/>
-            <toc-element topic="1-11-Proteção-e-segurança.md"/>
-            <toc-element topic="1-12-Sistemas-de-uso-específico.md"/>
-            <toc-element topic="Ambientes-de-Computação.md"/>
+            <toc-element topic="1-7-Operacoes-do-Computador.md"/>
+            <toc-element topic="1-6-Gerencia-de-processos.md"/>
+            <toc-element topic="1-9-Gerencia-de-memoria.md"/>
+            <toc-element topic="1-10-Gerencia-de-armazenamento.md"/>
+            <toc-element topic="1-11-Protecao-e-seguranca.md"/>
+            <toc-element topic="1-12-Sistemas-de-uso-especifico.md"/>
+            <toc-element topic="Ambientes-de-Computacao.md"/>
             <toc-element topic="1-14.md"/>
-            <toc-element topic="Exercícios-Práticos-Resolvidos.md"/>
+            <toc-element topic="Exercicios-Praticos-Resolvidos1.md"/>
         </toc-element>
         <toc-element topic="Capitulo-2.md">
-            <toc-element topic="2-2-Interface-usuário-sistema-operacional.md"/>
+            <toc-element topic="2-2-Interface-usuario-sistema-operacional.md"/>
             <toc-element topic="2-3-Chamadas-de-sistema.md"/>
             <toc-element topic="2-4-Tipos-de-chamadas-de-sistema.md"/>
             <toc-element topic="2-5-Programas-do-sistema.md"/>
-            <toc-element topic="2-6-Projeto-e-implementação-do-sistema-operacional.md"/>
-            <toc-element topic="2-8-Máquinas-virtuais.md"/>
+            <toc-element topic="2-6-Projeto-e-implementacao-do-sistema-operacional.md"/>
+            <toc-element topic="2-8-Maquinas-virtuais.md"/>
             <toc-element topic="2-7-Geração-do-sistema-operacional.md"/>
             <toc-element topic="2-9-Boot-do-sistema.md"/>
-            <toc-element topic="Exercicios-Práticos-Resolvidos.md"/>
+            <toc-element topic="Exercicios-Praticos-Resolvidos2.md"/>
         </toc-element>
-        <toc-element topic="Questões.md"/>
-        <toc-element topic="Prática.md"/>
+        <toc-element topic="Questoes.md"/>
+        <toc-element topic="Pratica.md"/>
         <toc-element topic="Respostas.md"/>
     </toc-element>
     <toc-element toc-title="Workers and Scheduler">
@@ -51,27 +51,27 @@
                 <toc-element topic="Usos.md"/>
                 <toc-element topic="4-2-Beneficios.md"/>
                 <toc-element topic="4-3-Programação-multicore.md"/>
-                <toc-element topic="4-4-Modelos-de-múltiplas-threads-multithreading.md"/>
+                <toc-element topic="4-4-Modelos-de-multiplas-threads-multithreading.md"/>
                 <toc-element topic="4-5-Bibliotecas-de-threads.md"/>
                 <toc-element topic="4-6-Threads-em-Java.md"/>
                 <toc-element topic="4-7-Aspectos-do-Uso-de-Threads.md"/>
                 <toc-element topic="4-8-Exemplos-em-Sistemas-Operacionais.md">
                 </toc-element>
             </toc-element>
-            <toc-element topic="Exercícios-Pŕaticos-4.md"/>
+            <toc-element topic="Exercicios-Praticos-4.md"/>
         </toc-element>
 
         <toc-element toc-title="Domus 5">
             <toc-element topic="Domus-5.md">
-                <toc-element topic="5-1-Conceitos-básicos.md"/>
+                <toc-element topic="5-1-Conceitos-basicos.md"/>
                 <toc-element topic="5-2-Crterios.md"/>
                 <toc-element topic="5-3-Algortimos-de-Escalonamento.md"/>
                 <toc-element topic="5-4-Escalonamento-de-Thread.md"/>
                 <toc-element topic="5-5-Escalonamento-em-multiprocessadores.md"/>
                 <toc-element topic="5-6-Exemplos-de-Sistema-Operacional.md"/>
-                <toc-element topic="5-7-Avaliação-do-Algoritmo.md"/>
+                <toc-element topic="5-7-Avaliacao-do-Algoritmo.md"/>
             </toc-element>
-            <toc-element topic="Exercicios-Práticos.md"/>
+            <toc-element topic="Exercicios-Praticos.md"/>
         </toc-element>
     </toc-element>
     <toc-element topic="Bibliografia.md">
