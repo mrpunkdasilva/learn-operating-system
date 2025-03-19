@@ -14,10 +14,10 @@
                 <toc-element topic="Software.md"/>
                 <toc-element topic="1-2.md"/>
             </toc-element>
-            <toc-element topic="002 - Operacao do computador.md"/>
-            <toc-element topic="003 - Estrutura de Armazenamento.md"/>
-            <toc-element topic="004 - Estrutura de IO.md"/>
-            <toc-element topic="005 - Arquitetura do Sistema.md"/>
+            <toc-element topic="002-Operacaodocomputador.md"/>
+            <toc-element topic="003-EstruturadeArmazenamento.md"/>
+            <toc-element topic="004-EstruturadeIO.md"/>
+            <toc-element topic="005-ArquiteturadoSistema.md"/>
             <toc-element topic="1-6-Estrutura-do-sistema-operacional.md"/>
             <toc-element topic="1-7-Operacoes-do-Computador.md"/>
             <toc-element topic="1-6-Gerencia-de-processos.md"/>

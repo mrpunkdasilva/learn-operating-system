@@ -25,6 +25,7 @@ Isso permite que o jogo funcione de forma muito mais rápida e eficiente, pois a
 ## 4.3.2 Visualizando 
 
 ### 1. **Execução Concorrente em Single-Core**
+
 ```mermaid
 gantt
     title Execução Concorrente em Single-Core

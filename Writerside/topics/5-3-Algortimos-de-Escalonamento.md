@@ -148,6 +148,7 @@ Nesta seção, discutimos os principais **algoritmos de escalonamento de CPU**, 
 ### **Diagramas para Ilustração**
 
 #### **1. Diagrama de Gantt para FCFS**
+
 ```mermaid
 gantt
     title FCFS

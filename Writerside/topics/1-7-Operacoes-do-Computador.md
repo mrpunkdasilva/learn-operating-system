@@ -19,6 +19,7 @@ O **sistema operacional** é como o "administrador" de um servidor de Minecraft,
    - O sistema operacional começa no modo kernel (administrador) ao ligar o servidor. Ele carrega os jogadores (programas) no modo usuário e alterna entre os modos conforme necessário, garantindo que tudo funcione sem problemas.
 
 ### Resumo visual:
+
 ```mermaid
 mindmap
   root((Sistema Operacional))
