@@ -74,6 +74,7 @@
             <toc-element topic="Exercicios-Praticos.md"/>
         </toc-element>
     </toc-element>
+    <toc-element toc-title="Memory"/>
     <toc-element topic="Bibliografia.md">
     </toc-element>
 </instance-profile>
