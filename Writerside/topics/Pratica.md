@@ -186,6 +186,7 @@ Agora, com tudo o que vimos, podemos fazer a instalação do sistema. Para isso,
 #### Ubuntu {id="ubuntu_3"}
 
 - Configurações de instalação:
+
 ![Assim que rodarmos a máquina, vai aparecer a tela do GRUB e então selecionamos a primeira opção](VirtualBox_punk_ubuntu_28_02_2025_19_58_36.png)
 
 <note>

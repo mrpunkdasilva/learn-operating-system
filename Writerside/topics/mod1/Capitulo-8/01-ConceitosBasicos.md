@@ -15,6 +15,7 @@ Um ciclo comum de execução de instrução envolve as seguintes etapas:
 4. **Armazenamento**: O resultado é guardado de volta na memória.
 
 ![Ciclo Comum De Execucao De Instrucao Na Memoria](CicloComumDeExecucaoDeInstrucaoNaMemoria.drawio%20(1).svg)  
+
 **Texto Alternativo**: "Diagrama ilustrando o ciclo comum de execução de instrução na memória, composto por quatro etapas: Busca, Decodificação, Execução e Armazenamento. A CPU busca instruções da memória, decodifica e executa as operações, e armazena os resultados de volta na memória."
 
 > A unidade de memória **enxerga apenas um fluxo de endereços**, sem considerar como eles são gerados (por exemplo, pelo contador de programa).
