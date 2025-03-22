@@ -91,7 +91,16 @@
         <toc-element topic="6-5-Paginacao.md">
             <toc-element topic="Metodo-Basico.md"/>
             <toc-element topic="Suporte-do-hardware.md"/>
+            <toc-element topic="Protecao.md"/>
+            <toc-element topic="Paginas-Compartilhadas.md"/>
         </toc-element>
+        <toc-element topic="Estrutura-da-tabela-compartilhada.md">
+            <toc-element topic="Paginação-Hierarquiaca.md"/>
+            <toc-element topic="Tabelas-de-Pagina-Invertidas.md"/>
+        </toc-element>
+        <toc-element topic="Segmentacao.md"/>
+        <toc-element topic="Exemplo-Pentium.md"/>
+        <toc-element topic="Exercicios-Praticos-6.md"/>
     </toc-element>
     <toc-element topic="Bibliografia.md">
     </toc-element>
