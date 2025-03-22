@@ -4,6 +4,11 @@ Os sistemas computacionais têm como **principal finalidade a execução de prog
 
 Dessa forma, a importância do gerenciamento de memória reside no fato de que, além de fornecer espaço para armazenamento, é necessário um sistema eficiente para administrar as demandas relacionadas à memória. Esse sistema deve garantir que os recursos de memória sejam alocados, liberados e otimizados de maneira adequada, permitindo que múltiplos programas sejam executados de forma eficaz e sem conflitos.
 
+
+![Estrutura de Armazenamento Hierarquia Dispositivos De Armazenamento](003 - Estrutura de Armazenamento-Hierarquia-Dispositivos-De-Armazenamento.png)
+
+
+
 ---
 
 ```
