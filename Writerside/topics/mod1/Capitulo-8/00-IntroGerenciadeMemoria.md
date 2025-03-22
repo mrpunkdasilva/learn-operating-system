@@ -1,4 +1,4 @@
-# Introdução - Gerenciamento de Memória
+# 6.1 Introdução - Gerenciamento de Memória
 
 Os sistemas computacionais têm como **principal finalidade a execução de programas**. Para que esses programas possam ser executados, é essencial que estejam armazenados na memória, pelo menos parcialmente, durante sua execução.
 

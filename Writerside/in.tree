@@ -76,8 +76,14 @@
     </toc-element>
     <toc-element toc-title="Memory">
         <toc-element topic="00-IntroGerenciadeMemoria.md"/>
-        <toc-element topic="01-ConceitosBasicos.md"/>
-        <toc-element topic="02-Associacaodeenderecos.md"/>
+        <toc-element topic="01-ConceitosBasicos.md">
+            <toc-element topic="02-Associacaodeenderecos.md"/>
+            <toc-element topic="Espaco-de-enderecos-logicos-e-fisicos.md"/>
+            <toc-element topic="Carregamento-dinamico.md"/>
+            <toc-element topic="5-Bibliotecas-de-vnculo-dinamico-e-compartilhadas.md"/>
+        </toc-element>
+        <toc-element topic="6-3-Swapping.md"/>
+        <toc-element topic="Alocacao-de-memoria-contigua.md"/>
     </toc-element>
     <toc-element topic="Bibliografia.md">
     </toc-element>
