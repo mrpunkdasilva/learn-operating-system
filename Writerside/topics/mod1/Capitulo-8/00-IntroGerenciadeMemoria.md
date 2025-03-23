@@ -1,5 +1,7 @@
 # 6.1 Introdução - Gerenciamento de Memória
 
+> Confira os slides para esse Domus: [](https://www.canva.com/design/DAGieRxxG70/22yP_5cv_423fYTQGbqMGA/edit?utm_content=DAGieRxxG70&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
+
 Os sistemas computacionais têm como **principal finalidade a execução de programas**. Para que esses programas possam ser executados, é essencial que estejam armazenados na memória, pelo menos parcialmente, durante sua execução.
 
 ![Estrutura de Armazenamento](003 - Estrutura de Armazenamento.png)
