@@ -1,4 +1,4 @@
-# 7 Gerenciamento de Armazenamento
+# Gerenciamento de Armazenamento
 
 O **sistema de arquivos** é como o inventário do Minecraft para o sistema operacional. Assim como você organiza seus itens, blocos e ferramentas no jogo, o sistema de arquivos organiza e gerencia arquivos, diretórios, programas e informações dos usuários no computador.
 
