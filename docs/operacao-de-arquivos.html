@@ -1,0 +1,142 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#E8488B"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2025-03-31T23:31:28.966454422"><title>7.1.2 Opera&ccedil;&atilde;o de Arquivos | Operating System</title><script type="application/json" id="virtual-toc-data">[{"id":"1-introdu-o-conceitual-teoria","level":0,"title":"1. Introdução Conceitual (Teoria)","anchor":"#1-introdu-o-conceitual-teoria"},{"id":"2-opera-es-b-sicas-teoria-java","level":0,"title":"2. Operações Básicas (Teoria + Java)","anchor":"#2-opera-es-b-sicas-teoria-java"},{"id":"3-controle-de-acesso-file-locks","level":0,"title":"3. Controle de Acesso (File Locks)","anchor":"#3-controle-de-acesso-file-locks"},{"id":"4-arquitetura-avan-ada","level":0,"title":"4. Arquitetura Avançada","anchor":"#4-arquitetura-avan-ada"},{"id":"5-caso-completo-sistema-de-invent-rio","level":0,"title":"5. Caso Completo: Sistema de Inventário","anchor":"#5-caso-completo-sistema-de-invent-rio"},{"id":"6-exerc-cios-pr-ticos","level":0,"title":"6. Exercícios Práticos","anchor":"#6-exerc-cios-pr-ticos"},{"id":"7-refer-ncias-cr-ticas","level":0,"title":"7. Referências Críticas","anchor":"#7-refer-ncias-cr-ticas"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b725/app.css" rel="stylesheet"><link rel="icon" type="image/svg" sizes="16x16" href="images/logo-primary.svg"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="7.1.2 Opera&ccedil;&atilde;o de Arquivos | Operating System"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="Operating System Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/operacao-de-arquivos.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="7.1.2 Opera&ccedil;&atilde;o de Arquivos | Operating System"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/operacao-de-arquivos.html#webpage",
+    "url": "writerside-documentation/operacao-de-arquivos.html",
+    "name": "7.1.2 Opera&ccedil;&atilde;o de Arquivos | Operating System",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentation/#website",
+    "url": "writerside-documentation/",
+    "name": "Operating System Help"
+}</script><!-- End Schema.org --></head><body data-id="Operacao-de-Arquivos" data-main-title="7.1.2 Operação de Arquivos" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="Mass Storage Structure///01-Arquivo.md|7.1 Arquivos: Os Blocos Fundamentais do Sistema Operacional"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>Operating System  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="Operacao-de-Arquivos" id="Operacao-de-Arquivos.md">7.1.2 Operação de Arquivos</h1><section class="chapter"><h2 id="1-introdu-o-conceitual-teoria" data-toc="1-introdu-o-conceitual-teoria"><span class="control" id="-eihrie_13">1. Introdu&ccedil;&atilde;o Conceitual (Teoria)</span></h2><p id="-eihrie_11">Um arquivo &eacute; uma abstra&ccedil;&atilde;o que representa dados persistentes armazenados em disco. O sistema operacional fornece opera&ccedil;&otilde;es b&aacute;sicas para manipula&ccedil;&atilde;o, an&aacute;logas a a&ccedil;&otilde;es em um mundo Minecraft. Vamos explorar:</p><section class="chapter"><h3 id="analogia-minecraft-arquivos" data-toc="analogia-minecraft-arquivos"><span class="control" id="-eihrie_16">Analogia Minecraft-Arquivos</span></h3><div class="table-wrapper"><table class="wide" id="-eihrie_15"><thead><tr class="ijRowHead" id="-eihrie_17"><th id="-eihrie_23"><p><span class="control" id="-eihrie_25">Computa&ccedil;&atilde;o</span></p></th><th id="-eihrie_24"><p><span class="control" id="-eihrie_26">Minecraft</span></p></th></tr></thead><tbody><tr id="-eihrie_18"><td id="-eihrie_27"><p>Sistema de Arquivos</p></td><td id="-eihrie_28"><p>Mundo do jogo</p></td></tr><tr id="-eihrie_19"><td id="-eihrie_29"><p>Arquivo</p></td><td id="-eihrie_30"><p>Bloco/Ba&uacute;</p></td></tr><tr id="-eihrie_20"><td id="-eihrie_31"><p>Opera&ccedil;&otilde;es (create, read)</p></td><td id="-eihrie_32"><p>Craftar/Olhar blocos</p></td></tr><tr id="-eihrie_21"><td id="-eihrie_33"><p>Ponteiro de arquivo</p></td><td id="-eihrie_34"><p>Cursor do jogador</p></td></tr><tr id="-eihrie_22"><td id="-eihrie_35"><p>File Lock</p></td><td id="-eihrie_36"><p>Trancar ba&uacute;</p></td></tr></tbody></table></div></section></section><section class="chapter"><h2 id="2-opera-es-b-sicas-teoria-java" data-toc="2-opera-es-b-sicas-teoria-java"><span class="control" id="-eihrie_43">2. Opera&ccedil;&otilde;es B&aacute;sicas (Teoria + Java)</span></h2><section class="chapter"><h3 id="2-1-criar-arquivos" data-toc="2-1-criar-arquivos"><span class="control" id="-eihrie_50">2.1 Criar Arquivos</span></h3><p id="-eihrie_45"><span class="control" id="-eihrie_51">Teoria</span>: Aloca espa&ccedil;o no disco e registra no diret&oacute;rio.</p><p id="-eihrie_46"><span class="control" id="-eihrie_52">Java</span>:</p><div class="code-block" data-lang="java">
+Path filePath = Paths.get(&quot;inventario.txt&quot;);
+try {
+    Files.createFile(filePath); // Cria arquivo vazio
+    System.out.println(&quot;Arquivo criado (Bloco craftado!)&quot;);
+} catch (IOException e) {
+    System.err.println(&quot;Falha ao criar: &quot; + e.getMessage());
+}
+</div><p id="-eihrie_48"><span class="control" id="-eihrie_53">Passo a passo</span>:</p><ol class="list _decimal" id="-eihrie_49" type="1"><li class="list__item" id="-eihrie_54"><p id="-eihrie_57"><code class="code" id="-eihrie_58">Paths.get()</code> define o local do arquivo</p></li><li class="list__item" id="-eihrie_55"><p id="-eihrie_59"><code class="code" id="-eihrie_60">Files.createFile()</code> realiza a cria&ccedil;&atilde;o f&iacute;sica</p></li><li class="list__item" id="-eihrie_56"><p id="-eihrie_61">Tratamento de exce&ccedil;&otilde;es &eacute; obrigat&oacute;rio</p></li></ol></section><section class="chapter"><h3 id="2-2-escrever-em-arquivos" data-toc="2-2-escrever-em-arquivos"><span class="control" id="-eihrie_68">2.2 Escrever em Arquivos</span></h3><p id="-eihrie_63"><span class="control" id="-eihrie_69">Teoria</span>: Adiciona dados movendo o ponteiro de escrita.</p><p id="-eihrie_64"><span class="control" id="-eihrie_70">Java</span>:</p><div class="code-block" data-lang="java">
+try (FileWriter writer = new FileWriter(&quot;inventario.txt&quot;)) {
+    writer.write(&quot;Diamante: 5\nOuro: 10\n&quot;); 
+    System.out.println(&quot;Dados escritos (Bloco modificado!)&quot;);
+} catch (IOException e) {
+    // Tratamento de erro
+}
+</div><p id="-eihrie_66"><span class="control" id="-eihrie_71">Melhor pr&aacute;tica</span>:</p><ul class="list _bullet" id="-eihrie_67"><li class="list__item" id="-eihrie_72"><p id="-eihrie_74">Usar <code class="code" id="-eihrie_75">try-with-resources</code> para fechamento autom&aacute;tico</p></li><li class="list__item" id="-eihrie_73"><p id="-eihrie_76"><code class="code" id="-eihrie_77">\n</code> para quebra de linha universal</p></li></ul></section><section class="chapter"><h3 id="2-3-ler-arquivos" data-toc="2-3-ler-arquivos"><span class="control" id="-eihrie_84">2.3 Ler Arquivos</span></h3><p id="-eihrie_79"><span class="control" id="-eihrie_85">Teoria</span>: Acessa dados sequencialmente ou aleatoriamente.</p><p id="-eihrie_80"><span class="control" id="-eihrie_86">Java (leitura linha-a-linha)</span>:</p><div class="code-block" data-lang="java">
+try (BufferedReader br = Files.newBufferedReader(filePath)) {
+    String line;
+    while ((line = br.readLine()) != null) {
+        System.out.println(&quot;Baú contém: &quot; + line);
+    }
+}
+</div><p id="-eihrie_82"><span class="control" id="-eihrie_87">M&eacute;todos alternativos</span>:</p><ul class="list _bullet" id="-eihrie_83"><li class="list__item" id="-eihrie_88"><p id="-eihrie_90"><code class="code" id="-eihrie_91">Files.readAllLines()</code> (carrega tudo em mem&oacute;ria)</p></li><li class="list__item" id="-eihrie_89"><p id="-eihrie_92"><code class="code" id="-eihrie_93">Files.lines()</code> (stream Java 8+)</p></li></ul></section><section class="chapter"><h3 id="2-4-seek-posicionamento" data-toc="2-4-seek-posicionamento"><span class="control" id="-eihrie_100">2.4 Seek (Posicionamento)</span></h3><p id="-eihrie_95"><span class="control" id="-eihrie_101">Teoria</span>: Move o ponteiro sem realizar E/S.</p><p id="-eihrie_96"><span class="control" id="-eihrie_102">Java</span>:</p><div class="code-block" data-lang="java">
+try (RandomAccessFile raf = new RandomAccessFile(&quot;inventario.txt&quot;, &quot;r&quot;)) {
+    raf.seek(10); // Posiciona no 11º byte
+    byte[] data = new byte[4];
+    raf.read(data);
+    System.out.println(&quot;Conteúdo: &quot; + new String(data));
+}
+</div><p id="-eihrie_98"><span class="control" id="-eihrie_103">Aplica&ccedil;&otilde;es</span>:</p><ul class="list _bullet" id="-eihrie_99"><li class="list__item" id="-eihrie_104"><p id="-eihrie_106">Acesso a registros de tamanho fixo</p></li><li class="list__item" id="-eihrie_105"><p id="-eihrie_107">Edi&ccedil;&atilde;o parcial de arquivos grandes</p></li></ul></section><section class="chapter"><h3 id="2-5-exclus-o-e-truncamento" data-toc="2-5-exclus-o-e-truncamento"><span class="control" id="-eihrie_113">2.5 Exclus&atilde;o e Truncamento</span></h3><p id="-eihrie_109"><span class="control" id="-eihrie_114">Java (Excluir)</span>:</p><div class="code-block" data-lang="java">
+Files.deleteIfExists(filePath); // Remove o arquivo
+</div><p id="-eihrie_111"><span class="control" id="-eihrie_115">Java (Truncar)</span>:</p><div class="code-block" data-lang="java">
+try (RandomAccessFile raf = new RandomAccessFile(filePath, &quot;rw&quot;)) {
+    raf.setLength(0); // Zera o conteúdo
+}
+</div></section></section><section class="chapter"><h2 id="3-controle-de-acesso-file-locks" data-toc="3-controle-de-acesso-file-locks"><span class="control" id="-eihrie_119">3. Controle de Acesso (File Locks)</span></h2><section class="chapter"><h3 id="3-1-tipos-de-locks" data-toc="3-1-tipos-de-locks"><span class="control" id="-eihrie_122">3.1 Tipos de Locks</span></h3><div class="table-wrapper"><table class="wide" id="-eihrie_121"><thead><tr class="ijRowHead" id="-eihrie_123"><th id="-eihrie_126"><p><span class="control" id="-eihrie_129">Tipo</span></p></th><th id="-eihrie_127"><p><span class="control" id="-eihrie_130">Java</span></p></th><th id="-eihrie_128"><p><span class="control" id="-eihrie_131">Minecraft</span></p></th></tr></thead><tbody><tr id="-eihrie_124"><td id="-eihrie_132"><p>Exclusivo</p></td><td id="-eihrie_133"><p><code class="code" id="-eihrie_135">FileChannel.lock()</code></p></td><td id="-eihrie_134"><p>Ba&uacute; trancado para edi&ccedil;&atilde;o</p></td></tr><tr id="-eihrie_125"><td id="-eihrie_136"><p>Compartilhado</p></td><td id="-eihrie_137"><p><code class="code" id="-eihrie_139">FileChannel.lock(0, Long.MAX_VALUE, true)</code></p></td><td id="-eihrie_138"><p>V&aacute;rios jogadores lendo</p></td></tr></tbody></table></div></section><section class="chapter"><h3 id="3-2-implementa-o-profissional" data-toc="3-2-implementa-o-profissional"><span class="control" id="-eihrie_144">3.2 Implementa&ccedil;&atilde;o Profissional</span></h3><div class="code-block" data-lang="java">
+try (RandomAccessFile file = new RandomAccessFile(&quot;registro.txt&quot;, &quot;rw&quot;);
+     FileChannel channel = file.getChannel();
+     FileLock lock = channel.lock()) { // Lock exclusivo
+    
+    // Região crítica
+    file.write(&quot;Dado exclusivo&quot;.getBytes());
+    Thread.sleep(2000); // Simula processamento
+    
+} catch (Exception e) {
+    // Tratamento refinado
+}
+</div><p id="-eihrie_142"><span class="control" id="-eihrie_145">Boas pr&aacute;ticas</span>:</p><ol class="list _decimal" id="-eihrie_143" type="1"><li class="list__item" id="-eihrie_146"><p id="-eihrie_149">Sempre liberar locks (usar try-with-resources)</p></li><li class="list__item" id="-eihrie_147"><p id="-eihrie_150">Documentar pol&iacute;ticas de acesso</p></li><li class="list__item" id="-eihrie_148"><p id="-eihrie_151">Implementar timeouts para evitar deadlocks</p></li></ol></section></section><section class="chapter"><h2 id="4-arquitetura-avan-ada" data-toc="4-arquitetura-avan-ada"><span class="control" id="-eihrie_155">4. Arquitetura Avan&ccedil;ada</span></h2><section class="chapter"><h3 id="4-1-tabela-de-arquivos-abertos" data-toc="4-1-tabela-de-arquivos-abertos"><span class="control" id="-eihrie_158">4.1 Tabela de Arquivos Abertos</span></h3><div class="code-block" data-lang="java">
+// Simulação da tabela do SO
+Map&lt;String, FileEntry&gt; openFilesTable = new ConcurrentHashMap&lt;&gt;();
+
+class FileEntry {
+    int openCount;
+    long filePointer;
+    FileLock activeLock;
+}
+</div></section><section class="chapter"><h3 id="4-2-gerenciamento-de-ponteiros" data-toc="4-2-gerenciamento-de-ponteiros"><span class="control" id="-eihrie_161">4.2 Gerenciamento de Ponteiros</span></h3><div class="code-block" data-lang="java">
+// Controle multi-processo
+public class FilePointerTracker {
+    private static final Map&lt;Long, Map&lt;String, Long&gt;&gt; processPointers = new HashMap&lt;&gt;();
+    
+    public static void updatePointer(long pid, String file, long position) {
+        processPointers.computeIfAbsent(pid, k -&gt; new HashMap&lt;&gt;())
+                     .put(file, position);
+    }
+}
+</div></section></section><section class="chapter"><h2 id="5-caso-completo-sistema-de-invent-rio" data-toc="5-caso-completo-sistema-de-invent-rio"><span class="control" id="-eihrie_164">5. Caso Completo: Sistema de Invent&aacute;rio</span></h2><div class="code-block" data-lang="java">
+public class InventoryManager {
+    private static final Path INVENTORY_FILE = Paths.get(&quot;/world/inventory.dat&quot;);
+    
+    public synchronized void addItem(String item, int quantity) {
+        try (FileLock lock = acquireLock()) {
+            // Lógica de escrita thread-safe
+            Files.write(INVENTORY_FILE, 
+                       (item + &quot;:&quot; + quantity + &quot;\n&quot;).getBytes(),
+                       StandardOpenOption.APPEND);
+        }
+    }
+    
+    private FileLock acquireLock() throws IOException {
+        FileChannel channel = FileChannel.open(INVENTORY_FILE, 
+                                     StandardOpenOption.WRITE);
+        return channel.tryLock(10, TimeUnit.SECONDS); // Timeout
+    }
+}
+</div></section><section class="chapter"><h2 id="6-exerc-cios-pr-ticos" data-toc="6-exerc-cios-pr-ticos"><span class="control" id="-eihrie_167">6. Exerc&iacute;cios Pr&aacute;ticos</span></h2><ol class="list _decimal" id="-eihrie_166" type="1"><li class="list__item" id="-eihrie_168"><p id="-eihrie_171"><span class="control" id="-eihrie_173">Desafio de Seek</span>:</p><div class="code-block" data-lang="java">
+// Implemente uma função que busca a palavra &quot;Diamante&quot; no arquivo
+// e retorna sua posição (dica: use RandomAccessFile)
+</div></li><li class="list__item" id="-eihrie_169"><p id="-eihrie_174"><span class="control" id="-eihrie_176">Sistema de Backup</span>:</p><div class="code-block" data-lang="java">
+// Crie um método que copia apenas as linhas modificadas
+// nos últimos 7 dias (dica: BasicFileAttributes)
+</div></li><li class="list__item" id="-eihrie_170"><p id="-eihrie_177"><span class="control" id="-eihrie_179">Lock Distribu&iacute;do</span>:</p><div class="code-block" data-lang="java">
+// Implemente um lock que funciona entre múltiplas JVMs
+// usando arquivos como semáforos
+</div></li></ol></section><section class="chapter"><h2 id="7-refer-ncias-cr-ticas" data-toc="7-refer-ncias-cr-ticas"><span class="control" id="-eihrie_183">7. Refer&ecirc;ncias Cr&iacute;ticas</span></h2><ol class="list _decimal" id="-eihrie_181" type="1"><li class="list__item" id="-eihrie_184"><p id="-eihrie_186"><span class="control" id="-eihrie_188">Problemas Comuns</span>:</p><ul class="list _bullet" id="-eihrie_187"><li class="list__item" id="-eihrie_189"><p id="-eihrie_192">Esquecer de fechar recursos (vazamentos)</p></li><li class="list__item" id="-eihrie_190"><p id="-eihrie_193">Deadlocks por ordem incorreta de locks</p></li><li class="list__item" id="-eihrie_191"><p id="-eihrie_194">Race conditions em opera&ccedil;&otilde;es n&atilde;o at&ocirc;micas</p></li></ul></li><li class="list__item" id="-eihrie_185"><p id="-eihrie_195"><span class="control" id="-eihrie_197">Solu&ccedil;&otilde;es</span>:</p><div class="code-block" data-lang="java">
+// Padrão de projeto para operações atômicas
+public interface FileOperation&lt;T&gt; {
+    T execute(RandomAccessFile file) throws IOException;
+}
+
+public class AtomicFileExecutor {
+    public &lt;T&gt; T execute(String path, FileOperation&lt;T&gt; op) {
+        // Implementação com retry e locks
+    }
+}
+</div></li></ol><div class="code-block" data-lang="none">
+Operações de Arquivo (Minecraft)
+│
+├── Operações Básicas
+│   ├── Criar (Craftar bloco)
+│   ├── Escrever (Modificar bloco)
+│   ├── Ler (Olhar baú)
+│   ├── Seek (Mover cursor)
+│   ├── Excluir (Quebrar bloco)
+│   └── Truncar (Resetar bloco)
+│
+├── Arquivos Abertos (Hotbar)
+│   ├── Ponteiro (Posição atual)
+│   ├── Contador (Usos simultâneos)
+│   └── Modo de Acesso (Permissões)
+│
+└── Locks (Proteção)
+    ├── Compartilhado (Leitura múltipla)
+    ├── Exclusivo (Escrita única)
+    ├── Obrigatório (SO força bloqueio)
+    └── Consultivo (Programas cooperam)
+</div></section><div class="last-modified">Last modified: 01 abril 2025</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="01-1-atributos.html" class="navigation-links__prev">7.1.1 Atributos de Arquivos</a><a href="7-1-3-tipos-de-arquivos.html" class="navigation-links__next">7.1.3 Tipos de Arquivos</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b725/app.js"></script></body></html>

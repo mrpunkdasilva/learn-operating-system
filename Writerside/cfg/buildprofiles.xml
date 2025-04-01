@@ -12,8 +12,11 @@
     <build-profile instance="in">
         <variables>
             <noindex-content>true</noindex-content>
+            <primary-color>strawberry</primary-color>
         </variables>
     </build-profile>
+
+    <llms-txt single-file="true"/>
 
      <footer>
         <copyright>PunkDomus 2025</copyright>
