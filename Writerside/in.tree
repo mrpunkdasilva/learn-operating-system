@@ -125,11 +125,22 @@
         <toc-element topic="8-2-filesystem-implementation.md">
             <toc-element topic="8-2-1-particoes-e-montagem.md">
                 <toc-element topic="8-2-1-1-layouts-de-disco.md"/>
-                <toc-element topic="8-2-1-2-modelos-organizacao-disco.md">
-                    <toc-element topic="8-2-1-3-niveis-raid.md"/>
-                </toc-element>
+            </toc-element>
+            <toc-element topic="8-2-1-2-modelos-organizacao-disco.md">
+                <toc-element topic="8-2-1-3-niveis-raid.md"/>
             </toc-element>
             <toc-element topic="8-2-3-sistemas-arquivos-virtuais.md"/>
+        </toc-element>
+        <toc-element topic="8-3-implementacao-diretorio.md"/>
+        <toc-element topic="8-4.md">
+            <toc-element topic="8-4-1.md"/>
+            <toc-element topic="8-4-2.md"/>
+            <toc-element topic="8-4-3.md"/>
+        </toc-element>
+        <toc-element topic="8-5-gerenciamento-espaco-livre.md">
+            <toc-element topic="8-5-1-vetor-bits.md"/>
+            <toc-element topic="8-5-2-lista-interligada.md"/>
+            <toc-element topic="8-5-3-agrupamento.md"/>
         </toc-element>
     </toc-element>
     <toc-element topic="Bibliografia.md">

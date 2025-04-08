@@ -13628,7 +13628,7 @@ graph LR
 
 
 
-# Modelos de Organização de Disco
+# 8.2.2 Modelos de Organização de Disco
 
 ## Particionamento Simples
 
@@ -14388,6 +14388,2034 @@ graph TB
 * Cópias de segurança
 
 * Procedimentos de restauração
+
+
+
+# 8.3 Implementação do Diretório: O Grande Catálogo
+
+## Analogia Principal: A Biblioteca Universal
+
+Imagine um sistema de diretórios como uma biblioteca gigante. A forma como organizamos os livros (arquivos) afeta drasticamente a velocidade com que os encontramos.
+
+## 8.3.1 Lista Linear: A Estante Básica
+
+### Analogia: Biblioteca com Uma Única Estante
+
+Imagine uma biblioteca onde todos os livros estão em uma única estante longa, um após o outro.
+
+#### Características Detalhadas
+
+* Organização: * Como livros em sequência * Cada livro tem uma "ficha catalográfica" (entrada de diretório) * A ordem pode ser aleatória ou alfabética
+
+* Busca: * Precisa olhar livro por livro * Em média, examina metade da coleção * Tempo de busca cresce linearmente (O(n))
+
+* Inserção: * Adiciona no final da estante * Precisa verificar duplicatas primeiro * Tempo constante se não ordenado (O(1))
+
+* Deleção: * Remove o livro e reorganiza * Pode deixar "espaços vazios" marcados * Ou compactar a estante movendo livros
+
+```MERMAID
+graph LR
+    A[Início] --> B[Arquivo1]
+    B --> C[Arquivo2]
+    C --> D[Arquivo3]
+    D --> E[Vazio]
+    E --> F[Arquivo5]
+    F --> G[...]
+    style A fill:#f9f,stroke:#333
+    style B fill:#bbf,stroke:#333
+    style C fill:#bbf,stroke:#333
+    style D fill:#bbf,stroke:#333
+    style E fill:#fdd,stroke:#333
+    style F fill:#bbf,stroke:#333
+```
+
+### Implementação Detalhada em Java
+
+```JAVA
+public class ListaLinearDiretorio {
+    private List<ArquivoEntry> entradas = new ArrayList<>();
+    private int espacosVazios = 0;
+    
+    public class ArquivoEntry {
+        String nome;
+        long ponteiro;
+        boolean usado;
+        long tamanho;
+        long dataCriacao;
+        long ultimoAcesso;
+        
+        public ArquivoEntry(String nome, long ponteiro) {
+            this.nome = nome;
+            this.ponteiro = ponteiro;
+            this.usado = true;
+            this.dataCriacao = System.currentTimeMillis();
+            this.ultimoAcesso = this.dataCriacao;
+        }
+    }
+    
+    public void adicionarArquivo(String nome, long ponteiro) {
+        // Como colocar um novo livro na estante
+        if (buscarArquivo(nome) != null) {
+            throw new RuntimeException("Arquivo já existe");
+        }
+        
+        // Tenta reutilizar espaço vazio primeiro
+        for (int i = 0; i < entradas.size(); i++) {
+            if (!entradas.get(i).usado) {
+                entradas.set(i, new ArquivoEntry(nome, ponteiro));
+                espacosVazios--;
+                return;
+            }
+        }
+        
+        // Se não encontrou espaço vazio, adiciona no final
+        entradas.add(new ArquivoEntry(nome, ponteiro));
+    }
+    
+    public ArquivoEntry buscarArquivo(String nome) {
+        // Como procurar um livro olhando um por um
+        for (ArquivoEntry entrada : entradas) {
+            if (entrada.usado && entrada.nome.equals(nome)) {
+                entrada.ultimoAcesso = System.currentTimeMillis();
+                return entrada;
+            }
+        }
+        return null;
+    }
+    
+    public void deletarArquivo(String nome) {
+        for (int i = 0; i < entradas.size(); i++) {
+            ArquivoEntry entrada = entradas.get(i);
+            if (entrada.usado && entrada.nome.equals(nome)) {
+                // Opção 1: Marcar como não usado
+                entrada.usado = false;
+                espacosVazios++;
+                
+                // Opção 2: Compactar se muitos espaços vazios
+                if (espacosVazios > entradas.size() / 3) {
+                    compactarLista();
+                }
+                return;
+            }
+        }
+        throw new RuntimeException("Arquivo não encontrado");
+    }
+    
+    private void compactarLista() {
+        List<ArquivoEntry> novaLista = new ArrayList<>();
+        for (ArquivoEntry entrada : entradas) {
+            if (entrada.usado) {
+                novaLista.add(entrada);
+            }
+        }
+        entradas = novaLista;
+        espacosVazios = 0;
+    }
+}
+```
+
+## 8.3.2 Tabela Hash: O Catálogo Inteligente
+
+### Analogia Detalhada: Biblioteca com Sistema de Códigos
+
+Como uma biblioteca moderna onde cada livro tem um código baseado em suas características:
+
+* Primeira letra do título determina a seção principal
+
+* Comprimento do nome influencia a subseção
+
+* Sistema similar ao ISBN dos livros
+
+#### Características Detalhadas
+
+* Organização: * Sistema de códigos de localização * Divisão em seções predefinidas * Cada seção pode ter múltiplos livros
+
+* Busca: * Consulta direta pelo código * Tempo constante em média (O(1)) * Pode degradar com muitas colisões
+
+* Colisões: * Como quando dois livros deveriam ocupar o mesmo espaço * Resolvido por encadeamento ou endereçamento aberto * Pode criar "listas secundárias"
+
+```MERMAID
+graph TD
+    H[Hash Function] --> A[Seção 0]
+    H --> B[Seção 1]
+    H --> C[Seção 2]
+    H --> D[...]
+    
+    A --> A1[Arquivo1.txt]
+    B --> B1[Arquivo2.dat]
+    B --> B2[Arquivo5.txt]
+    B --> B3[Arquivo8.doc]
+    C --> C1[Arquivo3.pdf]
+    
+    style H fill:#f9f,stroke:#333
+    style B fill:#bbf,stroke:#333
+    style B1 fill:#ddf,stroke:#333
+    style B2 fill:#ddf,stroke:#333
+    style B3 fill:#ddf,stroke:#333
+```
+
+### Implementação Detalhada em Java
+
+```JAVA
+public class HashDiretorio {
+    private static final int TAMANHO_INICIAL = 64;
+    private static final double FATOR_CARGA_MAXIMO = 0.75;
+    private ArquivoEntry[] tabela;
+    private int numeroEntradas;
+    
+    public class ArquivoEntry {
+        String nome;
+        long ponteiro;
+        ArquivoEntry proximo; // Para encadeamento
+        
+        public ArquivoEntry(String nome, long ponteiro) {
+            this.nome = nome;
+            this.ponteiro = ponteiro;
+        }
+    }
+    
+    public HashDiretorio() {
+        tabela = new ArquivoEntry[TAMANHO_INICIAL];
+        numeroEntradas = 0;
+    }
+    
+    private int calcularHash(String nome) {
+        // Função hash mais sofisticada
+        int hash = 0;
+        for (char c : nome.toCharArray()) {
+            hash = 31 * hash + c;
+        }
+        return Math.abs(hash % tabela.length);
+    }
+    
+    public void adicionarArquivo(String nome, long ponteiro) {
+        // Verifica necessidade de redimensionar
+        if ((double)numeroEntradas / tabela.length >= FATOR_CARGA_MAXIMO) {
+            redimensionarTabela();
+        }
+        
+        int hash = calcularHash(nome);
+        ArquivoEntry novaEntrada = new ArquivoEntry(nome, ponteiro);
+        
+        // Tratamento de colisão por encadeamento
+        if (tabela[hash] == null) {
+            tabela[hash] = novaEntrada;
+        } else {
+            // Adiciona no início da lista encadeada
+            novaEntrada.proximo = tabela[hash];
+            tabela[hash] = novaEntrada;
+        }
+        
+        numeroEntradas++;
+    }
+    
+    private void redimensionarTabela() {
+        ArquivoEntry[] antigaTabela = tabela;
+        tabela = new ArquivoEntry[antigaTabela.length * 2];
+        numeroEntradas = 0;
+        
+        // Reinsere todas as entradas
+        for (ArquivoEntry entrada : antigaTabela) {
+            while (entrada != null) {
+                adicionarArquivo(entrada.nome, entrada.ponteiro);
+                entrada = entrada.proximo;
+            }
+        }
+    }
+    
+    public ArquivoEntry buscarArquivo(String nome) {
+        int hash = calcularHash(nome);
+        ArquivoEntry entrada = tabela[hash];
+        
+        // Percorre a lista encadeada
+        while (entrada != null) {
+            if (entrada.nome.equals(nome)) {
+                return entrada;
+            }
+            entrada = entrada.proximo;
+        }
+        
+        return null;
+    }
+}
+```
+
+## Sistema Híbrido Avançado
+
+### Implementação com Cache e Estatísticas
+
+```JAVA
+public class SistemaHibridoDiretorio {
+    private HashDiretorio hashPrincipal;
+    private ListaLinearDiretorio overflow;
+    private Map<String, ArquivoEntry> cache;
+    private int cacheHits = 0;
+    private int cacheMisses = 0;
+    
+    public class ArquivoEntry {
+        String nome;
+        long ponteiro;
+        long ultimoAcesso;
+        int acessos;
+        
+        public ArquivoEntry(String nome, long ponteiro) {
+            this.nome = nome;
+            this.ponteiro = ponteiro;
+            this.ultimoAcesso = System.currentTimeMillis();
+            this.acessos = 0;
+        }
+    }
+    
+    public SistemaHibridoDiretorio() {
+        hashPrincipal = new HashDiretorio();
+        overflow = new ListaLinearDiretorio();
+        cache = new LinkedHashMap<String, ArquivoEntry>(16, 0.75f, true) {
+            @Override
+            protected boolean removeEldestEntry(Map.Entry eldest) {
+                return size() > 100; // Limite do cache
+            }
+        };
+    }
+    
+    public ArquivoEntry buscarArquivo(String nome) {
+        // Tenta primeiro no cache
+        ArquivoEntry entrada = cache.get(nome);
+        if (entrada != null) {
+            cacheHits++;
+            entrada.acessos++;
+            entrada.ultimoAcesso = System.currentTimeMillis();
+            return entrada;
+        }
+        
+        cacheMisses++;
+        
+        // Tenta na tabela hash
+        entrada = hashPrincipal.buscarArquivo(nome);
+        if (entrada == null) {
+            // Tenta na área de overflow
+            entrada = overflow.buscarArquivo(nome);
+        }
+        
+        if (entrada != null) {
+            cache.put(nome, entrada);
+        }
+        
+        return entrada;
+    }
+    
+    public void imprimirEstatisticas() {
+        double hitRate = (double)cacheHits / (cacheHits + cacheMisses);
+        System.out.printf("Cache Hit Rate: %.2f%%\n", hitRate * 100);
+    }
+}
+```
+
+## Considerações Avançadas de Performance
+
+### 1. Otimização de Cache
+
+* Política LRU (Least Recently Used) * Remove entradas menos usadas quando cache está cheio * Mantém arquivos populares sempre disponíveis * Implementado com LinkedHashMap
+
+### 2. Estruturas Balanceadas
+
+* Árvore B para Diretórios Grandes * Mantém profundidade balanceada * Ideal para milhões de arquivos * Combina busca rápida com inserção eficiente
+
+### 3. Monitoramento de Performance
+
+```MERMAID
+graph TD
+    A[Performance Metrics] --> B[Cache Hit Rate]
+    A --> C[Colisões Hash]
+    A --> D[Tempo Médio Busca]
+    A --> E[Uso Memória]
+    
+    B --> F[Otimizar Tamanho Cache]
+    C --> G[Ajustar Função Hash]
+    D --> H[Escolher Estrutura]
+    E --> I[Balancear Recursos]
+```
+
+### 4. Considerações de Escala
+
+* Pequena Escala (< 100 arquivos) * Lista Linear é suficiente * Simples e eficiente em memória * Fácil de manter e debugar
+
+* Média Escala (100-10000 arquivos) * Tabela Hash com encadeamento * Cache LRU * Monitoramento básico
+
+* Grande Escala (> 10000 arquivos) * Sistema Híbrido * Cache multinível * Árvores B ou similares * Monitoramento avançado
+
+
+
+# 8.4 Métodos de Alocação
+
+## Introdução
+
+Os discos, por sua natureza de acesso direto, oferecem flexibilidade na implementação de arquivos. O desafio principal é alocar espaço para múltiplos arquivos de forma eficiente, garantindo:
+
+* Utilização eficaz do espaço em disco
+
+* Acesso rápido aos arquivos
+
+## Principais Métodos de Alocação
+
+### 1. Alocação Contígua
+
+* Cada arquivo ocupa blocos consecutivos no disco
+
+* Similar à alocação de memória contígua
+
+* Vantagens: * Acesso sequencial muito rápido * Acesso direto simples
+
+* Desvantagens: * Fragmentação externa * Necessidade de conhecer tamanho inicial
+
+### 2. Alocação Interligada
+
+* Cada bloco contém um ponteiro para o próximo
+
+* Similar a uma lista encadeada
+
+* Vantagens: * Sem fragmentação externa * Tamanho pode crescer dinamicamente
+
+* Desvantagens: * Acesso direto mais lento * Espaço extra para ponteiros * Confiabilidade (ponteiros corrompidos)
+
+### 3. Alocação Indexada
+
+* Usa um bloco de índice com ponteiros
+
+* Similar a uma tabela de índices
+
+* Vantagens: * Acesso direto eficiente * Sem fragmentação externa
+
+* Desvantagens: * Overhead do bloco de índice * Limite no tamanho do arquivo
+
+## Comparação dos Métodos
+
+| Característica |Contígua |Interligada |Indexada |
+---------------------------------------------------
+| Acesso Sequencial |Excelente |Bom |Bom |
+| Acesso Direto |Excelente |Ruim |Moderado |
+| Fragmentação |Externa |Não há |Não há |
+| Crescimento |Difícil |Fácil |Fácil |
+| Confiabilidade |Alta |Baixa |Moderada |
+
+## Considerações de Implementação
+
+* Alguns sistemas (como RDOS da Data General) suportam múltiplos métodos
+
+* A escolha do método depende do caso de uso: * Arquivos pequenos vs grandes * Acesso sequencial vs aleatório * Frequência de modificação
+
+
+
+# 8.4.1 Alocação Contígua
+
+## Conceito Básico
+
+A alocação contígua requer que cada arquivo ocupe um conjunto de blocos contíguos no disco. O arquivo é definido por:
+
+* Endereço do primeiro bloco
+
+* Tamanho do arquivo (em blocos)
+
+### Representação Visual
+
+```
++-------------+-------------+-------------+-------------+
+|  Arquivo A  |  Arquivo B  |    Livre   |  Arquivo C  |
+| (5 blocos)  | (3 blocos)  | (2 blocos) | (4 blocos)  |
++-------------+-------------+-------------+-------------+
+      ↑
+Bloco Inicial
+```
+
+```MERMAID
+mindmap
+  root((Alocação Contígua))
+    Estrutura
+      Bloco Inicial
+      Tamanho Total
+      Blocos Consecutivos
+    Acesso
+      Sequencial
+        Leitura Bloco a Bloco
+        Eficiente em HD
+      Direto
+        Fórmula: base + offset
+        Rápido
+    Problemas
+      Fragmentação Externa
+        Espaços Dispersos
+        Compactação Necessária
+      Crescimento
+        Realocação Custosa
+        Estimativa Difícil
+```
+
+## Funcionamento
+
+* Se um arquivo tem `n` blocos e começa no bloco `b`, ocupará: * Blocos `b, b+1, b+2, ..., b+n-1`
+
+### Exemplo de Alocação
+
+```
+Diretório:
++-----------+-------------+----------+
+| Arquivo   | Bloco Início| Tamanho  |
++-----------+-------------+----------+
+| dados.txt |     2      |    3     |
+| prog.exe  |     5      |    4     |
+| temp.log  |     9      |    2     |
++-----------+-------------+----------+
+
+Disco:
++---+---+---+---+---+---+---+---+---+---+---+
+| 0 | 1 | D | D | D | P | P | P | P | T | T |
++---+---+---+---+---+---+---+---+---+---+---+
+      ↑   dados.txt  ↑   prog.exe   ↑ temp.log
+```
+
+```MERMAID
+graph LR
+    A[Arquivo] --> B[Bloco Inicial b]
+    B --> C[b + 1]
+    C --> D[b + 2]
+    D --> E[...]
+    E --> F[b + n-1]
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style B fill:#bbf,stroke:#333,stroke-width:2px
+    style C fill:#bbf,stroke:#333,stroke-width:2px
+    style D fill:#bbf,stroke:#333,stroke-width:2px
+    style F fill:#bbf,stroke:#333,stroke-width:2px
+```
+
+## Vantagens
+
+### 1. Desempenho de Acesso
+
+* Minimiza movimentação da cabeça de leitura/escrita
+
+* Acesso sequencial muito eficiente
+
+* Acesso direto simplificado * Para acessar bloco i: localização = bloco_inicial + i
+
+### 2. Implementação Simples
+
+* Requer apenas dois valores: início e tamanho
+
+* Usado no VM/CMS da IBM por seu bom desempenho
+
+## Desvantagens
+
+### 1. Fragmentação Externa
+
+* Espaço livre dividido em pequenos pedaços
+
+* Solução: Compactação * Copiar sistema de arquivos para outro dispositivo * Realocar arquivos de volta contiguamente * Desvantagem: Processo demorado
+
+### 2. Determinação de Tamanho
+
+* Necessário conhecer tamanho final do arquivo na criação
+
+* Problemas: * Subestimação: arquivo não pode crescer * Superestimação: desperdício de espaço (fragmentação interna)
+
+### 3. Crescimento de Arquivo
+
+Quando espaço é insuficiente:
+
+1. Terminar programa com erro
+
+2. Encontrar novo espaço maior e copiar arquivo
+
+* Processo pode ser lento
+
+* Transparente para usuário
+
+## Problemas de Fragmentação
+
+### Fragmentação Externa
+
+```
+Antes da exclusão:
++-----+-----+-----+-----+
+| A   | B   | C   | D   |
+| 4KB | 8KB | 2KB | 6KB |
++-----+-----+-----+-----+
+
+Após excluir B e C:
++-----+------+-----+
+| A   | Livre| D   |
+| 4KB | 10KB | 6KB |
++-----+------+-----+
+
+Tentando alocar 12KB:
++-----+------+-----+
+| A   | Livre| D   | ❌ Falha! Espaço existe,
+| 4KB | 10KB | 6KB |    mas não contíguo
++-----+------+-----+
+```
+
+```MERMAID
+graph TD
+    A[Estado Inicial] --> B[Após Exclusões]
+    B --> C[Tentativa de Alocação]
+    B --> D[Compactação]
+    D --> E[Estado Final]
+    
+    style A fill:#f9f,stroke:#333,stroke-width:2px
+    style B fill:#bbf,stroke:#333,stroke-width:2px
+    style C fill:#fcc,stroke:#333,stroke-width:2px
+    style D fill:#cfc,stroke:#333,stroke-width:2px
+    style E fill:#cfc,stroke:#333,stroke-width:2px
+```
+
+## Solução Moderna: Extensões
+
+### Estrutura de Extensões
+
+```
+Arquivo com Extensões:
++--------+     +--------+     +--------+
+| Ext 1  | --> | Ext 2  | --> | Ext 3  |
+| 4 KB   |     | 4 KB   |     | 4 KB   |
++--------+     +--------+     +--------+
+```
+
+```MERMAID
+graph LR
+    A[Extensão Principal] -->|Link| B[Extensão 1]
+    B -->|Link| C[Extensão 2]
+    C -->|Link| D[Extensão 3]
+    
+    subgraph Metadados
+    E[Bloco Inicial]
+    F[Tamanho]
+    G[Próxima Extensão]
+    end
+    
+    style A fill:#bbf,stroke:#333,stroke-width:2px
+    style B fill:#bbf,stroke:#333,stroke-width:2px
+    style C fill:#bbf,stroke:#333,stroke-width:2px
+    style D fill:#bbf,stroke:#333,stroke-width:2px
+```
+
+### Comparação de Desempenho
+
+```MERMAID
+graph TD
+    subgraph Alocação Contígua
+    A1[Acesso Sequencial] --> B1[Muito Rápido]
+    A2[Fragmentação] --> B2[Problema Grave]
+    end
+    
+    subgraph Sistema de Extensões
+    C1[Acesso Sequencial] --> D1[Moderado]
+    C2[Fragmentação] --> D2[Controlada]
+    end
+```
+
+## Estratégias de Gerenciamento
+
+### First-Fit vs Best-Fit
+
+```MERMAID
+mindmap
+  root((Estratégias de Alocação))
+    First-Fit
+      Primeiro espaço suficiente
+      Mais rápido
+      Fragmentação moderada
+    Best-Fit
+      Menor espaço suficiente
+      Mais lento
+      Fragmentação menor
+    Compactação
+      Reorganização total
+      Custosa
+      Necessária periodicamente
+```
+
+### Processo de Compactação
+
+```
+Antes:
++----+------+----+------+----+
+| A  |Livre | B  |Livre | C  |
++----+------+----+------+----+
+
+Durante:
++----+----+----+-------------+
+| A  | B  | C  |    Livre    |
++----+----+----+-------------+
+```
+
+## Implementação Prática em Java
+
+### Simulação de Alocação Contígua
+
+```JAVA
+public class AlocacaoContigua {
+    private static final int TAMANHO_DISCO = 1024;  // Tamanho total do disco em blocos
+    private byte[] disco;                           // Simulação do disco
+    private Map<String, ArquivoInfo> diretorio;    // Diretório de arquivos
+
+    public class ArquivoInfo {
+        String nome;
+        int blocoInicial;
+        int tamanho;
+
+        public ArquivoInfo(String nome, int blocoInicial, int tamanho) {
+            this.nome = nome;
+            this.blocoInicial = blocoInicial;
+            this.tamanho = tamanho;
+        }
+    }
+
+    public AlocacaoContigua() {
+        this.disco = new byte[TAMANHO_DISCO];
+        this.diretorio = new HashMap<>();
+    }
+
+    public boolean criarArquivo(String nome, int tamanho) {
+        // Encontrar espaço livre contíguo
+        int blocoInicial = encontrarEspacoLivre(tamanho);
+        if (blocoInicial == -1) {
+            System.out.println("Erro: Não há espaço contíguo suficiente");
+            return false;
+        }
+
+        // Alocar espaço
+        for (int i = blocoInicial; i < blocoInicial + tamanho; i++) {
+            disco[i] = 1; // Marca como ocupado
+        }
+
+        // Registrar no diretório
+        diretorio.put(nome, new ArquivoInfo(nome, blocoInicial, tamanho));
+        return true;
+    }
+
+    private int encontrarEspacoLivre(int tamanhoNecessario) {
+        int contadorLivre = 0;
+        int inicioAtual = 0;
+
+        for (int i = 0; i < TAMANHO_DISCO; i++) {
+            if (disco[i] == 0) { // Bloco livre
+                if (contadorLivre == 0) {
+                    inicioAtual = i;
+                }
+                contadorLivre++;
+                if (contadorLivre == tamanhoNecessario) {
+                    return inicioAtual;
+                }
+            } else {
+                contadorLivre = 0;
+            }
+        }
+        return -1;
+    }
+
+    public byte[] lerArquivo(String nome) {
+        ArquivoInfo info = diretorio.get(nome);
+        if (info == null) {
+            return null;
+        }
+
+        byte[] dados = new byte[info.tamanho];
+        System.arraycopy(disco, info.blocoInicial, dados, 0, info.tamanho);
+        return dados;
+    }
+
+    public boolean deletarArquivo(String nome) {
+        ArquivoInfo info = diretorio.get(nome);
+        if (info == null) {
+            return false;
+        }
+
+        // Liberar espaço
+        for (int i = info.blocoInicial; i < info.blocoInicial + info.tamanho; i++) {
+            disco[i] = 0; // Marca como livre
+        }
+
+        diretorio.remove(nome);
+        return true;
+    }
+
+    public void mostrarFragmentacao() {
+        int espacosLivres = 0;
+        int fragmentosLivres = 0;
+        boolean contandoEspaco = false;
+
+        for (int i = 0; i < TAMANHO_DISCO; i++) {
+            if (disco[i] == 0) {
+                espacosLivres++;
+                if (!contandoEspaco) {
+                    fragmentosLivres++;
+                    contandoEspaco = true;
+                }
+            } else {
+                contandoEspaco = false;
+            }
+        }
+
+        System.out.println("Espaços livres totais: " + espacosLivres);
+        System.out.println("Número de fragmentos: " + fragmentosLivres);
+    }
+
+    public static void main(String[] args) {
+        AlocacaoContigua sistema = new AlocacaoContigua();
+
+        // Exemplo de uso
+        sistema.criarArquivo("documento.txt", 100);
+        sistema.criarArquivo("imagem.jpg", 200);
+        sistema.mostrarFragmentacao();
+
+        sistema.deletarArquivo("documento.txt");
+        sistema.mostrarFragmentacao();
+
+        // Tentar criar um arquivo grande
+        boolean sucesso = sistema.criarArquivo("grande.dat", 300);
+        System.out.println("Criação do arquivo grande: " + 
+            (sucesso ? "Sucesso" : "Falha"));
+    }
+}
+```
+
+Este exemplo demonstra:
+
+1. Gerenciamento de Espaço: Simula um disco com blocos e mantém registro de espaço livre
+
+2. Alocação Contígua: Garante que os blocos sejam alocados sequencialmente
+
+3. Fragmentação: Monitora e exibe informações sobre fragmentação
+
+4. Operações Básicas: Criar, ler e deletar arquivos
+
+### Exemplo de Uso:
+
+```JAVA
+AlocacaoContigua sistema = new AlocacaoContigua();
+
+// Criar alguns arquivos
+sistema.criarArquivo("doc1.txt", 50);
+sistema.criarArquivo("doc2.txt", 30);
+
+// Verificar fragmentação
+sistema.mostrarFragmentacao();
+
+// Deletar um arquivo
+sistema.deletarArquivo("doc1.txt");
+
+// Tentar criar novo arquivo
+sistema.criarArquivo("doc3.txt", 40);
+```
+
+
+
+# 8.4.2 Alocação Interligada
+
+## Conceito Básico
+
+A alocação interligada resolve os problemas da alocação contígua usando uma lista encadeada de blocos que podem estar dispersos pelo disco.
+
+### Estrutura Básica
+
+```
+Diretório:
++-------------+--------------+--------------+
+| Nome        | Primeiro     | Último       |
+| Arquivo     | Bloco        | Bloco        |
++-------------+--------------+--------------+
+| arquivo.txt |     9        |     25       |
++-------------+--------------+--------------+
+
+Blocos no Disco:
++-----+     +-----+     +-----+     +-----+     +-----+
+| B9  | --> | B16 | --> | B1  | --> | B10 | --> | B25 |
++-----+     +-----+     +-----+     +-----+     +-----+
+```
+
+```MERMAID
+graph LR
+    A[Entrada Diretório] --> B[Bloco 9]
+    B -->|Ponteiro| C[Bloco 16]
+    C -->|Ponteiro| D[Bloco 1]
+    D -->|Ponteiro| E[Bloco 10]
+    E -->|Ponteiro| F[Bloco 25]
+    F -->|nil| G[Fim]
+```
+
+## Estrutura do Bloco
+
+```
+Bloco de 512 bytes:
++------------------+------------------------+
+| Ponteiro (4B)    | Dados (508B)          |
++------------------+------------------------+
+```
+
+## Sistema FAT (File Allocation Table)
+
+```
+Tabela FAT:
++-------+----------+
+| Bloco | Próximo  |
++-------+----------+
+| 217   |   618    |
+| 618   |   339    |
+| 339   |   EOF    |
++-------+----------+
+```
+
+```MERMAID
+graph TD
+    A[Entrada Diretório] --> B[FAT]
+    B --> C[Bloco 217]
+    C --> D[Bloco 618]
+    D --> E[Bloco 339]
+    E --> F[EOF]
+    
+    subgraph "Tabela FAT"
+    B
+    end
+    
+    subgraph "Blocos de Dados"
+    C
+    D
+    E
+    end
+```
+
+## Vantagens e Desvantagens
+
+```MERMAID
+mindmap
+  root((Alocação Interligada))
+    Vantagens
+      Sem Fragmentação Externa
+      Crescimento Dinâmico
+      Sem Necessidade de Compactação
+    Desvantagens
+      Acesso Sequencial Lento
+      Overhead de Ponteiros
+      Confiabilidade
+        Ponteiros Corrompidos
+        Perda de Dados
+```
+
+## Clusters para Otimização
+
+```
+Cluster (4 blocos):
++------+------+------+------+
+|Bloco |Bloco |Bloco |Bloco | Ponteiro único
+|  1   |  2   |  3   |  4   | para o cluster
++------+------+------+------+
+```
+
+```MERMAID
+graph TD
+    A[Cluster] --> B[Bloco 1]
+    A --> C[Bloco 2]
+    A --> D[Bloco 3]
+    A --> E[Bloco 4]
+    
+    subgraph "Ponteiro Único"
+    F[Próximo Cluster]
+    end
+    
+    A --> F
+```
+
+## Problemas de Confiabilidade
+
+```
+Cenário de Corrupção:
+Normal:    A -> B -> C -> D -> EOF
+Corrompido: A -> B -> X -> ? -> ?
+                  ↓
+              Lista Livre
+```
+
+```MERMAID
+graph TD
+    subgraph "Estado Normal"
+    A1[Bloco A] -->|Ponteiro| B1[Bloco B]
+    B1 -->|Ponteiro| C1[Bloco C]
+    C1 -->|Ponteiro| D1[EOF]
+    end
+    
+    subgraph "Estado Corrompido"
+    A2[Bloco A] -->|Ponteiro| B2[Bloco B]
+    B2 -->|Ponteiro Corrompido| X[???]
+    X -->|???| Y[Dados Perdidos]
+    end
+    
+    style X fill:#f88,stroke:#333,stroke-width:2px
+    style Y fill:#f88,stroke:#333,stroke-width:2px
+```
+
+## Solução: Lista Duplamente Encadeada
+
+```
++--------+        +--------+        +--------+
+|   A    | <---> |   B    | <---> |   C    |
++--------+        +--------+        +--------+
+```
+
+```MERMAID
+graph LR
+    A[Bloco A] -->|Próximo| B[Bloco B]
+    B -->|Próximo| C[Bloco C]
+    C -->|Próximo| D[EOF]
+    
+    D -->|Anterior| C
+    C -->|Anterior| B
+    B -->|Anterior| A
+    
+    style A fill:#bbf,stroke:#333,stroke-width:2px
+    style B fill:#bbf,stroke:#333,stroke-width:2px
+    style C fill:#bbf,stroke:#333,stroke-width:2px
+```
+
+## Implementação Prática em Java
+
+### Simulação de Alocação Interligada
+
+```JAVA
+public class AlocacaoInterligada {
+    private static final int TAMANHO_DISCO = 1024;
+    private Bloco[] disco;
+    private Map<String, Integer> diretorio; // Nome do arquivo -> Primeiro bloco
+    private List<Integer> blocosLivres;
+
+    public class Bloco {
+        byte[] dados;
+        int proximoBloco;
+        boolean ocupado;
+
+        public Bloco() {
+            this.dados = new byte[508]; // 512 - 4 bytes para ponteiro
+            this.proximoBloco = -1;
+            this.ocupado = false;
+        }
+    }
+
+    public AlocacaoInterligada() {
+        this.disco = new Bloco[TAMANHO_DISCO];
+        this.diretorio = new HashMap<>();
+        this.blocosLivres = new ArrayList<>();
+
+        // Inicializar disco
+        for (int i = 0; i < TAMANHO_DISCO; i++) {
+            disco[i] = new Bloco();
+            blocosLivres.add(i);
+        }
+    }
+
+    public boolean criarArquivo(String nome, byte[] dados) {
+        if (diretorio.containsKey(nome)) {
+            return false;
+        }
+
+        int numBlocosNecessarios = (int) Math.ceil(dados.length / 508.0);
+        if (blocosLivres.size() < numBlocosNecessarios) {
+            return false;
+        }
+
+        int primeiroBloco = alocarBlocos(dados);
+        if (primeiroBloco != -1) {
+            diretorio.put(nome, primeiroBloco);
+            return true;
+        }
+        return false;
+    }
+
+    private int alocarBlocos(byte[] dados) {
+        if (blocosLivres.isEmpty()) {
+            return -1;
+        }
+
+        int primeiroBloco = blocosLivres.remove(0);
+        int blocoAtual = primeiroBloco;
+        int posicaoDados = 0;
+
+        while (posicaoDados < dados.length) {
+            Bloco bloco = disco[blocoAtual];
+            bloco.ocupado = true;
+
+            // Copiar dados para o bloco
+            int copiarQuantidade = Math.min(508, dados.length - posicaoDados);
+            System.arraycopy(dados, posicaoDados, bloco.dados, 0, copiarQuantidade);
+            posicaoDados += copiarQuantidade;
+
+            // Se ainda há dados, alocar próximo bloco
+            if (posicaoDados < dados.length) {
+                if (blocosLivres.isEmpty()) {
+                    // Falha: liberar blocos alocados
+                    liberarBlocos(primeiroBloco);
+                    return -1;
+                }
+                int proximoBloco = blocosLivres.remove(0);
+                bloco.proximoBloco = proximoBloco;
+                blocoAtual = proximoBloco;
+            }
+        }
+
+        return primeiroBloco;
+    }
+
+    public byte[] lerArquivo(String nome) {
+        Integer primeiroBloco = diretorio.get(nome);
+        if (primeiroBloco == null) {
+            return null;
+        }
+
+        ByteArrayOutputStream dados = new ByteArrayOutputStream();
+        int blocoAtual = primeiroBloco;
+
+        while (blocoAtual != -1) {
+            Bloco bloco = disco[blocoAtual];
+            dados.write(bloco.dados, 0, 508);
+            blocoAtual = bloco.proximoBloco;
+        }
+
+        return dados.toByteArray();
+    }
+
+    public boolean deletarArquivo(String nome) {
+        Integer primeiroBloco = diretorio.remove(nome);
+        if (primeiroBloco == null) {
+            return false;
+        }
+
+        liberarBlocos(primeiroBloco);
+        return true;
+    }
+
+    private void liberarBlocos(int primeiroBloco) {
+        int blocoAtual = primeiroBloco;
+        while (blocoAtual != -1) {
+            Bloco bloco = disco[blocoAtual];
+            int proximoBloco = bloco.proximoBloco;
+            
+            // Limpar bloco
+            bloco.ocupado = false;
+            bloco.proximoBloco = -1;
+            Arrays.fill(bloco.dados, (byte) 0);
+            
+            // Adicionar à lista de blocos livres
+            blocosLivres.add(blocoAtual);
+            
+            blocoAtual = proximoBloco;
+        }
+    }
+
+    public void mostrarEstatisticas() {
+        int blocosOcupados = TAMANHO_DISCO - blocosLivres.size();
+        System.out.println("Estatísticas do Disco:");
+        System.out.println("Blocos Totais: " + TAMANHO_DISCO);
+        System.out.println("Blocos Ocupados: " + blocosOcupados);
+        System.out.println("Blocos Livres: " + blocosLivres.size());
+    }
+
+    public static void main(String[] args) {
+        AlocacaoInterligada sistema = new AlocacaoInterligada();
+
+        // Exemplo de uso
+        byte[] dados1 = "Este é um arquivo de teste".getBytes();
+        byte[] dados2 = "Outro arquivo para testar a alocação interligada".getBytes();
+
+        sistema.criarArquivo("teste1.txt", dados1);
+        sistema.criarArquivo("teste2.txt", dados2);
+        sistema.mostrarEstatisticas();
+
+        // Ler arquivo
+        byte[] dadosLidos = sistema.lerArquivo("teste1.txt");
+        System.out.println("Conteúdo lido: " + new String(dadosLidos));
+
+        // Deletar arquivo
+        sistema.deletarArquivo("teste1.txt");
+        sistema.mostrarEstatisticas();
+    }
+}
+```
+
+Este exemplo demonstra:
+
+1. Lista Encadeada: Implementação de blocos interligados
+
+2. Gerenciamento de Espaço: Lista de blocos livres
+
+3. Operações de Arquivo: Criar, ler e deletar
+
+4. Fragmentação: Não há fragmentação externa
+
+### Exemplo de Uso:
+
+```JAVA
+AlocacaoInterligada sistema = new AlocacaoInterligada();
+
+// Criar arquivo
+byte[] dados = "Conteúdo do arquivo".getBytes();
+sistema.criarArquivo("documento.txt", dados);
+
+// Ler arquivo
+byte[] dadosLidos = sistema.lerArquivo("documento.txt");
+System.out.println(new String(dadosLidos));
+
+// Deletar arquivo
+sistema.deletarArquivo("documento.txt");
+```
+
+
+
+# 8.4.3 Alocação Indexada
+
+A alocação indexada é um método sofisticado de gerenciamento de arquivos que resolve várias limitações encontradas nas alocações contígua e encadeada. Imagine um índice de um livro: assim como você pode encontrar rapidamente um capítulo específico consultando o índice, a alocação indexada permite localizar rapidamente qualquer parte de um arquivo através de uma tabela de índices.
+
+## Funcionamento Básico
+
+### Estrutura Principal
+
+Cada arquivo possui um bloco especial chamado "bloco de índice" que contém:
+
+* Ponteiros para todos os blocos de dados do arquivo
+
+* Informações sobre a ordem dos blocos
+
+* Metadados sobre a alocação
+
+```
+Estrutura do Sistema:
++----------------+     +-----------------+     +-----------------+
+| Entrada        | →   | Bloco de        | →   | Blocos de       |
+| Diretório      |     | Índice          |     | Dados           |
++----------------+     +-----------------+     +-----------------+
+| nome: doc.txt  |     | [0] → Bloco 7   |     | Conteúdo Real   |
+| índice: 12     |     | [1] → Bloco 3   |     | do Arquivo      |
++----------------+     | [2] → Bloco 9   |     | Distribuído     |
+                       +-----------------+     | em Blocos       |
+                                               +-----------------+
+```
+
+### Processo de Acesso
+
+1. O sistema localiza a entrada do diretório do arquivo
+
+2. Obtém o número do bloco de índice
+
+3. Carrega o bloco de índice na memória
+
+4. Usa os ponteiros para acessar os blocos de dados
+
+```MERMAID
+sequenceDiagram
+    participant U as Usuário
+    participant SO as Sistema Operacional
+    participant I as Bloco de Índice
+    participant D as Blocos de Dados
+
+    U->>SO: Solicita acesso ao arquivo
+    SO->>I: Carrega bloco de índice
+    I->>SO: Retorna mapa de blocos
+    SO->>D: Acessa blocos necessários
+    D->>U: Retorna dados solicitados
+```
+
+## Variações de Implementação
+
+### 1. Índice de Nível Único
+
+* Descrição: Um único bloco de índice com ponteiros diretos
+
+* Limitação: Tamanho máximo do arquivo limitado pelo tamanho do bloco de índice
+
+* Exemplo: ``` Bloco de Índice (1KB, ponteiros de 4 bytes): +-------------------+ | 256 ponteiros | → Máximo de 256KB (com blocos de 1KB) +-------------------+ ```
+
+### 2. Índice Multinível
+
+* Descrição: Hierarquia de blocos de índice
+
+* Vantagem: Suporta arquivos muito maiores
+
+* Estrutura: ``` Índice Principal +---------------+ | P1 | P2 | P3 | +---------------+ ↓ Índices Secundários +---------------+ | B1 | B2 | B3 | +---------------+ ↓ Blocos de Dados ```
+
+### 3. Esquema Combinado (como no Unix)
+
+* Descrição: Mistura diferentes técnicas de endereçamento
+
+* Componentes: * Ponteiros diretos para blocos pequenos * Ponteiros indiretos simples * Ponteiros indiretos duplos * Ponteiros indiretos triplos
+
+```MERMAID
+graph TD
+    A[Bloco i-node] --> B[Ponteiros Diretos]
+    A --> C[Indireto Simples]
+    A --> D[Indireto Duplo]
+    A --> E[Indireto Triplo]
+    
+    B --> F[Blocos de Dados]
+    C --> G[Bloco de Índice]
+    G --> H[Blocos de Dados]
+    D --> I[Índice Primário]
+    I --> J[Índice Secundário]
+    J --> K[Blocos de Dados]
+```
+
+## Análise Detalhada
+
+### Vantagens
+
+1. Acesso Direto Eficiente
+
+* Localização rápida de qualquer bloco
+
+* Tempo constante para acesso aleatório
+
+2. Sem Fragmentação Externa
+
+* Blocos podem estar em qualquer lugar
+
+* Melhor utilização do espaço em disco
+
+3. Flexibilidade
+
+* Fácil expansão de arquivos
+
+* Suporte a arquivos esparsos
+
+### Desvantagens
+
+1. Overhead de Espaço
+
+* Necessidade de blocos extras para índices
+
+* Maior consumo para arquivos pequenos
+
+2. Complexidade de Implementação
+
+* Gerenciamento de múltiplos níveis
+
+* Necessidade de cache de índices
+
+3. Overhead de Desempenho
+
+* Múltiplos acessos ao disco
+
+* Manutenção de estruturas complexas
+
+## Considerações Práticas
+
+### Otimizações Comuns
+
+1. Cache de Índices
+
+```JAVA
+class IndexCache {
+    private Map<Integer, IndexBlock> cache;
+    private int maxSize;
+
+    public byte[] readBlock(int fileId, int blockNumber) {
+        IndexBlock index = cache.get(fileId);
+        if (index == null) {
+            index = loadIndexFromDisk(fileId);
+            cache.put(fileId, index);
+        }
+        return readDataBlock(index.getBlockPointer(blockNumber));
+    }
+}
+```
+
+2. Pré-alocação de Índices
+
+* Reserva de espaço para crescimento
+
+* Redução de fragmentação
+
+3. Compressão de Índices
+
+* Técnicas de compressão para índices
+
+* Otimização para arquivos pequenos
+
+### Recuperação de Falhas
+
+1. Checkpoints
+
+* Salvamento periódico do estado
+
+* Pontos de recuperação consistentes
+
+2. Journaling
+
+* Registro de alterações
+
+* Recuperação consistente
+
+3. Redundância
+
+* Cópias de segurança de índices
+
+* Verificação de integridade
+
+## Implementação em Java
+
+### Estrutura Básica do Sistema de Arquivos Indexado
+
+```JAVA
+public class SistemaArquivosIndexado {
+    private static final int TAMANHO_BLOCO = 1024;
+    private static final int PONTEIROS_POR_INDICE = TAMANHO_BLOCO / 4; // 4 bytes por ponteiro
+
+    private class BlocoIndice {
+        int[] ponteiros;
+        
+        public BlocoIndice() {
+            ponteiros = new int[PONTEIROS_POR_INDICE];
+        }
+    }
+
+    private class Arquivo {
+        String nome;
+        int blocoIndice;
+        int tamanho;
+
+        public Arquivo(String nome, int blocoIndice) {
+            this.nome = nome;
+            this.blocoIndice = blocoIndice;
+            this.tamanho = 0;
+        }
+    }
+
+    private Map<String, Arquivo> diretorio;
+    private byte[][] disco;
+    private List<Integer> blocosLivres;
+
+    public SistemaArquivosIndexado(int numBlocos) {
+        diretorio = new HashMap<>();
+        disco = new byte[numBlocos][TAMANHO_BLOCO];
+        blocosLivres = new ArrayList<>();
+        for (int i = 0; i < numBlocos; i++) {
+            blocosLivres.add(i);
+        }
+    }
+
+    public boolean criarArquivo(String nome) {
+        if (diretorio.containsKey(nome) || blocosLivres.isEmpty()) {
+            return false;
+        }
+
+        int blocoIndice = alocarBloco();
+        if (blocoIndice != -1) {
+            diretorio.put(nome, new Arquivo(nome, blocoIndice));
+            return true;
+        }
+        return false;
+    }
+
+    public boolean escreverArquivo(String nome, byte[] dados) {
+        Arquivo arquivo = diretorio.get(nome);
+        if (arquivo == null) {
+            return false;
+        }
+
+        int numBlocosNecessarios = (int) Math.ceil(dados.length / (double) TAMANHO_BLOCO);
+        if (blocosLivres.size() < numBlocosNecessarios) {
+            return false;
+        }
+
+        BlocoIndice indice = new BlocoIndice();
+        int offset = 0;
+        
+        for (int i = 0; i < numBlocosNecessarios; i++) {
+            int novoBloco = alocarBloco();
+            indice.ponteiros[i] = novoBloco;
+            
+            int tamanhoBloco = Math.min(TAMANHO_BLOCO, dados.length - offset);
+            System.arraycopy(dados, offset, disco[novoBloco], 0, tamanhoBloco);
+            offset += tamanhoBloco;
+        }
+
+        // Salvar bloco de índice
+        byte[] indiceBytes = converterIndiceParaBytes(indice);
+        System.arraycopy(indiceBytes, 0, disco[arquivo.blocoIndice], 0, indiceBytes.length);
+        arquivo.tamanho = dados.length;
+        
+        return true;
+    }
+
+    private int alocarBloco() {
+        if (blocosLivres.isEmpty()) {
+            return -1;
+        }
+        return blocosLivres.remove(0);
+    }
+
+    private byte[] converterIndiceParaBytes(BlocoIndice indice) {
+        ByteBuffer buffer = ByteBuffer.allocate(TAMANHO_BLOCO);
+        for (int ponteiro : indice.ponteiros) {
+            buffer.putInt(ponteiro);
+        }
+        return buffer.array();
+    }
+}
+```
+
+### Exemplo de Uso
+
+```JAVA
+public static void main(String[] args) {
+    SistemaArquivosIndexado sistema = new SistemaArquivosIndexado(1000);
+    
+    // Criar e escrever em um arquivo
+    sistema.criarArquivo("documento.txt");
+    String conteudo = "Este é um exemplo de conteúdo para testar o sistema de arquivos indexado.";
+    sistema.escreverArquivo("documento.txt", conteudo.getBytes());
+    
+    // Demonstrar acesso direto
+    byte[] dadosLidos = sistema.lerBlocoEspecifico("documento.txt", 2);
+    System.out.println("Conteúdo do bloco 2: " + new String(dadosLidos));
+}
+```
+
+## Considerações de Desempenho
+
+### Análise de Complexidade
+
+1. Acesso Direto: O(1) para localizar qualquer bloco
+
+2. Criação de Arquivo: O(1) para alocação inicial
+
+3. Expansão: O(1) para adicionar novos blocos
+
+4. Overhead de Espaço:
+
+* 1 bloco de índice por arquivo
+
+* Adicional para índices multinível
+
+### Otimizações de Cache
+
+1. Cache de Blocos de Índice
+
+2. Prefetching de Blocos
+
+3. Buffer de Escrita
+
+## Conclusão
+
+A alocação indexada oferece um equilíbrio entre:
+
+* Eficiência de acesso
+
+* Flexibilidade de crescimento
+
+* Complexidade gerenciável
+
+* Recuperação de falhas
+
+É especialmente adequada para:
+
+* Sistemas de arquivos modernos
+
+* Acesso aleatório frequente
+
+* Arquivos de tamanho variável
+
+
+
+# 8.5 Gerenciamento do Espaço Livre
+
+## Introdução
+
+O gerenciamento de espaço livre é um componente crítico de qualquer sistema de arquivos. Sua principal função é controlar e otimizar a utilização do espaço em disco, mantendo registro das áreas disponíveis para armazenamento de novos dados.
+
+### Conceito Básico
+
+O sistema mantém um registro do espaço livre no disco através de uma estrutura de dados dedicada, tradicionalmente chamada de "lista de espaço livre". Esta estrutura:
+
+* Monitora blocos não alocados
+
+* Facilita a alocação de espaço para novos arquivos
+
+* Gerencia a recuperação de espaço após exclusões
+
+### Ciclo de Vida do Espaço em Disco
+
+```MERMAID
+graph LR
+    A[Espaço Livre] --> B[Alocação]
+    B --> C[Em Uso]
+    C --> D[Exclusão]
+    D --> A
+```
+
+### Operações Principais
+
+1. Alocação: Busca e reserva de espaço para novos arquivos
+
+2. Liberação: Devolução do espaço de arquivos excluídos
+
+3. Compactação: Otimização do espaço disponível
+
+4. Monitoramento: Acompanhamento da utilização do disco
+
+
+
+# 8.5.1 Vetor de Bits
+
+## Conceito Básico
+
+O vetor de bits é uma técnica eficiente para gerenciar espaço livre em disco, onde:
+
+* Cada bloco é representado por 1 bit
+
+* Bit 1 = bloco livre
+
+* Bit 0 = bloco alocado
+
+### Exemplo Visual
+
+```
+Blocos:    0  1  2  3  4  5  6  7  8  9  10
+Estado:    A  A  L  L  L  L  A  A  L  L   L
+Bits:      0  0  1  1  1  1  0  0  1  1   1
+```
+
+A = Alocado, L = Livre
+
+## Implementação Prática
+
+```JAVA
+public class GerenciadorEspacoLivre {
+    private BitSet vetorBits;
+    private int totalBlocos;
+    private static final int BITS_POR_PALAVRA = 32;
+
+    public GerenciadorEspacoLivre(int numBlocos) {
+        this.totalBlocos = numBlocos;
+        this.vetorBits = new BitSet(numBlocos);
+        // Inicialmente, todos os blocos estão livres
+        this.vetorBits.set(0, numBlocos);
+    }
+
+    public int encontrarPrimeiroBlocoLivre() {
+        for (int i = 0; i < totalBlocos; i++) {
+            if (vetorBits.get(i)) {
+                return i;
+            }
+        }
+        return -1; // Nenhum bloco livre encontrado
+    }
+
+    public int[] encontrarBlocosConsecutivos(int quantidade) {
+        int contador = 0;
+        int inicio = -1;
+
+        for (int i = 0; i < totalBlocos; i++) {
+            if (vetorBits.get(i)) {
+                if (contador == 0) inicio = i;
+                contador++;
+                if (contador == quantidade) {
+                    return new int[]{inicio, i};
+                }
+            } else {
+                contador = 0;
+            }
+        }
+        return null; // Não encontrou blocos consecutivos suficientes
+    }
+
+    public void alocarBloco(int numeroBloco) {
+        if (numeroBloco >= 0 && numeroBloco < totalBlocos) {
+            vetorBits.clear(numeroBloco);
+        }
+    }
+
+    public void liberarBloco(int numeroBloco) {
+        if (numeroBloco >= 0 && numeroBloco < totalBlocos) {
+            vetorBits.set(numeroBloco);
+        }
+    }
+
+    public double calcularFragmentacao() {
+        int blocosLivres = vetorBits.cardinality();
+        int sequenciasLivres = 0;
+        boolean emSequencia = false;
+
+        for (int i = 0; i < totalBlocos; i++) {
+            if (vetorBits.get(i) && !emSequencia) {
+                sequenciasLivres++;
+                emSequencia = true;
+            } else if (!vetorBits.get(i)) {
+                emSequencia = false;
+            }
+        }
+
+        return sequenciasLivres > 0 ? 
+               (double) blocosLivres / sequenciasLivres : 
+               0.0;
+    }
+}
+```
+
+### Exemplo de Uso
+
+```JAVA
+public static void main(String[] args) {
+    GerenciadorEspacoLivre gerenciador = new GerenciadorEspacoLivre(1000);
+    
+    // Alocar alguns blocos
+    gerenciador.alocarBloco(0);
+    gerenciador.alocarBloco(1);
+    gerenciador.alocarBloco(6);
+    gerenciador.alocarBloco(7);
+    
+    // Encontrar espaço para um novo arquivo
+    int[] blocos = gerenciador.encontrarBlocosConsecutivos(4);
+    if (blocos != null) {
+        System.out.println("Encontrado espaço livre do bloco " + 
+                          blocos[0] + " até " + blocos[1]);
+    }
+    
+    // Verificar fragmentação
+    double fragmentacao = gerenciador.calcularFragmentacao();
+    System.out.println("Índice de fragmentação: " + fragmentacao);
+}
+```
+
+## Considerações de Implementação
+
+### Vantagens
+
+1. Simplicidade: Fácil de implementar e manter
+
+2. Eficiência de Memória: 1 bit por bloco
+
+3. Rápida Localização: Operações bitwise eficientes
+
+### Limitações
+
+1. Consumo de Memória para Discos Grandes:
+
+* 1 TB (blocos 4 KB) = 32 MB de bitmap
+
+* 1 PB (blocos 4 KB) = 32 GB de bitmap
+
+2. Necessidade de Manter em Memória:
+
+* Para eficiência máxima
+
+* Sincronização periódica com disco
+
+### Otimizações Possíveis
+
+1. Agrupamento de Blocos: Reduzir overhead de bitmap
+
+2. Cache Parcial: Manter apenas partes ativas em memória
+
+3. Compressão: Para regiões com muitos blocos livres/ocupados consecutivos
+
+
+
+# 8.5.2 Lista Interligada
+
+## Conceito Básico
+
+A lista interligada é uma técnica alternativa para gerenciamento de espaço livre onde:
+
+* Blocos livres são conectados através de ponteiros
+
+* O primeiro bloco livre é mantido em cache na memória
+
+* Cada bloco livre contém o endereço do próximo bloco livre
+
+### Representação Visual
+
+```
+Primeiro Bloco Livre
+      ↓
+    +---+     +---+     +---+     +---+
+    | 2 | --> | 3 | --> | 4 | --> | 5 | ...
+    +---+     +---+     +---+     +---+
+```
+
+## Implementação Prática
+
+```JAVA
+public class GerenciadorEspacoLivreLista {
+    private static class BlocoLivre {
+        int numeroBloco;
+        int proximoBloco;
+        
+        BlocoLivre(int numeroBloco, int proximoBloco) {
+            this.numeroBloco = numeroBloco;
+            this.proximoBloco = proximoBloco;
+        }
+    }
+    
+    private int primeiroBlocoLivre;
+    private Map<Integer, BlocoLivre> blocosLivres;
+    private static final int BLOCO_NULO = -1;
+    
+    public GerenciadorEspacoLivreLista() {
+        this.blocosLivres = new HashMap<>();
+        this.primeiroBlocoLivre = BLOCO_NULO;
+    }
+    
+    public void adicionarBlocoLivre(int numeroBloco) {
+        BlocoLivre novoBloco = new BlocoLivre(numeroBloco, primeiroBlocoLivre);
+        blocosLivres.put(numeroBloco, novoBloco);
+        primeiroBlocoLivre = numeroBloco;
+    }
+    
+    public int alocarBloco() {
+        if (primeiroBlocoLivre == BLOCO_NULO) {
+            return BLOCO_NULO; // Sem blocos livres
+        }
+        
+        BlocoLivre blocoAlocado = blocosLivres.get(primeiroBlocoLivre);
+        primeiroBlocoLivre = blocoAlocado.proximoBloco;
+        blocosLivres.remove(blocoAlocado.numeroBloco);
+        
+        return blocoAlocado.numeroBloco;
+    }
+    
+    public List<Integer> listarBlocosLivres() {
+        List<Integer> lista = new ArrayList<>();
+        int atual = primeiroBlocoLivre;
+        
+        while (atual != BLOCO_NULO) {
+            lista.add(atual);
+            BlocoLivre bloco = blocosLivres.get(atual);
+            atual = bloco.proximoBloco;
+        }
+        
+        return lista;
+    }
+}
+```
+
+### Exemplo de Uso
+
+```JAVA
+public static void main(String[] args) {
+    GerenciadorEspacoLivreLista gerenciador = new GerenciadorEspacoLivreLista();
+    
+    // Adicionar blocos livres em sequência
+    gerenciador.adicionarBlocoLivre(2);
+    gerenciador.adicionarBlocoLivre(3);
+    gerenciador.adicionarBlocoLivre(4);
+    gerenciador.adicionarBlocoLivre(5);
+    
+    // Listar blocos livres
+    List<Integer> blocosLivres = gerenciador.listarBlocosLivres();
+    System.out.println("Blocos livres: " + blocosLivres);
+    
+    // Alocar alguns blocos
+    int blocoAlocado1 = gerenciador.alocarBloco();
+    int blocoAlocado2 = gerenciador.alocarBloco();
+    
+    System.out.println("Bloco alocado 1: " + blocoAlocado1);
+    System.out.println("Bloco alocado 2: " + blocoAlocado2);
+    
+    // Verificar blocos restantes
+    blocosLivres = gerenciador.listarBlocosLivres();
+    System.out.println("Blocos livres restantes: " + blocosLivres);
+}
+```
+
+## Considerações de Implementação
+
+### Vantagens
+
+1. Simplicidade Conceitual: Fácil de entender e implementar
+
+2. Sem Fragmentação Externa: Todos os blocos livres são utilizáveis
+
+3. Flexibilidade: Fácil adicionar ou remover blocos
+
+### Limitações
+
+1. Performance de E/S:
+
+* Necessidade de leitura de cada bloco para travessia
+
+* Tempo substancial de E/S para operações de busca
+
+2. Overhead de Armazenamento:
+
+* Cada bloco livre precisa armazenar um ponteiro
+
+* Espaço adicional para gerenciamento da lista
+
+### Otimizações Possíveis
+
+1. Cache de Blocos: Manter blocos frequentemente acessados em memória
+
+2. Agrupamento: Gerenciar grupos de blocos consecutivos como uma unidade
+
+3. Lista Duplamente Encadeada: Para operações mais flexíveis de gerenciamento
+
+
+
+# 8.5.3 Agrupamento
+
+## Conceito Básico
+
+O agrupamento é uma otimização da lista interligada onde cada bloco livre armazena múltiplos endereços de outros blocos livres, melhorando a eficiência da gestão de espaço.
+
+### Representação Visual
+
+```
+Primeiro Bloco (n=4)
++----------------+
+| Bloco 2        |
+| Bloco 3        |
+| Bloco 4        |
+| → Próx. Grupo  |
++----------------+
+       ↓
+Próximo Grupo
++----------------+
+| Bloco 7        |
+| Bloco 8        |
+| Bloco 9        |
+| → Próx. Grupo  |
++----------------+
+```
+
+## Implementação
+
+```JAVA
+public class GerenciadorEspacoLivreGrupo {
+    private static final int TAMANHO_GRUPO = 4; // n blocos por grupo
+    
+    private static class BlocoGrupo {
+        int[] blocosLivres;      // n-1 blocos livres
+        int proximoGrupo;        // Endereço do próximo grupo
+        
+        BlocoGrupo() {
+            this.blocosLivres = new int[TAMANHO_GRUPO - 1];
+            this.proximoGrupo = -1;
+        }
+    }
+    
+    private Map<Integer, BlocoGrupo> grupos;
+    private int primeiroGrupo;
+    private int blocosDisponiveis;
+    
+    public GerenciadorEspacoLivreGrupo() {
+        this.grupos = new HashMap<>();
+        this.primeiroGrupo = -1;
+        this.blocosDisponiveis = 0;
+    }
+    
+    public void adicionarBlocosLivres(int[] blocos) {
+        int indiceBloco = 0;
+        
+        while (indiceBloco < blocos.length) {
+            BlocoGrupo novoGrupo = new BlocoGrupo();
+            
+            // Preenche o grupo atual com blocos livres
+            for (int i = 0; i < TAMANHO_GRUPO - 1 && indiceBloco < blocos.length; i++) {
+                novoGrupo.blocosLivres[i] = blocos[indiceBloco++];
+                blocosDisponiveis++;
+            }
+            
+            // Conecta o novo grupo à lista
+            novoGrupo.proximoGrupo = primeiroGrupo;
+            primeiroGrupo = blocos[indiceBloco - 1];
+            grupos.put(primeiroGrupo, novoGrupo);
+        }
+    }
+    
+    public int alocarBloco() {
+        if (primeiroGrupo == -1 || blocosDisponiveis == 0) {
+            return -1; // Sem blocos livres
+        }
+        
+        BlocoGrupo grupo = grupos.get(primeiroGrupo);
+        
+        // Aloca o primeiro bloco livre disponível
+        int blocoAlocado = grupo.blocosLivres[0];
+        
+        // Reorganiza os blocos restantes
+        for (int i = 0; i < TAMANHO_GRUPO - 2; i++) {
+            grupo.blocosLivres[i] = grupo.blocosLivres[i + 1];
+        }
+        
+        blocosDisponiveis--;
+        
+        // Se o grupo ficou vazio, move para o próximo
+        if (blocosDisponiveis % (TAMANHO_GRUPO - 1) == 0) {
+            int proximoGrupo = grupo.proximoGrupo;
+            grupos.remove(primeiroGrupo);
+            primeiroGrupo = proximoGrupo;
+        }
+        
+        return blocoAlocado;
+    }
+    
+    public List<Integer> listarBlocosLivres() {
+        List<Integer> blocos = new ArrayList<>();
+        int grupoAtual = primeiroGrupo;
+        
+        while (grupoAtual != -1) {
+            BlocoGrupo grupo = grupos.get(grupoAtual);
+            for (int bloco : grupo.blocosLivres) {
+                if (bloco != 0) { // Ignora posições vazias
+                    blocos.add(bloco);
+                }
+            }
+            grupoAtual = grupo.proximoGrupo;
+        }
+        
+        return blocos;
+    }
+}
+```
+
+### Exemplo de Uso
+
+```JAVA
+public static void main(String[] args) {
+    GerenciadorEspacoLivreGrupo gerenciador = new GerenciadorEspacoLivreGrupo();
+    
+    // Adiciona vários blocos livres
+    int[] blocosLivres = {2, 3, 4, 7, 8, 9, 12, 13, 14};
+    gerenciador.adicionarBlocosLivres(blocosLivres);
+    
+    // Lista todos os blocos livres
+    System.out.println("Blocos livres iniciais: " + 
+        gerenciador.listarBlocosLivres());
+    
+    // Aloca alguns blocos
+    int bloco1 = gerenciador.alocarBloco();
+    int bloco2 = gerenciador.alocarBloco();
+    
+    System.out.println("Bloco alocado 1: " + bloco1);
+    System.out.println("Bloco alocado 2: " + bloco2);
+    
+    // Verifica blocos restantes
+    System.out.println("Blocos livres restantes: " + 
+        gerenciador.listarBlocosLivres());
+}
+```
+
+## Vantagens e Desvantagens
+
+### Vantagens
+
+1. Acesso Mais Rápido: Localiza múltiplos blocos livres com menos operações de I/O
+
+2. Menor Overhead de Travessia: Reduz o número de leituras necessárias
+
+3. Melhor Utilização de Cache: Aproveita melhor o cache de memória
+
+### Desvantagens
+
+1. Complexidade Adicional: Implementação mais complexa que lista simples
+
+2. Overhead de Memória: Cada grupo precisa manter array de endereços
+
+3. Fragmentação do Grupo: Grupos parcialmente preenchidos podem desperdiçar espaço
 
 
 
