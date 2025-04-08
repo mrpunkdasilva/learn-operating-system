@@ -25,9 +25,9 @@ Imagine um sistema de arquivos como um **pendrive**:
 3. **Associação ao Ponto de Montagem**
    ```mermaid
    graph LR
-       A[Dispositivo /dev/sdb1] -->|Montado em| B[/mnt/dados]
-       B --> C[arquivo1.txt]
-       B --> D[subdir/]
+       A["Dispositivo /dev/sdb1"] -->|"Montado em"| B["/mnt/dados"]
+       B --> C["arquivo1.txt"]
+       B --> D["subdir/"]
    ```
 
 4. **Ativação do Acesso**
@@ -72,13 +72,14 @@ public class FilesystemMountSimulator {
 ## **4. Diferenças Entre Sistemas Operacionais**
 
 ### **Linux/UNIX**
+
 ```mermaid
 graph TB
-    root[/] --> etc
+    root["/"] --> etc
     root --> home
     root --> mnt
-    mnt --> external[/mnt/external]
-    external -->|Montagem| dev_sdb1[/dev/sdb1]
+    mnt --> external["/mnt/external"]
+    external -->|"Montagem"| dev_sdb1["/dev/sdb1"]
 ```
 
 - Comandos:
@@ -100,14 +101,15 @@ graph LR
 
 - Letras de unidade (C:, D:, E:)
 - Montagem em diretórios desde o Windows 2000:
-  ```cmd
+  ```bash
   mountvol X: \\?\Volume{guid}\
   ```
 
 ### **MacOS**
+
 ```mermaid
 graph TB
-    Volumes[/Volumes] --> ExternalHD
+    Volumes["/Volumes"] --> ExternalHD
     Volumes --> TimeMachine
     ExternalHD -->|Montagem| disk2s1
 ```
@@ -139,10 +141,11 @@ Runtime.getRuntime().exec("mount --bind /dev/sdc1/logs /var/log");
 ```
 
 ### **6.3 Sistemas de Arquivos Virtuais**
+
 ```mermaid
 graph LR
-    proc[/proc] -->|Montagem| kernel[Kernel]
-    tmpfs[/tmp] --> RAM[Memória]
+    proc["/proc"] -->|Montagem| kernel[Kernel]
+    tmpfs["/tmp"] --> RAM[Memória]
 ```
 
 ## **7. Boas Práticas**

@@ -186,4 +186,8 @@
         <description>Created after removal of "Teste" from Operating System</description>
         <accepts>Teste.html</accepts>
     </rule>
+    <rule id="1ab7a429">
+        <description>Created after removal of "8.1 Estrutura do Sistema de Arquivos" from Operating System</description>
+        <accepts>8-1.html</accepts>
+    </rule>
 </rules>
