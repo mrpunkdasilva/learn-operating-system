@@ -16419,6 +16419,1301 @@ public static void main(String[] args) {
 
 
 
+# 8.5.5 Mapas de Espaço
+
+## Conceito Básico
+
+O ZFS (Zettabyte File System) implementa uma abordagem sofisticada para gerenciamento de espaço livre, combinando várias técnicas para otimizar o desempenho em grandes escalas.
+
+## Componentes Principais
+
+### 1. Metaslabs
+
+* Divisões do espaço em disco em unidades gerenciáveis
+
+* Cada volume pode conter centenas de metaslabs
+
+* Cada metaslab possui seu próprio mapa de espaço
+
+### 2. Mapas de Espaço
+
+* Implementados como logs de atividade de blocos
+
+* Registram operações de alocação e liberação
+
+* Utilizam formato de contagem
+
+* Armazenados em estrutura orientada a log
+
+```MERMAID
+graph TD
+    A[Volume ZFS] --> B1[Metaslab 1]
+    A --> B2[Metaslab 2]
+    A --> B3[Metaslab n]
+    B1 --> C1[Mapa de Espaço]
+    B2 --> C2[Mapa de Espaço]
+    B3 --> C3[Mapa de Espaço]
+    C1 --> D1[Log de Operações]
+    C2 --> D2[Log de Operações]
+    C3 --> D3[Log de Operações]
+```
+
+## Funcionamento
+
+### Processo de Alocação/Liberação
+
+1. Carregamento do mapa de espaço na memória
+
+2. Conversão para estrutura de árvore balanceada
+
+3. Reprodução do log na estrutura
+
+4. Condensação de blocos contíguos
+
+5. Atualização transacional no disco
+
+```JAVA
+public class MetaSlab {
+    private static class MapaEspaco {
+        private TreeMap<Long, Long> arvoreBalanceada; // offset -> tamanho
+        private List<Operacao> log;
+        
+        public MapaEspaco() {
+            this.arvoreBalanceada = new TreeMap<>();
+            this.log = new ArrayList<>();
+        }
+        
+        public void registrarOperacao(TipoOperacao tipo, long offset, long tamanho) {
+            Operacao op = new Operacao(tipo, offset, tamanho);
+            log.add(op);
+            
+            // Atualiza árvore balanceada em memória
+            if (tipo == TipoOperacao.LIBERACAO) {
+                adicionarEspacoLivre(offset, tamanho);
+            } else {
+                removerEspacoLivre(offset, tamanho);
+            }
+        }
+        
+        private void adicionarEspacoLivre(long offset, long tamanho) {
+            // Tenta mesclar com blocos adjacentes
+            Map.Entry<Long, Long> anterior = arvoreBalanceada.floorEntry(offset);
+            Map.Entry<Long, Long> proximo = arvoreBalanceada.ceilingEntry(offset + tamanho);
+            
+            long novoOffset = offset;
+            long novoTamanho = tamanho;
+            
+            if (anterior != null && anterior.getKey() + anterior.getValue() == offset) {
+                novoOffset = anterior.getKey();
+                novoTamanho += anterior.getValue();
+                arvoreBalanceada.remove(anterior.getKey());
+            }
+            
+            if (proximo != null && offset + tamanho == proximo.getKey()) {
+                novoTamanho += proximo.getValue();
+                arvoreBalanceada.remove(proximo.getKey());
+            }
+            
+            arvoreBalanceada.put(novoOffset, novoTamanho);
+        }
+        
+        private void removerEspacoLivre(long offset, long tamanho) {
+            // Implementação da remoção de espaço livre
+            Map.Entry<Long, Long> bloco = arvoreBalanceada.floorEntry(offset);
+            if (bloco != null) {
+                long blocoOffset = bloco.getKey();
+                long blocoTamanho = bloco.getValue();
+                
+                arvoreBalanceada.remove(blocoOffset);
+                
+                // Adiciona blocos remanescentes, se houver
+                if (blocoOffset < offset) {
+                    arvoreBalanceada.put(blocoOffset, offset - blocoOffset);
+                }
+                if (offset + tamanho < blocoOffset + blocoTamanho) {
+                    arvoreBalanceada.put(offset + tamanho, 
+                        (blocoOffset + blocoTamanho) - (offset + tamanho));
+                }
+            }
+        }
+    }
+    
+    private static class Operacao {
+        TipoOperacao tipo;
+        long offset;
+        long tamanho;
+        
+        Operacao(TipoOperacao tipo, long offset, long tamanho) {
+            this.tipo = tipo;
+            this.offset = offset;
+            this.tamanho = tamanho;
+        }
+    }
+    
+    private enum TipoOperacao {
+        ALOCACAO,
+        LIBERACAO
+    }
+}
+```
+
+## Vantagens
+
+1. Eficiência em Grande Escala
+
+* Gerencia eficientemente grandes volumes de dados
+
+* Minimiza E/S de metadados
+
+2. Consistência
+
+* Operações transacionais garantem integridade
+
+* Log mantém histórico de operações
+
+3. Otimização de Desempenho
+
+* Estrutura em árvore balanceada para operações rápidas
+
+* Condensação automática de blocos contíguos
+
+4. Escalabilidade
+
+* Divisão em metaslabs facilita gerenciamento
+
+* Estrutura hierárquica eficiente
+
+## Considerações de Implementação
+
+1. Gestão de Memória
+
+* Carregamento seletivo de metaslabs
+
+* Cache eficiente de mapas ativos
+
+2. Consistência de Dados
+
+* Logging transacional
+
+* Recuperação após falhas
+
+3. Otimização de E/S
+
+* Minimização de escritas de metadados
+
+* Agrupamento de operações relacionadas
+
+
+
+# 8.5.4 Contagem
+
+## Conceito Básico
+
+A técnica de contagem otimiza o gerenciamento de espaço livre armazenando pares de (endereço, quantidade), onde:
+
+* Endereço indica o primeiro bloco livre de uma sequência
+
+* Quantidade indica o número de blocos contíguos livres
+
+### Representação Visual
+
+```
+Lista de Espaço Livre
++----------------+----------------+----------------+
+| Bloco 2, n=3   | Bloco 8, n=4   | Bloco 15, n=2  |
++----------------+----------------+----------------+
+     ↓                 ↓                ↓
+Disco
+[XX][▢▢▢][XX][XX][▢▢▢▢][XX][▢▢][XX]
+     ↑         ↑          ↑
+   2,n=3     8,n=4     15,n=2
+```
+
+X = Ocupado, ▢ = Livre
+
+## Implementação
+
+```JAVA
+public class GerenciadorEspacoLivreContagem {
+    private static class BlocoContagem implements Comparable<BlocoContagem> {
+        int enderecoInicial;
+        int quantidade;
+        
+        BlocoContagem(int enderecoInicial, int quantidade) {
+            this.enderecoInicial = enderecoInicial;
+            this.quantidade = quantidade;
+        }
+        
+        @Override
+        public int compareTo(BlocoContagem outro) {
+            return Integer.compare(this.enderecoInicial, outro.enderecoInicial);
+        }
+    }
+    
+    private TreeSet<BlocoContagem> blocosLivres;
+    private int totalBlocos;
+    
+    public GerenciadorEspacoLivreContagem(int totalBlocos) {
+        this.blocosLivres = new TreeSet<>();
+        this.totalBlocos = totalBlocos;
+    }
+    
+    public void adicionarBlocoLivre(int enderecoInicial, int quantidade) {
+        // Verifica se pode mesclar com blocos adjacentes
+        BlocoContagem anterior = encontrarBlocoAnterior(enderecoInicial);
+        BlocoContagem proximo = encontrarBlocoProximo(enderecoInicial + quantidade);
+        
+        if (anterior != null && anterior.enderecoInicial + anterior.quantidade == enderecoInicial) {
+            // Mescla com bloco anterior
+            blocosLivres.remove(anterior);
+            enderecoInicial = anterior.enderecoInicial;
+            quantidade += anterior.quantidade;
+        }
+        
+        if (proximo != null && enderecoInicial + quantidade == proximo.enderecoInicial) {
+            // Mescla com bloco próximo
+            blocosLivres.remove(proximo);
+            quantidade += proximo.quantidade;
+        }
+        
+        blocosLivres.add(new BlocoContagem(enderecoInicial, quantidade));
+    }
+    
+    public int[] alocarBlocos(int quantidadeDesejada) {
+        for (BlocoContagem bloco : blocosLivres) {
+            if (bloco.quantidade >= quantidadeDesejada) {
+                int enderecoAlocado = bloco.enderecoInicial;
+                
+                // Atualiza ou remove o bloco livre
+                if (bloco.quantidade > quantidadeDesejada) {
+                    blocosLivres.remove(bloco);
+                    blocosLivres.add(new BlocoContagem(
+                        bloco.enderecoInicial + quantidadeDesejada,
+                        bloco.quantidade - quantidadeDesejada
+                    ));
+                } else {
+                    blocosLivres.remove(bloco);
+                }
+                
+                return new int[]{enderecoAlocado, quantidadeDesejada};
+            }
+        }
+        return null; // Não encontrou espaço suficiente
+    }
+    
+    private BlocoContagem encontrarBlocoAnterior(int endereco) {
+        return blocosLivres.floor(new BlocoContagem(endereco, 0));
+    }
+    
+    private BlocoContagem encontrarBlocoProximo(int endereco) {
+        return blocosLivres.ceiling(new BlocoContagem(endereco, 0));
+    }
+    
+    public List<String> listarBlocosLivres() {
+        List<String> lista = new ArrayList<>();
+        for (BlocoContagem bloco : blocosLivres) {
+            lista.add(String.format("Endereço: %d, Quantidade: %d", 
+                bloco.enderecoInicial, bloco.quantidade));
+        }
+        return lista;
+    }
+}
+```
+
+### Exemplo de Uso
+
+```JAVA
+public static void main(String[] args) {
+    GerenciadorEspacoLivreContagem gerenciador = new GerenciadorEspacoLivreContagem(100);
+    
+    // Adiciona blocos livres
+    gerenciador.adicionarBlocoLivre(2, 3);  // Blocos 2-4
+    gerenciador.adicionarBlocoLivre(8, 4);  // Blocos 8-11
+    gerenciador.adicionarBlocoLivre(15, 2); // Blocos 15-16
+    
+    System.out.println("Blocos livres iniciais:");
+    gerenciador.listarBlocosLivres().forEach(System.out::println);
+    
+    // Aloca alguns blocos
+    int[] alocacao = gerenciador.alocarBlocos(2);
+    if (alocacao != null) {
+        System.out.println("\nAlocado: Endereço " + alocacao[0] + 
+                          ", Quantidade " + alocacao[1]);
+    }
+    
+    System.out.println("\nBlocos livres após alocação:");
+    gerenciador.listarBlocosLivres().forEach(System.out::println);
+}
+```
+
+## Vantagens e Desvantagens
+
+### Vantagens
+
+1. Lista Mais Compacta: Menos entradas para representar o mesmo espaço livre
+
+2. Eficiência em Alocação Contígua: Ideal para sistemas que usam alocação contígua
+
+3. Facilita Mesclagem: Simplifica a identificação de blocos adjacentes livres
+
+### Desvantagens
+
+1. Maior Complexidade: Necessidade de manter e atualizar contadores
+
+2. Overhead por Entrada: Cada entrada requer mais espaço (endereço + contador)
+
+3. Fragmentação da Lista: Pode ocorrer quando há muitos blocos pequenos não contíguos
+
+
+
+# 8.6 Eficiência e Desempenho
+
+## Visão Geral
+
+O desempenho do sistema de arquivos é crucial, pois os discos frequentemente representam um gargalo significativo no sistema. Esta seção explora técnicas para otimização de eficiência e desempenho.
+
+## 8.6.1 Eficiência
+
+### Considerações de Design
+
+1. Alocação de Estruturas
+
+* Pré-alocação vs. Alocação Dinâmica
+
+* Trade-off entre espaço e desempenho
+
+* Exemplo: inodes do UNIX
+
+2. Tamanho de Clusters
+
+```JAVA
+public class ClusterManager {
+    private static final int MIN_CLUSTER_SIZE = 4096;  // 4KB
+    private static final int MAX_CLUSTER_SIZE = 65536; // 64KB
+
+    public int calcularTamanhoCluster(long tamanhoArquivo) {
+        if (tamanhoArquivo < MIN_CLUSTER_SIZE) {
+            return MIN_CLUSTER_SIZE;
+        } else if (tamanhoArquivo < MAX_CLUSTER_SIZE) {
+            // Aumenta gradualmente o tamanho do cluster
+            return Math.min(
+                nextPowerOfTwo(tamanhoArquivo),
+                MAX_CLUSTER_SIZE
+            );
+        }
+        return MAX_CLUSTER_SIZE;
+    }
+
+    private int nextPowerOfTwo(long n) {
+        int power = MIN_CLUSTER_SIZE;
+        while (power < n && power < MAX_CLUSTER_SIZE) {
+            power *= 2;
+        }
+        return power;
+    }
+}
+```
+
+3. Metadados
+
+* Timestamps (último acesso, modificação)
+
+* Impacto na performance de I/O
+
+* Estruturas de ponteiros
+
+### Limitações e Escalabilidade
+
+```MERMAID
+graph TD
+    A[Limitações de Sistema] --> B[Tamanho de Ponteiros]
+    A --> C[Estruturas Fixas vs. Dinâmicas]
+    A --> D[Particionamento]
+    
+    B --> E[16 bits - 64KB]
+    B --> F[32 bits - 4GB]
+    B --> G[64 bits - 16EB]
+    
+    C --> H[Tabelas Dinâmicas]
+    C --> I[Alocação sob Demanda]
+    
+    D --> J[Partições Lógicas]
+    D --> K[Volumes Dinâmicos]
+```
+
+## 8.6.2 Desempenho
+
+### Técnicas de Cache
+
+1. Cache Unificado
+
+```JAVA
+public class UnifiedCache {
+    private static final int PAGE_SIZE = 4096;
+    private Map<Long, byte[]> pageCache;
+    private int maxPages;
+
+    public UnifiedCache(int memoriaMaxima) {
+        this.maxPages = memoriaMaxima / PAGE_SIZE;
+        this.pageCache = new LinkedHashMap<Long, byte[]>(maxPages, 0.75f, true) {
+            @Override
+            protected boolean removeEldestEntry(Map.Entry<Long, byte[]> eldest) {
+                return size() > maxPages;
+            }
+        };
+    }
+
+    public synchronized void cachePage(long pageNumber, byte[] data) {
+        pageCache.put(pageNumber, data.clone());
+    }
+
+    public synchronized byte[] getPage(long pageNumber) {
+        byte[] data = pageCache.get(pageNumber);
+        return data != null ? data.clone() : null;
+    }
+}
+```
+
+2. Otimizações de Leitura/Escrita
+
+```JAVA
+public class IOOptimizer {
+    private static final int READ_AHEAD_PAGES = 4;
+    private Queue<byte[]> readAheadBuffer;
+    private boolean enableReadAhead;
+
+    public void configureReadAhead(boolean enable) {
+        this.enableReadAhead = enable;
+        if (enable && readAheadBuffer == null) {
+            readAheadBuffer = new LinkedList<>();
+        }
+    }
+
+    public void readWithOptimization(File file, long offset) throws IOException {
+        if (enableReadAhead) {
+            // Implementa read-ahead
+            for (int i = 0; i < READ_AHEAD_PAGES; i++) {
+                byte[] page = readPage(file, offset + (i * PAGE_SIZE));
+                readAheadBuffer.offer(page);
+            }
+        }
+        // Implementa free-behind
+        while (readAheadBuffer.size() > READ_AHEAD_PAGES) {
+            readAheadBuffer.poll();
+        }
+    }
+}
+```
+
+### Estratégias de Otimização
+
+1. Cache de Disco
+
+* Cache local no controlador
+
+* Cache de trilhas completas
+
+* Redução de latência
+
+2. Cache de Memória
+
+* Buffer cache vs. Page cache
+
+* Memória virtual unificada
+
+* Algoritmos de substituição
+
+3. E/S Assíncrona
+
+```JAVA
+public class AsyncIO {
+    private ExecutorService ioExecutor;
+    private boolean syncWrites;
+
+    public AsyncIO(boolean syncWrites) {
+        this.syncWrites = syncWrites;
+        this.ioExecutor = Executors.newFixedThreadPool(
+            Runtime.getRuntime().availableProcessors()
+        );
+    }
+
+    public Future<Integer> write(byte[] data, long position) {
+        if (syncWrites) {
+            return CompletableFuture.completedFuture(
+                writeSync(data, position)
+            );
+        }
+
+        return ioExecutor.submit(() -> writeAsync(data, position));
+    }
+
+    private int writeSync(byte[] data, long position) {
+        // Implementação de escrita síncrona
+        return 0;
+    }
+
+    private int writeAsync(byte[] data, long position) {
+        // Implementação de escrita assíncrona
+        return 0;
+    }
+}
+```
+
+## Considerações de Implementação
+
+1. Balanceamento de Recursos
+
+* Memória vs. I/O
+
+* Cache vs. Throughput
+
+* Latência vs. Consistência
+
+2. Monitoramento
+
+* Métricas de desempenho
+
+* Ajuste dinâmico
+
+* Detecção de gargalos
+
+3. Recuperação
+
+* Consistência de dados
+
+* Journaling
+
+* Checkpoints
+
+
+
+# 8.7 Recuperação de Sistemas de Arquivos
+
+## 1. Visão Geral
+
+* Arquivos e diretórios são mantidos tanto na memória principal quanto no disco
+
+* Falhas podem causar inconsistências nas estruturas de dados do sistema
+
+* Principais desafios: perda de dados e incoerência após falhas
+
+## 2. Tipos de Inconsistências
+
+* Estruturas de diretório corrompidas
+
+* Ponteiros de blocos livres inconsistentes
+
+* Contadores FCB incorretos
+
+* Dados em cache não sincronizados com disco
+
+## 3. Métodos de Recuperação
+
+### 3.1 Verificação de Consistência
+
+```JAVA
+public class ConsistencyChecker {
+    private static final int STATUS_OK = 0;
+    private static final int STATUS_CORRUPTED = 1;
+    
+    public int verificarConsistencia(String filesystem) {
+        // Verifica bit de status
+        if (isMetadataUpdateInProgress(filesystem)) {
+            return STATUS_CORRUPTED;
+        }
+        
+        // Verifica estruturas
+        boolean diretoriosOk = verificarDiretorios();
+        boolean blocosOk = verificarBlocosLivres();
+        boolean fcbOk = verificarFCBs();
+        
+        return (diretoriosOk && blocosOk && fcbOk) 
+               ? STATUS_OK 
+               : STATUS_CORRUPTED;
+    }
+}
+```
+
+### 3.2 Sistema de Arquivos Estruturado em Log
+
+* Usa técnicas de recuperação baseadas em log
+
+* Todas as mudanças de metadados são registradas sequencialmente
+
+* Transações são confirmadas após escrita no log
+
+* Vantagens: * Recuperação mais rápida * Maior confiabilidade * Melhor desempenho em E/S
+
+### 3.3 Backup e Restauração
+
+```JAVA
+public class BackupStrategy {
+    public enum BackupType {
+        FULL,      // Backup completo
+        INCREMENTAL // Backup incremental
+    }
+    
+    public void executarBackup(BackupType tipo, String origem, String destino) {
+        switch (tipo) {
+            case FULL:
+                // Copia todos os arquivos
+                copiarTodosArquivos(origem, destino);
+                break;
+            case INCREMENTAL:
+                // Copia apenas arquivos modificados desde último backup
+                copiarArquivosModificados(origem, destino);
+                break;
+        }
+    }
+}
+```
+
+## 4. Ciclo de Backup Recomendado
+
+1. Dia 1: Backup completo
+
+2. Dias 2-N: Backups incrementais
+
+3. Repetir ciclo
+
+## 5. Considerações de Implementação
+
+* Armazenamento de backups permanentes em local seguro
+
+* Monitoramento do desgaste das mídias de backup
+
+* Balanceamento entre frequência de backups e recursos necessários
+
+
+
+# 8.8 NFS (Network File System)
+
+## 1. Visão Geral
+
+* Sistema cliente-servidor para acesso a arquivos remotos via LAN/WAN
+
+* Parte do ONC+ com suporte em UNIX e alguns sistemas PC
+
+* Versão 3 é a mais utilizada (texto descreve esta versão)
+
+* Permite compartilhamento transparente entre máquinas independentes
+
+```MERMAID
+graph TD
+    subgraph "Cliente NFS"
+        A[Aplicação] --> B[Cliente NFS]
+        B --> C[RPC Cliente]
+    end
+    
+    subgraph "Servidor NFS"
+        D[RPC Servidor] --> E[Servidor NFS]
+        E --> F[Sistema de Arquivos Local]
+    end
+    
+    C -->|Rede| D
+```
+
+## 2. Características Principais
+
+### 2.1 Montagem
+
+* Cliente precisa executar operação de montagem para acessar diretório remoto
+
+* Diretório remoto aparece como subárvore do sistema local
+
+* Suporta montagens em cascata (montar sobre outro sistema já montado)
+
+* Independente de implementação através de RPC e XDR
+
+```MERMAID
+graph TD
+    subgraph "Sistema de Arquivos Local"
+        A["/"] --> B[home]
+        B --> C[user]
+        A --> D[etc]
+        A --> E[var]
+    end
+    
+    subgraph "Sistema de Arquivos Remoto"
+        F["/export"] --> G[projetos]
+        G --> H[docs]
+        G --> I[src]
+    end
+    
+    C -->|mount| G
+```
+
+### 2.2 Protocolos
+
+#### 2.2.1 Protocolo de Montagem
+
+* Estabelece conexão inicial cliente-servidor
+
+* Gerencia lista de exportação (/etc/dfs/dfstab)
+
+* Mantém controle de montagens ativas
+
+```MERMAID
+sequenceDiagram
+    Cliente->>Servidor: MOUNT(/export/projetos)
+    Servidor-->>Cliente: FileHandle
+    Cliente->>Cliente: Monta sistema de arquivos
+    Cliente->>Servidor: UNMOUNT
+    Servidor-->>Cliente: OK
+```
+
+#### 2.2.2 Protocolo NFS
+
+* Operações com arquivos remotos
+
+* Servidor é stateless (sem estado)
+
+* Operações síncronas para garantir consistência
+
+```MERMAID
+mindmap
+  root((Protocolo NFS))
+    Operações Básicas
+      LOOKUP
+      READ
+      WRITE
+      CREATE
+      REMOVE
+    Características
+      Stateless
+      Idempotente
+      Síncrono
+    Cache
+      Cliente
+        Dados
+        Atributos
+      Servidor
+        Escritas
+        Diretórios
+```
+
+## 3. Implementação
+
+### 3.1 Operações Principais
+
+```JAVA
+public interface NFSOperations {
+    FileHandle lookup(String path);
+    DirectoryEntry[] readDirectory(FileHandle dir);
+    void manipulateLinks(FileHandle link);
+    FileAttributes getAttributes(FileHandle file);
+    byte[] readFile(FileHandle file, long offset, int length);
+    void writeFile(FileHandle file, long offset, byte[] data);
+}
+```
+
+### 3.2 Características de Implementação
+
+```MERMAID
+graph TD
+    A[Cliente NFS] -->|1. Requisição| B[Cache Local]
+    B -->|2. Cache Miss| C[RPC]
+    C -->|3. Chamada Remota| D[Servidor NFS]
+    D -->|4. Acesso| E[Sistema de Arquivos]
+    E -->|5. Dados| D
+    D -->|6. Resposta| C
+    C -->|7. Atualização| B
+    B -->|8. Retorno| A
+```
+
+### 3.3 Estrutura de FileHandle
+
+```MERMAID
+graph LR
+    A[FileHandle] --> B[ID do Sistema de Arquivos]
+    A --> C[Número do Inode]
+    A --> D[Generation Number]
+```
+
+## 4. Considerações de Consistência
+
+### 4.1 Modelo de Consistência
+
+* Novos arquivos podem demorar até 30s para serem visíveis
+
+* Não garante semântica UNIX estrita
+
+* Escritas podem não ser imediatamente visíveis em outras máquinas
+
+* Recomenda-se uso de mecanismos externos para controle de concorrência
+
+```MERMAID
+sequenceDiagram
+    participant C1 as Cliente 1
+    participant S as Servidor
+    participant C2 as Cliente 2
+    
+    C1->>S: Escrita
+    S-->>C1: OK
+    Note over C1,C2: Delay de Propagação
+    C2->>S: Leitura
+    S-->>C2: Dados Antigos
+    Note over C2: Cache Expirado
+    C2->>S: Leitura
+    S-->>C2: Dados Atualizados
+```
+
+### 4.2 Estratégias de Cache
+
+```MERMAID
+mindmap
+  root((Cache NFS))
+    Cliente
+      Dados
+        Validade temporal
+        Verificação periódica
+      Atributos
+        TTL curto
+        Consistência fraca
+    Servidor
+      Write-through
+        Garantia de persistência
+        Overhead de I/O
+      Delayed commits
+        Melhor performance
+        Risco de perda
+```
+
+## 5. Segurança e Autenticação
+
+### 5.1 Mecanismos de Segurança
+
+* Autenticação UNIX (UID/GID)
+
+* Kerberos opcional
+
+* Lista de controle de acesso
+
+* Exportação seletiva
+
+```MERMAID
+graph TD
+    A[Cliente] -->|1. Requisição| B[Autenticação]
+    B -->|2. Credenciais| C[Autorização]
+    C -->|3. Verificação ACL| D[Acesso]
+    D -->|4. Permitido| E[Operação NFS]
+    D -->|4. Negado| F[Erro]
+```
+
+
+
+# 8.9 Sistema de Arquivos WAFL (Write-Anywhere File Layout)
+
+## 1. Visão Geral
+
+O WAFL é um sistema de arquivos otimizado para escritas aleatórias, desenvolvido pela Network Appliance para uso em servidores de arquivos de rede. Suas principais características incluem:
+
+* Otimização para operações NFS e CIFS
+
+* Suporte a snapshots eficientes
+
+* Design baseado em blocos com inodes
+
+* Cache NVRAM para escritas
+
+```MERMAID
+graph TD
+    A[Cliente NFS/CIFS] -->|Requisições| B[Servidor WAFL]
+    B --> C[Cache NVRAM]
+    B --> D[Sistema de Arquivos WAFL]
+    D --> E[Discos]
+    
+    subgraph "Características WAFL"
+        F[Escritas Otimizadas]
+        G[Snapshots Eficientes]
+        H[Metadados em Arquivos]
+        I[Replicação]
+    end
+```
+
+## 2. Estrutura do Sistema de Arquivos
+
+### 2.1 Organização dos Metadados
+
+O WAFL armazena todos os metadados em arquivos regulares:
+
+```MERMAID
+graph TD
+    A[Inode Raiz] --> B[Arquivo de Inodes]
+    A --> C[Mapa de Blocos Livres]
+    A --> D[Mapa de Inodes Livres]
+    A --> E[Dados dos Arquivos]
+    
+    B --> F[Inode 1]
+    B --> G[Inode 2]
+    B --> H[Inode n]
+```
+
+### 2.2 Estrutura de Inode
+
+Cada inode contém:
+
+* 16 ponteiros para blocos ou blocos indiretos
+
+* Informações de metadados do arquivo
+
+* Ponteiros flexíveis para acomodar snapshots
+
+```MERMAID
+graph LR
+    A[Inode] --> B[Ponteiros Diretos]
+    A --> C[Ponteiros Indiretos]
+    A --> D[Metadados]
+    
+    B --> E[Bloco 1]
+    B --> F[Bloco 2]
+    C --> G[Bloco Indireto]
+    G --> H[Mais Blocos]
+```
+
+## 3. Mecanismo de Snapshots
+
+### 3.1 Funcionamento
+
+```MERMAID
+sequenceDiagram
+    participant Root as Inode Raiz
+    participant Snap as Snapshot
+    participant Blocks as Blocos
+    
+    Root->>Snap: Copia Inode Raiz
+    Note over Root,Snap: Criação do Snapshot
+    Root->>Blocks: Novas escritas em novos blocos
+    Snap->>Blocks: Mantém referência aos blocos originais
+```
+
+### 3.2 Gerenciamento de Blocos
+
+```MERMAID
+graph TD
+    subgraph "Mapa de Bits por Bloco"
+        A[Bloco] --> B[Snapshot 1: 1]
+        A --> C[Snapshot 2: 1]
+        A --> D[Snapshot 3: 0]
+    end
+    
+    subgraph "Estado do Bloco"
+        E[Em Uso] --> F[Quando todos bits = 0]
+        F --> G[Bloco Livre]
+    end
+```
+
+## 4. Clones e Replicação
+
+### 4.1 Clones de Leitura/Escrita
+
+```MERMAID
+graph TD
+    A[Sistema Original] --> B[Snapshot]
+    B --> C[Clone]
+    C -->|Novas Escritas| D[Novos Blocos]
+    B -->|Mantém| E[Blocos Originais]
+```
+
+### 4.2 Processo de Replicação
+
+```MERMAID
+sequenceDiagram
+    participant Origem as Sistema Origem
+    participant Destino as Sistema Destino
+    
+    Origem->>Origem: Cria Snapshot 1
+    Origem->>Destino: Replica Snapshot 1
+    Note over Origem,Destino: Estado inicial sincronizado
+    Origem->>Origem: Cria Snapshot 2
+    Origem->>Destino: Envia blocos modificados
+    Destino->>Destino: Atualiza sistema
+```
+
+## 5. Otimizações de Desempenho
+
+### 5.1 Estratégias de Escrita
+
+```MERMAID
+graph LR
+    A[Escrita] -->|Localização| B[Bloco Livre Próximo]
+    B -->|Write-Anywhere| C[Otimização de Cabeça de Disco]
+    C -->|Consistência| D[NVRAM Cache]
+```
+
+### 5.2 Vantagens do Design
+
+```MERMAID
+mindmap
+  root((WAFL))
+    Desempenho
+      Escritas Otimizadas
+      Cache NVRAM
+      Localização Flexível
+    Funcionalidade
+      Snapshots Eficientes
+      Clones
+      Replicação
+    Confiabilidade
+      Consistência
+      Recuperação
+      Backup Simplificado
+```
+
+## 6. Comparação com Outros Sistemas
+
+```MERMAID
+graph TD
+    subgraph "WAFL"
+        A1[Write-Anywhere]
+        A2[Snapshots Eficientes]
+        A3[Metadados em Arquivos]
+    end
+    
+    subgraph "ZFS"
+        B1[Copy-on-Write]
+        B2[Snapshots]
+        B3[Pools de Armazenamento]
+    end
+    
+    subgraph "Sistemas Tradicionais"
+        C1[Localização Fixa]
+        C2[Backup Tradicional]
+        C3[Metadados Separados]
+    end
+```
+
+
+
+# Exercícios sobre Sistema de Arquivos
+
+## 11.1 Análise de Operações de E/S em Diferentes Estratégias de Alocação
+
+### Premissas
+
+* Arquivo com 100 blocos
+
+* Bloco de controle e índice já em memória
+
+* Dados do novo bloco em memória
+
+* Alocação contígua tem espaço apenas no final
+
+### Tabela Comparativa de Operações de E/S
+
+| Operação |Contígua |Interligada |Indexada |
+---------------------------------------------
+| Adicionar no início |101 |2 |2 |
+| Adicionar no meio |51 |2 |2 |
+| Adicionar no final |1 |2 |2 |
+| Remover do início |99 |1 |1 |
+| Remover do meio |50 |2 |1 |
+| Remover do final |0 |2 |1 |
+
+### Explicação Detalhada
+
+#### Alocação Contígua
+
+* Adicionar início: 101 operações * Mover 100 blocos uma posição adiante (100 operações) * Escrever novo bloco (1 operação)
+
+* Adicionar meio: 51 operações * Mover 50 blocos uma posição (50 operações) * Escrever novo bloco (1 operação)
+
+* Adicionar final: 1 operação * Apenas escrever o novo bloco
+
+* Remover início: 99 operações * Mover 99 blocos uma posição para trás
+
+* Remover meio: 50 operações * Mover 50 blocos uma posição para trás
+
+* Remover final: 0 operações * Apenas atualizar metadados (já em memória)
+
+#### Alocação Interligada
+
+* Adicionar: 2 operações para qualquer posição * Ler bloco anterior (1 operação) * Escrever novo bloco com ponteiro (1 operação)
+
+* Remover: * Início: 1 operação (atualizar primeiro ponteiro) * Meio/Final: 2 operações (ler anterior e atualizar ponteiro)
+
+#### Alocação Indexada
+
+* Adicionar: 2 operações para qualquer posição * Escrever novo bloco (1 operação) * Atualizar bloco de índice (1 operação)
+
+* Remover: 1 operação * Apenas atualizar bloco de índice
+
+## 11.2 Problemas com Montagem Simultânea
+
+### Principais Problemas
+
+1. Inconsistência de Dados
+
+* Múltiplas cópias dos mesmos dados em cache
+
+* Conflitos de escrita entre pontos de montagem
+
+2. Corrupção do Sistema de Arquivos
+
+* Atualizações simultâneas podem corromper estruturas
+
+* Problemas de sincronização de metadados
+
+3. Problemas de Cache
+
+* Diferentes caches para mesmo arquivo
+
+* Inconsistência entre pontos de montagem
+
+## 11.3 Mapa de Bits em Armazenamento de Massa
+
+### Razões
+
+1. Persistência
+
+* Informação crítica que deve sobreviver a reinicializações
+
+* Necessária para recuperação após falhas
+
+2. Consistência
+
+* Garante estado consistente do sistema de arquivos
+
+* Evita perda de informação sobre blocos livres/ocupados
+
+3. Tamanho
+
+* Mapas de bits podem ser grandes
+
+* Memória principal é recurso limitado
+
+## 11.4 Critérios para Escolha de Estratégia de Alocação
+
+### Fatores a Considerar
+
+1. Tamanho do Arquivo
+
+* Pequenos: Alocação contígua
+
+* Grandes: Indexada ou interligada
+
+2. Padrão de Acesso
+
+* Sequencial: Contígua ou interligada
+
+* Aleatório: Indexada
+
+3. Frequência de Modificação
+
+* Alta: Indexada
+
+* Baixa: Contígua
+
+4. Crescimento
+
+* Previsível: Contígua
+
+* Imprevisível: Indexada ou interligada
+
+## 11.5 Análise da Solução de Área de Estouro
+
+### Comparação
+
+1. Vantagens
+
+* Melhor que alocação contígua pura
+
+* Mantém benefícios de acesso sequencial
+
+* Flexibilidade para crescimento
+
+2. Desvantagens
+
+* Mais complexo que interligada
+
+* Fragmentação nas áreas de estouro
+
+* Overhead de gerenciamento
+
+## 11.6 Caches e Desempenho
+
+### Benefícios
+
+1. Redução de E/S
+
+* Menos acessos ao disco
+
+* Menor latência
+
+2. Melhor Throughput
+
+* Operações mais rápidas
+
+* Maior vazão de dados
+
+### Limitações
+
+1. Custo
+
+* Memória RAM é cara
+
+* Compete com outros recursos
+
+2. Complexidade
+
+* Gerenciamento de consistência
+
+* Overhead de sincronização
+
+## 11.7 Alocação Dinâmica de Tabelas
+
+### Vantagens
+
+1. Eficiência
+
+* Uso otimizado de memória
+
+* Adaptação a diferentes cargas
+
+2. Flexibilidade
+
+* Suporte a mais arquivos/processos
+
+* Melhor utilização de recursos
+
+### Desvantagens
+
+1. Overhead
+
+* Gerenciamento de memória
+
+* Fragmentação
+
+2. Complexidade
+
+* Implementação mais complexa
+
+* Debugging mais difícil
+
+## 11.8 Camada VFS
+
+### Funcionamento
+
+1. Abstração
+
+* Interface uniforme
+
+* Independência de implementação
+
+2. Modularidade
+
+* Separação de responsabilidades
+
+* Facilidade de extensão
+
+3. Flexibilidade
+
+* Suporte a múltiplos sistemas
+
+* Transparência para aplicações
+
+
+
 # Bibliografia
 
 SILBERSCHATZ, Abraham; GALVIN, Peter B.; GAGNE, Greg. Sistemas Operacionais com Java. 8. ed. Rio de Janeiro: Elsevier, 2010.

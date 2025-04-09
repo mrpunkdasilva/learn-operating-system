@@ -141,7 +141,15 @@
             <toc-element topic="8-5-1-vetor-bits.md"/>
             <toc-element topic="8-5-2-lista-interligada.md"/>
             <toc-element topic="8-5-3-agrupamento.md"/>
+            <toc-element topic="8-5-5-mapas-espaco.md"/>
+            <toc-element topic="8-5-4-contagem.md"/>
         </toc-element>
+        <toc-element topic="8-6-eficiencia-desempenho.md"/>
+        <toc-element topic="8-7-recuperacao.md"/>
+        <toc-element topic="8-8-nfs.md">
+        </toc-element>
+        <toc-element topic="8-9-wafl.md"/>
+        <toc-element topic="exercicios-sistema-arquivos.md"/>
     </toc-element>
     <toc-element topic="Bibliografia.md">
     </toc-element>
