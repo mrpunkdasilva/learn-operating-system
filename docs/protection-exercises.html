@@ -1,0 +1,132 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#E8488B"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2025-04-15T20:23:46.97728796"><title>Solu&ccedil;&otilde;es dos Exerc&iacute;cios de Prote&ccedil;&atilde;o | Operating Systems: Architecture, Concepts and Implementation</title><script type="application/json" id="virtual-toc-data">[{"id":"1-diferen-as-entre-listas-de-capacidade-e-listas-de-acesso","level":0,"title":"1. Diferenças entre Listas de Capacidade e Listas de Acesso","anchor":"#1-diferen-as-entre-listas-de-capacidade-e-listas-de-acesso"},{"id":"2-sobrescrita-de-arquivos-confidenciais","level":0,"title":"2. Sobrescrita de Arquivos Confidenciais","anchor":"#2-sobrescrita-de-arquivos-confidenciais"},{"id":"3-estrutura-de-an-is-e-capacidades","level":0,"title":"3. Estrutura de Anéis e Capacidades","anchor":"#3-estrutura-de-an-is-e-capacidades"},{"id":"4-rvore-de-processos-rc-4000","level":0,"title":"4. Árvore de Processos RC 4000","anchor":"#4-rvore-de-processos-rc-4000"},{"id":"5-problemas-com-pilha-compartilhada","level":0,"title":"5. Problemas com Pilha Compartilhada","anchor":"#5-problemas-com-pilha-compartilhada"},{"id":"6-prote-o-baseada-em-n-meros","level":0,"title":"6. Proteção Baseada em Números","anchor":"#6-prote-o-baseada-em-n-meros"},{"id":"7-acesso-limitado-por-contagem","level":0,"title":"7. Acesso Limitado por Contagem","anchor":"#7-acesso-limitado-por-contagem"},{"id":"8-remo-o-autom-tica-de-objetos","level":0,"title":"8. Remoção Automática de Objetos","anchor":"#8-remo-o-autom-tica-de-objetos"},{"id":"9-desafios-da-e-s-direta","level":0,"title":"9. Desafios da E/S Direta","anchor":"#9-desafios-da-e-s-direta"},{"id":"10-prote-o-de-listas-de-capacidade","level":0,"title":"10. Proteção de Listas de Capacidade","anchor":"#10-prote-o-de-listas-de-capacidade"},{"id":"refer-ncias-adicionais","level":0,"title":"Referências Adicionais","anchor":"#refer-ncias-adicionais"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.css" rel="stylesheet"><link rel="icon" type="image/svg" sizes="16x16" href="images/logo-primary.svg"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="Solu&ccedil;&otilde;es dos Exerc&iacute;cios de Prote&ccedil;&atilde;o | Operating Systems: Architecture, Concepts and Implementation"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="Operating Systems: Architecture, Concepts and Implementation Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/protection-exercises.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="Solu&ccedil;&otilde;es dos Exerc&iacute;cios de Prote&ccedil;&atilde;o | Operating Systems: Architecture, Concepts and Implementation"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/protection-exercises.html#webpage",
+    "url": "writerside-documentation/protection-exercises.html",
+    "name": "Solu&ccedil;&otilde;es dos Exerc&iacute;cios de Prote&ccedil;&atilde;o | Operating Systems: Architecture, Concepts and Implementation",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentation/#website",
+    "url": "writerside-documentation/",
+    "name": "Operating Systems: Architecture, Concepts and Implementation Help"
+}</script><!-- End Schema.org --></head><body data-id="Protection-Exercises" data-main-title="Soluções dos Exercícios de Proteção" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="7. Protection and Security///7.1 Protection"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>Operating Systems: Architecture, Concepts and Implementation  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="Protection-Exercises" id="Protection-Exercises.md">Soluções dos Exercícios de Proteção</h1><section class="chapter"><h2 id="1-diferen-as-entre-listas-de-capacidade-e-listas-de-acesso" data-toc="1-diferen-as-entre-listas-de-capacidade-e-listas-de-acesso">1. Diferen&ccedil;as entre Listas de Capacidade e Listas de Acesso</h2><section class="chapter"><h3 id="an-lise-comparativa" data-toc="an-lise-comparativa">An&aacute;lise Comparativa</h3><div class="table-wrapper"><table class="wide" id="-ml9j7q_16"><thead><tr class="ijRowHead" id="-ml9j7q_17"><th id="-ml9j7q_22"><p>Caracter&iacute;stica</p></th><th id="-ml9j7q_23"><p>Lista de Capacidade</p></th><th id="-ml9j7q_24"><p>Lista de Acesso</p></th></tr></thead><tbody><tr id="-ml9j7q_18"><td id="-ml9j7q_25"><p>Estrutura</p></td><td id="-ml9j7q_26"><p>Por usu&aacute;rio/processo</p></td><td id="-ml9j7q_27"><p>Por objeto</p></td></tr><tr id="-ml9j7q_19"><td id="-ml9j7q_28"><p>Verifica&ccedil;&atilde;o</p></td><td id="-ml9j7q_29"><p>R&aacute;pida</p></td><td id="-ml9j7q_30"><p>Pode ser lenta</p></td></tr><tr id="-ml9j7q_20"><td id="-ml9j7q_31"><p>Revoga&ccedil;&atilde;o</p></td><td id="-ml9j7q_32"><p>Complexa</p></td><td id="-ml9j7q_33"><p>Simples</p></td></tr><tr id="-ml9j7q_21"><td id="-ml9j7q_34"><p>Delega&ccedil;&atilde;o</p></td><td id="-ml9j7q_35"><p>F&aacute;cil</p></td><td id="-ml9j7q_36"><p>Dif&iacute;cil</p></td></tr></tbody></table></div></section><section class="chapter"><h3 id="exemplo-pr-tico" data-toc="exemplo-pr-tico">Exemplo Pr&aacute;tico</h3><div class="code-block" data-lang="java">
+// Lista de Capacidade
+class CapabilityList {
+    Map&lt;User, Set&lt;Permission&gt;&gt; userCapabilities;
+}
+
+// Lista de Acesso
+class AccessList {
+    Map&lt;Resource, Set&lt;UserPermission&gt;&gt; resourceAccess;
+}
+</div></section></section><section class="chapter"><h2 id="2-sobrescrita-de-arquivos-confidenciais" data-toc="2-sobrescrita-de-arquivos-confidenciais">2. Sobrescrita de Arquivos Confidenciais</h2><section class="chapter"><h3 id="prop-sito" data-toc="prop-sito">Prop&oacute;sito</h3><ul class="list _bullet" id="-ml9j7q_40"><li class="list__item" id="-ml9j7q_41"><p id="-ml9j7q_44"><span class="control" id="-ml9j7q_45">Seguran&ccedil;a</span>: Previne recupera&ccedil;&atilde;o de dados sens&iacute;veis</p></li><li class="list__item" id="-ml9j7q_42"><p id="-ml9j7q_46"><span class="control" id="-ml9j7q_47">Conformidade</span>: Atende requisitos regulat&oacute;rios</p></li><li class="list__item" id="-ml9j7q_43"><p id="-ml9j7q_48"><span class="control" id="-ml9j7q_49">Prote&ccedil;&atilde;o</span>: Evita vazamento de informa&ccedil;&otilde;es ap&oacute;s exclus&atilde;o</p></li></ul></section><section class="chapter"><h3 id="implementa-o-moderna" data-toc="implementa-o-moderna">Implementa&ccedil;&atilde;o Moderna</h3><div class="code-block" data-lang="java">
+public class SecureFileDelete {
+    public void secureDelete(File file) {
+        RandomNumberGenerator rng = new SecureRandom();
+        byte[] randomData = new byte[(int) file.length()];
+        
+        // Múltiplas passagens de sobrescrita
+        for (int i = 0; i &lt; 3; i++) {
+            rng.nextBytes(randomData);
+            Files.write(file.toPath(), randomData);
+        }
+        
+        file.delete();
+    }
+}
+</div></section></section><section class="chapter"><h2 id="3-estrutura-de-an-is-e-capacidades" data-toc="3-estrutura-de-an-is-e-capacidades">3. Estrutura de An&eacute;is e Capacidades</h2><section class="chapter"><h3 id="rela-o-de-capacidades" data-toc="rela-o-de-capacidades">Rela&ccedil;&atilde;o de Capacidades</h3><ul class="list _bullet" id="-ml9j7q_52"><li class="list__item" id="-ml9j7q_54"><p id="-ml9j7q_57">Se j &gt; i, ent&atilde;o Capacidades(j) &sube; Capacidades(i)</p></li><li class="list__item" id="-ml9j7q_55"><p id="-ml9j7q_58">N&iacute;vel mais interno (0) tem todas as capacidades</p></li><li class="list__item" id="-ml9j7q_56"><p id="-ml9j7q_59">Cada n&iacute;vel externo tem um subconjunto do n&iacute;vel anterior</p></li></ul><div class="code-block" data-lang="none">
+Ring Structure
+Ring 0 (Kernel) → Todas as capacidades
+    Ring 1 → Subset de Ring 0
+        Ring 2 → Subset de Ring 1
+            Ring 3 → Subset de Ring 2
+</div></section></section><section class="chapter"><h2 id="4-rvore-de-processos-rc-4000" data-toc="4-rvore-de-processos-rc-4000">4. &Aacute;rvore de Processos RC 4000</h2><section class="chapter"><h3 id="rela-o-matem-tica" data-toc="rela-o-matem-tica">Rela&ccedil;&atilde;o Matem&aacute;tica</h3><p id="-ml9j7q_62">Para qualquer objeto y: A(x,y) &sube; A(z,y) onde z &eacute; ancestral de x</p></section><section class="chapter"><h3 id="implementa-o" data-toc="implementa-o">Implementa&ccedil;&atilde;o</h3><div class="code-block" data-lang="java">
+class ProcessNode {
+    Set&lt;Permission&gt; permissions;
+    ProcessNode parent;
+    
+    boolean canAccess(Resource resource, Permission permission) {
+        if (!permissions.contains(permission)) {
+            return false;
+        }
+        return parent == null || parent.canAccess(resource, permission);
+    }
+}
+</div></section></section><section class="chapter"><h2 id="5-problemas-com-pilha-compartilhada" data-toc="5-problemas-com-pilha-compartilhada">5. Problemas com Pilha Compartilhada</h2><section class="chapter"><h3 id="riscos-de-seguran-a" data-toc="riscos-de-seguran-a">Riscos de Seguran&ccedil;a</h3><ol class="list _decimal" id="-ml9j7q_66" type="1"><li class="list__item" id="-ml9j7q_67"><p id="-ml9j7q_70"><span class="control" id="-ml9j7q_71">Buffer Overflow</span>: Manipula&ccedil;&atilde;o maliciosa de limites</p></li><li class="list__item" id="-ml9j7q_68"><p id="-ml9j7q_72"><span class="control" id="-ml9j7q_73">Race Conditions</span>: Acesso concorrente n&atilde;o sincronizado</p></li><li class="list__item" id="-ml9j7q_69"><p id="-ml9j7q_74"><span class="control" id="-ml9j7q_75">Information Leakage</span>: Dados residuais entre chamadas</p></li></ol></section><section class="chapter"><h3 id="solu-o-segura" data-toc="solu-o-segura">Solu&ccedil;&atilde;o Segura</h3><div class="code-block" data-lang="java">
+class SecureParameterPassing {
+    private static class IsolatedStack {
+        private final byte[] data;
+        private int pointer;
+        
+        public void push(byte[] params) {
+            // Validação de limites
+            if (pointer + params.length &gt; data.length) {
+                throw new StackOverflowError();
+            }
+            // Cópia segura
+            System.arraycopy(params, 0, data, pointer, params.length);
+            pointer += params.length;
+        }
+    }
+}
+</div></section></section><section class="chapter"><h2 id="6-prote-o-baseada-em-n-meros" data-toc="6-prote-o-baseada-em-n-meros">6. Prote&ccedil;&atilde;o Baseada em N&uacute;meros</h2><section class="chapter"><h3 id="estrutura" data-toc="estrutura">Estrutura</h3><ul class="list _bullet" id="-ml9j7q_78"><li class="list__item" id="-ml9j7q_80"><p id="-ml9j7q_82">Sistema de prote&ccedil;&atilde;o hier&aacute;rquico unidirecional</p></li><li class="list__item" id="-ml9j7q_81"><p id="-ml9j7q_83">Acesso permitido apenas de n&uacute;meros maiores para menores</p></li></ul><div class="code-block" data-lang="python">
+class HierarchicalAccess:
+    def can_access(self, process_num: int, object_num: int) -&gt; bool:
+        return process_num &gt; object_num
+</div></section></section><section class="chapter"><h2 id="7-acesso-limitado-por-contagem" data-toc="7-acesso-limitado-por-contagem">7. Acesso Limitado por Contagem</h2><section class="chapter"><h3 id="implementa-o" data-toc="implementa-o">Implementa&ccedil;&atilde;o</h3><div class="code-block" data-lang="java">
+public class CountedAccess {
+    private Map&lt;ObjectId, Integer&gt; accessCount = new HashMap&lt;&gt;();
+    
+    public boolean tryAccess(ObjectId objectId) {
+        int remaining = accessCount.getOrDefault(objectId, 0);
+        if (remaining &gt; 0) {
+            accessCount.put(objectId, remaining - 1);
+            return true;
+        }
+        return false;
+    }
+}
+</div></section></section><section class="chapter"><h2 id="8-remo-o-autom-tica-de-objetos" data-toc="8-remo-o-autom-tica-de-objetos">8. Remo&ccedil;&atilde;o Autom&aacute;tica de Objetos</h2><section class="chapter"><h3 id="sistema-de-garbage-collection" data-toc="sistema-de-garbage-collection">Sistema de Garbage Collection</h3><div class="code-block" data-lang="java">
+public class AccessRightManager {
+    private Map&lt;ObjectId, Set&lt;AccessRight&gt;&gt; rights;
+    private Map&lt;ObjectId, WeakReference&lt;Object&gt;&gt; objects;
+    
+    public void removeRights(ObjectId objectId) {
+        rights.remove(objectId);
+        WeakReference&lt;Object&gt; ref = objects.get(objectId);
+        if (ref != null &amp;&amp; ref.get() == null) {
+            objects.remove(objectId);
+            // Trigger cleanup
+            System.gc();
+        }
+    }
+}
+</div></section></section><section class="chapter"><h2 id="9-desafios-da-e-s-direta" data-toc="9-desafios-da-e-s-direta">9. Desafios da E/S Direta</h2><section class="chapter"><h3 id="problemas" data-toc="problemas">Problemas</h3><ol class="list _decimal" id="-ml9j7q_90" type="1"><li class="list__item" id="-ml9j7q_91"><p id="-ml9j7q_94">Acesso direto ao hardware</p></li><li class="list__item" id="-ml9j7q_92"><p id="-ml9j7q_95">Bypass de mecanismos de prote&ccedil;&atilde;o</p></li><li class="list__item" id="-ml9j7q_93"><p id="-ml9j7q_96">Interfer&ecirc;ncia com outros processos</p></li></ol></section><section class="chapter"><h3 id="mitiga-o" data-toc="mitiga-o">Mitiga&ccedil;&atilde;o</h3><div class="code-block" data-lang="java">
+class IOController {
+    private static final Set&lt;Integer&gt; PROTECTED_PORTS = Set.of(80, 443);
+    
+    public boolean validateIORequest(IORequest request) {
+        return !PROTECTED_PORTS.contains(request.getPort()) &amp;&amp;
+               isInUserSpace(request.getAddress());
+    }
+}
+</div></section></section><section class="chapter"><h2 id="10-prote-o-de-listas-de-capacidade" data-toc="10-prote-o-de-listas-de-capacidade">10. Prote&ccedil;&atilde;o de Listas de Capacidade</h2><section class="chapter"><h3 id="mecanismos-de-prote-o" data-toc="mecanismos-de-prote-o">Mecanismos de Prote&ccedil;&atilde;o</h3><ol class="list _decimal" id="-ml9j7q_100" type="1"><li class="list__item" id="-ml9j7q_101"><p id="-ml9j7q_104"><span class="control" id="-ml9j7q_105">Hardware</span>: Bits de prote&ccedil;&atilde;o em mem&oacute;ria</p></li><li class="list__item" id="-ml9j7q_102"><p id="-ml9j7q_106"><span class="control" id="-ml9j7q_107">Criptografia</span>: Assinatura digital das capacidades</p></li><li class="list__item" id="-ml9j7q_103"><p id="-ml9j7q_108"><span class="control" id="-ml9j7q_109">Kernel</span>: Media&ccedil;&atilde;o de todas as modifica&ccedil;&otilde;es</p></li></ol></section><section class="chapter"><h3 id="implementa-o-segura" data-toc="implementa-o-segura">Implementa&ccedil;&atilde;o Segura</h3><div class="code-block" data-lang="java">
+public class SecureCapabilityList {
+    private final byte[] signature;
+    private final List&lt;Capability&gt; capabilities;
+    
+    public boolean verifyIntegrity() {
+        byte[] currentSignature = calculateSignature(capabilities);
+        return Arrays.equals(signature, currentSignature);
+    }
+    
+    private byte[] calculateSignature(List&lt;Capability&gt; caps) {
+        // Implementação de assinatura criptográfica
+        return null; // Placeholder
+    }
+}
+</div></section></section><section class="chapter"><h2 id="refer-ncias-adicionais" data-toc="refer-ncias-adicionais">Refer&ecirc;ncias Adicionais</h2><section class="chapter"><h3 id="bibliografia-recomendada" data-toc="bibliografia-recomendada">Bibliografia Recomendada</h3><ul class="list _bullet" id="-ml9j7q_113"><li class="list__item" id="-ml9j7q_114"><p id="-ml9j7q_117">Tanenbaum, A. S. &quot;Modern Operating Systems&quot;</p></li><li class="list__item" id="-ml9j7q_115"><p id="-ml9j7q_118">Silberschatz, A. &quot;Operating System Concepts&quot;</p></li><li class="list__item" id="-ml9j7q_116"><p id="-ml9j7q_119">Stallings, W. &quot;Operating Systems: Internals and Design Principles&quot;</p></li></ul></section><section class="chapter"><h3 id="recursos-online" data-toc="recursos-online">Recursos Online</h3><ul class="list _bullet" id="-ml9j7q_120"><li class="list__item" id="-ml9j7q_121"><p id="-ml9j7q_124">NIST Special Publications</p></li><li class="list__item" id="-ml9j7q_122"><p id="-ml9j7q_125">OWASP Security Guidelines</p></li><li class="list__item" id="-ml9j7q_123"><p id="-ml9j7q_126">CWE (Common Weakness Enumeration)</p></li></ul></section></section><div class="last-modified">15 abril 2025</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="capability-based-systems.html" class="navigation-links__prev">Sistemas Baseados em Capacidade</a><a href="security-concepts.html" class="navigation-links__next">Conceitos de Seguran&ccedil;a</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.js"></script></body></html>

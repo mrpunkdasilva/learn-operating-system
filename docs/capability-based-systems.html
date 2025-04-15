@@ -1,0 +1,311 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en-US" data-preset="contrast" data-primary-color="#E8488B"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta charset="UTF-8"><meta name="robots" content="noindex"><meta name="built-on" content="2025-04-15T20:23:44.754090168"><title>Sistemas Baseados em Capacidade | Operating Systems: Architecture, Concepts and Implementation</title><script type="application/json" id="virtual-toc-data">[{"id":"fundamentos-e-evolu-o","level":0,"title":"Fundamentos e Evolução","anchor":"#fundamentos-e-evolu-o"},{"id":"arquitetura-moderna-detalhada","level":0,"title":"Arquitetura Moderna Detalhada","anchor":"#arquitetura-moderna-detalhada"},{"id":"implementa-es-avan-adas","level":0,"title":"Implementações Avançadas","anchor":"#implementa-es-avan-adas"},{"id":"padr-es-de-design-avan-ados","level":0,"title":"Padrões de Design Avançados","anchor":"#padr-es-de-design-avan-ados"},{"id":"seguran-a-qu-ntica","level":0,"title":"Segurança Quântica","anchor":"#seguran-a-qu-ntica"},{"id":"integra-o-com-sistemas-modernos","level":0,"title":"Integração com Sistemas Modernos","anchor":"#integra-o-com-sistemas-modernos"},{"id":"ferramentas-e-utilit-rios","level":0,"title":"Ferramentas e Utilitários","anchor":"#ferramentas-e-utilit-rios"},{"id":"monitoramento-e-observabilidade","level":0,"title":"Monitoramento e Observabilidade","anchor":"#monitoramento-e-observabilidade"},{"id":"refer-ncias-e-recursos-adicionais","level":0,"title":"Referências e Recursos Adicionais","anchor":"#refer-ncias-e-recursos-adicionais"}]</script><script type="application/json" id="topic-shortcuts"></script><link href="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.css" rel="stylesheet"><link rel="icon" type="image/svg" sizes="16x16" href="images/logo-primary.svg"><meta name="image" content=""><!-- Open Graph --><meta property="og:title" content="Sistemas Baseados em Capacidade | Operating Systems: Architecture, Concepts and Implementation"><meta property="og:description" content=""><meta property="og:image" content=""><meta property="og:site_name" content="Operating Systems: Architecture, Concepts and Implementation Help"><meta property="og:type" content="website"><meta property="og:locale" content="en_US"><meta property="og:url" content="writerside-documentation/capability-based-systems.html"><!-- End Open Graph --><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content=""><meta name="twitter:title" content="Sistemas Baseados em Capacidade | Operating Systems: Architecture, Concepts and Implementation"><meta name="twitter:description" content=""><meta name="twitter:creator" content=""><meta name="twitter:image:src" content=""><!-- End Twitter Card --><!-- Schema.org WebPage --><script type="application/ld+json">{
+    "@context": "http://schema.org",
+    "@type": "WebPage",
+    "@id": "writerside-documentation/capability-based-systems.html#webpage",
+    "url": "writerside-documentation/capability-based-systems.html",
+    "name": "Sistemas Baseados em Capacidade | Operating Systems: Architecture, Concepts and Implementation",
+    "description": "",
+    "image": "",
+    "inLanguage":"en-US"
+}</script><!-- End Schema.org --><!-- Schema.org WebSite --><script type="application/ld+json">{
+    "@type": "WebSite",
+    "@id": "writerside-documentation/#website",
+    "url": "writerside-documentation/",
+    "name": "Operating Systems: Architecture, Concepts and Implementation Help"
+}</script><!-- End Schema.org --></head><body data-id="Capability-Based-Systems" data-main-title="Sistemas Baseados em Capacidade" data-article-props="{&quot;seeAlsoStyle&quot;:&quot;links&quot;}" data-template="article" data-breadcrumbs="7. Protection and Security///7.1 Protection"><div class="wrapper"><main class="panel _main"><header class="panel__header"><div class="container"><h3>Operating Systems: Architecture, Concepts and Implementation  Help</h3><div class="panel-trigger"></div></div></header><section class="panel__content"><div class="container"><article class="article" data-shortcut-switcher="inactive"><h1 data-toc="Capability-Based-Systems" id="Capability-Based-Systems.md">Sistemas Baseados em Capacidade</h1><section class="chapter"><h2 id="fundamentos-e-evolu-o" data-toc="fundamentos-e-evolu-o">Fundamentos e Evolu&ccedil;&atilde;o</h2><section class="chapter"><h3 id="estrutura-b-sica-de-capacidades" data-toc="estrutura-b-sica-de-capacidades">Estrutura B&aacute;sica de Capacidades</h3><div class="code-block" data-lang="none">
+Traditional Capability Structure
+┌─────────────────────────────────────────┐
+│              CAPABILITY                 │
+├───────────────┬─────────────┬──────────┤
+│   Object ID   │   Rights    │  Flags   │
+│ (Non-forgeable│ (Permission │(Metadata)│
+│  Reference)   │   Matrix)   │          │
+└───────────────┴─────────────┴──────────┘
+</div></section><section class="chapter"><h3 id="evolu-o-dos-sistemas-de-capacidade" data-toc="evolu-o-dos-sistemas-de-capacidade">Evolu&ccedil;&atilde;o dos Sistemas de Capacidade</h3><svg aria-roledescription="timeline" role="graphics-document document" viewBox="0 -61 1590 567.6781005859375" style="max-width: 1590px;" xmlns="http://www.w3.org/2000/svg" width="100%" id="mermaid"><g></g><g></g><defs><marker orient="auto" markerHeight="4" markerWidth="6" refY="2" refX="5" id="arrowhead"><path d="M 0,0 V 4 L6,2 Z"></path></marker></defs><g transform="translate(100, 50)" class="taskWrapper"><g class="timeline-node section--1"><g><path d="M0 60.815625 v-55.815625 q0,-5 5,-5 h180 q5,0 5,5 v60.815625 H0 Z" class="node-bkg node-undefined" id="node-undefined"></path><line y2="65.815625" x2="190" y1="65.815625" x1="0" class="node-line--1"></line></g><g transform="translate(95, 10)"><text text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><tspan dy="1em" x="0">1970</tspan></text></g></g></g><g class="lineWrapper"><line stroke-dasharray="5,5" marker-end="url(#arrowhead)" stroke="black" stroke-width="2" y2="456.6781234741211" x2="195" y1="115.815625" x1="195"></line></g><g transform="translate(100, 250)" class="eventWrapper"><g class="timeline-node section--1"><g><path d="M0 45 v-40 q0,-5 5,-5 h180 q5,0 5,5 v45 H0 Z" class="node-bkg node-undefined" id="node-undefined"></path><line y2="50" x2="190" y1="50" x1="0" class="node-line--1"></line></g><g transform="translate(95, 10)"><text text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><tspan dy="1em" x="0">Sistema   Hydra</tspan></text></g></g></g><g transform="translate(100, 310)" class="eventWrapper"><g class="timeline-node section--1"><g><path d="M0 45 v-40 q0,-5 5,-5 h180 q5,0 5,5 v45 H0 Z" class="node-bkg node-undefined" id="node-undefined"></path><line y2="50" x2="190" y1="50" x1="0" class="node-line--1"></line></g><g transform="translate(95, 10)"><text text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><tspan dy="1em" x="0">Primeiros   conceitos</tspan></text></g></g></g><g transform="translate(100, 370)" class="eventWrapper"><g class="timeline-node section--1"><g><path d="M0 45 v-40 q0,-5 5,-5 h180 q5,0 5,5 v45 H0 Z" class="node-bkg node-undefined" id="node-undefined"></path><line y2="50" x2="190" y1="50" x1="0" class="node-line--1"></line></g><g transform="translate(95, 10)"><text text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><tspan dy="1em" x="0">Hardware-based</tspan></text></g></g></g><g transform="translate(300, 50)" class="taskWrapper"><g class="timeline-node section-0"><g><path d="M0 60.815625 v-55.815625 q0,-5 5,-5 h180 q5,0 5,5 v60.815625 H0 Z" class="node-bkg node-undefined" id="node-undefined"></path><line y2="65.815625" x2="190" y1="65.815625" x1="0" class="node-line-0"></line></g><g transform="translate(95, 10)"><text text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><tspan dy="1em" x="0">1980</tspan></text></g></g></g><g class="lineWrapper"><line stroke-dasharray="5,5" marker-end="url(#arrowhead)" stroke="black" stroke-width="2" y2="456.6781234741211" x2="395" y1="115.815625" x1="395"></line></g><g transform="translate(300, 250)" class="eventWrapper"><g class="timeline-node section-0"><g><path d="M0 45 v-40 q0,-5 5,-5 h180 q5,0 5,5 v45 H0 Z" class="node-bkg node-undefined" id="node-undefined"></path><line y2="50" x2="190" y1="50" x1="0" class="node-line-0"></line></g><g transform="translate(95, 10)"><text text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><tspan dy="1em" x="0">Cambridge   CAP</tspan></text></g></g></g><g transform="translate(300, 310)" class="eventWrapper"><g class="timeline-node section-0"><g><path d="M0 58.41562347412109 v-53.41562347412109 q0,-5 5,-5 h180 q5,0 5,5 v58.41562347412109 H0 Z" class="node-bkg node-undefined" id="node-undefined"></path><line y2="63.41562347412109" x2="190" y1="63.41562347412109" x1="0" class="node-line-0"></line></g><g transform="translate(95, 10)"><text text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><tspan dy="1em" x="0">Refinamento   do</tspan><tspan dy="1.1em" x="0">modelo</tspan></text></g></g></g><g transform="translate(500, 50)" class="taskWrapper"><g class="timeline-node section-1"><g><path d="M0 60.815625 v-55.815625 q0,-5 5,-5 h180 q5,0 5,5 v60.815625 H0 Z" class="node-bkg node-undefined" id="node-undefined"></path><line y2="65.815625" x2="190" y1="65.815625" x1="0" class="node-line-1"></line></g><g transform="translate(95, 10)"><text text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><tspan dy="1em" x="0">1990</tspan></text></g></g></g><g class="lineWrapper"><line stroke-dasharray="5,5" marker-end="url(#arrowhead)" stroke="black" stroke-width="2" y2="456.6781234741211" x2="595" y1="115.815625" x1="595"></line></g><g transform="translate(500, 250)" class="eventWrapper"><g class="timeline-node section-1"><g><path d="M0 45 v-40 q0,-5 5,-5 h180 q5,0 5,5 v45 H0 Z" class="node-bkg node-undefined" id="node-undefined"></path><line y2="50" x2="190" y1="50" x1="0" class="node-line-1"></line></g><g transform="translate(95, 10)"><text text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><tspan dy="1em" x="0">Amoeba</tspan></text></g></g></g><g transform="translate(500, 310)" class="eventWrapper"><g class="timeline-node section-1"><g><path d="M0 58.41562347412109 v-53.41562347412109 q0,-5 5,-5 h180 q5,0 5,5 v58.41562347412109 H0 Z" class="node-bkg node-undefined" id="node-undefined"></path><line y2="63.41562347412109" x2="190" y1="63.41562347412109" x1="0" class="node-line-1"></line></g><g transform="translate(95, 10)"><text text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><tspan dy="1em" x="0">Distributed</tspan><tspan dy="1.1em" x="0">capabilities</tspan></text></g></g></g><g transform="translate(700, 50)" class="taskWrapper"><g class="timeline-node section-2"><g><path d="M0 60.815625 v-55.815625 q0,-5 5,-5 h180 q5,0 5,5 v60.815625 H0 Z" class="node-bkg node-undefined" id="node-undefined"></path><line y2="65.815625" x2="190" y1="65.815625" x1="0" class="node-line-2"></line></g><g transform="translate(95, 10)"><text text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><tspan dy="1em" x="0">2000</tspan></text></g></g></g><g class="lineWrapper"><line stroke-dasharray="5,5" marker-end="url(#arrowhead)" stroke="black" stroke-width="2" y2="456.6781234741211" x2="795" y1="115.815625" x1="795"></line></g><g transform="translate(700, 250)" class="eventWrapper"><g class="timeline-node section-2"><g><path d="M0 45 v-40 q0,-5 5,-5 h180 q5,0 5,5 v45 H0 Z" class="node-bkg node-undefined" id="node-undefined"></path><line y2="50" x2="190" y1="50" x1="0" class="node-line-2"></line></g><g transform="translate(95, 10)"><text text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><tspan dy="1em" x="0">Linux   Capabilities</tspan></text></g></g></g><g transform="translate(700, 310)" class="eventWrapper"><g class="timeline-node section-2"><g><path d="M0 45 v-40 q0,-5 5,-5 h180 q5,0 5,5 v45 H0 Z" class="node-bkg node-undefined" id="node-undefined"></path><line y2="50" x2="190" y1="50" x1="0" class="node-line-2"></line></g><g transform="translate(95, 10)"><text text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><tspan dy="1em" x="0">POSIX   capabilities</tspan></text></g></g></g><g transform="translate(900, 50)" class="taskWrapper"><g class="timeline-node section-3"><g><path d="M0 60.815625 v-55.815625 q0,-5 5,-5 h180 q5,0 5,5 v60.815625 H0 Z" class="node-bkg node-undefined" id="node-undefined"></path><line y2="65.815625" x2="190" y1="65.815625" x1="0" class="node-line-3"></line></g><g transform="translate(95, 10)"><text text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><tspan dy="1em" x="0">2010</tspan></text></g></g></g><g class="lineWrapper"><line stroke-dasharray="5,5" marker-end="url(#arrowhead)" stroke="black" stroke-width="2" y2="456.6781234741211" x2="995" y1="115.815625" x1="995"></line></g><g transform="translate(900, 250)" class="eventWrapper"><g class="timeline-node section-3"><g><path d="M0 45 v-40 q0,-5 5,-5 h180 q5,0 5,5 v45 H0 Z" class="node-bkg node-undefined" id="node-undefined"></path><line y2="50" x2="190" y1="50" x1="0" class="node-line-3"></line></g><g transform="translate(95, 10)"><text text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><tspan dy="1em" x="0">Container   Security</tspan></text></g></g></g><g transform="translate(900, 310)" class="eventWrapper"><g class="timeline-node section-3"><g><path d="M0 58.41562347412109 v-53.41562347412109 q0,-5 5,-5 h180 q5,0 5,5 v58.41562347412109 H0 Z" class="node-bkg node-undefined" id="node-undefined"></path><line y2="63.41562347412109" x2="190" y1="63.41562347412109" x1="0" class="node-line-3"></line></g><g transform="translate(95, 10)"><text text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><tspan dy="1em" x="0">Docker   &amp;</tspan><tspan dy="1.1em" x="0">Kubernetes</tspan></text></g></g></g><g transform="translate(1100, 50)" class="taskWrapper"><g class="timeline-node section-4"><g><path d="M0 60.815625 v-55.815625 q0,-5 5,-5 h180 q5,0 5,5 v60.815625 H0 Z" class="node-bkg node-undefined" id="node-undefined"></path><line y2="65.815625" x2="190" y1="65.815625" x1="0" class="node-line-4"></line></g><g transform="translate(95, 10)"><text text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><tspan dy="1em" x="0">2020</tspan></text></g></g></g><g class="lineWrapper"><line stroke-dasharray="5,5" marker-end="url(#arrowhead)" stroke="black" stroke-width="2" y2="456.6781234741211" x2="1195" y1="115.815625" x1="1195"></line></g><g transform="translate(1100, 250)" class="eventWrapper"><g class="timeline-node section-4"><g><path d="M0 58.41562347412109 v-53.41562347412109 q0,-5 5,-5 h180 q5,0 5,5 v58.41562347412109 H0 Z" class="node-bkg node-undefined" id="node-undefined"></path><line y2="63.41562347412109" x2="190" y1="63.41562347412109" x1="0" class="node-line-4"></line></g><g transform="translate(95, 10)"><text text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><tspan dy="1em" x="0">Cloud   Native</tspan><tspan dy="1.1em" x="0">Security</tspan></text></g></g></g><g transform="translate(1100, 323.4156234741211)" class="eventWrapper"><g class="timeline-node section-4"><g><path d="M0 58.41562347412109 v-53.41562347412109 q0,-5 5,-5 h180 q5,0 5,5 v58.41562347412109 H0 Z" class="node-bkg node-undefined" id="node-undefined"></path><line y2="63.41562347412109" x2="190" y1="63.41562347412109" x1="0" class="node-line-4"></line></g><g transform="translate(95, 10)"><text text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><tspan dy="1em" x="0">Zero   Trust</tspan><tspan dy="1.1em" x="0">Architecture</tspan></text></g></g></g><g transform="translate(1300, 50)" class="taskWrapper"><g class="timeline-node section-5"><g><path d="M0 60.815625 v-55.815625 q0,-5 5,-5 h180 q5,0 5,5 v60.815625 H0 Z" class="node-bkg node-undefined" id="node-undefined"></path><line y2="65.815625" x2="190" y1="65.815625" x1="0" class="node-line-5"></line></g><g transform="translate(95, 10)"><text text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><tspan dy="1em" x="0">2025</tspan></text></g></g></g><g class="lineWrapper"><line stroke-dasharray="5,5" marker-end="url(#arrowhead)" stroke="black" stroke-width="2" y2="456.6781234741211" x2="1395" y1="115.815625" x1="1395"></line></g><g transform="translate(1300, 250)" class="eventWrapper"><g class="timeline-node section-5"><g><path d="M0 45 v-40 q0,-5 5,-5 h180 q5,0 5,5 v45 H0 Z" class="node-bkg node-undefined" id="node-undefined"></path><line y2="50" x2="190" y1="50" x1="0" class="node-line-5"></line></g><g transform="translate(95, 10)"><text text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><tspan dy="1em" x="0">Web3   Capabilities</tspan></text></g></g></g><g transform="translate(1300, 310)" class="eventWrapper"><g class="timeline-node section-5"><g><path d="M0 45 v-40 q0,-5 5,-5 h180 q5,0 5,5 v45 H0 Z" class="node-bkg node-undefined" id="node-undefined"></path><line y2="50" x2="190" y1="50" x1="0" class="node-line-5"></line></g><g transform="translate(95, 10)"><text text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><tspan dy="1em" x="0">Smart   Contracts</tspan></text></g></g></g><g transform="translate(1300, 370)" class="eventWrapper"><g class="timeline-node section-5"><g><path d="M0 58.41562347412109 v-53.41562347412109 q0,-5 5,-5 h180 q5,0 5,5 v58.41562347412109 H0 Z" class="node-bkg node-undefined" id="node-undefined"></path><line y2="63.41562347412109" x2="190" y1="63.41562347412109" x1="0" class="node-line-5"></line></g><g transform="translate(95, 10)"><text text-anchor="middle" dominant-baseline="middle" alignment-baseline="middle" dy="1em"><tspan dy="1em" x="0">Blockchain</tspan><tspan dy="1.1em" x="0">Integration</tspan></text></g></g></g><text y="20" font-weight="bold" font-size="4ex" x="645">Evolução dos Sistemas de Capacidade</text><g class="lineWrapper"><line marker-end="url(#arrowhead)" stroke="black" stroke-width="4" y2="165.815625" x2="1540" y1="165.815625" x1="50"></line></g></svg></section></section><section class="chapter"><h2 id="arquitetura-moderna-detalhada" data-toc="arquitetura-moderna-detalhada">Arquitetura Moderna Detalhada</h2><section class="chapter"><h3 id="componentes-principais" data-toc="componentes-principais">Componentes Principais</h3><div class="code-block" data-lang="none">
+Modern Capability System Architecture
+┌─────────────────────────────────────────────────────┐
+│                   Applications                       │
+├─────────────────────────────────────────────────────┤
+│              Capability Manager                      │
+├──────────────┬────────────────────┬────────────────┤
+│ Identity &amp;   │    Permission      │   Audit &amp;      │
+│ Access Mgmt  │    Registry        │   Logging      │
+├──────────────┴────────────────────┴────────────────┤
+│              Security Enforcement Layer             │
+├─────────────────────────────────────────────────────┤
+│                Operating System                      │
+└─────────────────────────────────────────────────────┘
+</div></section><section class="chapter"><h3 id="fluxo-de-opera-es-detalhado" data-toc="fluxo-de-opera-es-detalhado">Fluxo de Opera&ccedil;&otilde;es Detalhado</h3><svg aria-roledescription="sequence" role="graphics-document document" viewBox="-50 -10 1091 555" style="max-width: 1091px;" xmlns="http://www.w3.org/2000/svg" width="100%" id="mermaid"><g><rect class="actor actor-bottom" ry="3" rx="3" name="R" height="65" width="150" stroke="#666" fill="#eaeaea" y="469" x="841"></rect><text style="text-anchor: middle; font-size: 16px; font-weight: 400;" class="actor actor-box" alignment-baseline="central" dominant-baseline="central" y="501.5" x="916"><tspan dy="0" x="916">Resource</tspan></text></g><g><rect class="actor actor-bottom" ry="3" rx="3" name="AL" height="65" width="150" stroke="#666" fill="#eaeaea" y="469" x="641"></rect><text style="text-anchor: middle; font-size: 16px; font-weight: 400;" class="actor actor-box" alignment-baseline="central" dominant-baseline="central" y="501.5" x="716"><tspan dy="0" x="716">Audit Logger</tspan></text></g><g><rect class="actor actor-bottom" ry="3" rx="3" name="PR" height="65" width="169" stroke="#666" fill="#eaeaea" y="469" x="422"></rect><text style="text-anchor: middle; font-size: 16px; font-weight: 400;" class="actor actor-box" alignment-baseline="central" dominant-baseline="central" y="501.5" x="506.5"><tspan dy="0" x="506.5">Permission Registry</tspan></text></g><g><rect class="actor actor-bottom" ry="3" rx="3" name="CM" height="65" width="168" stroke="#666" fill="#eaeaea" y="469" x="204"></rect><text style="text-anchor: middle; font-size: 16px; font-weight: 400;" class="actor actor-box" alignment-baseline="central" dominant-baseline="central" y="501.5" x="288"><tspan dy="0" x="288">Capability Manager</tspan></text></g><g><rect class="actor actor-bottom" ry="3" rx="3" name="U" height="65" width="150" stroke="#666" fill="#eaeaea" y="469" x="0"></rect><text style="text-anchor: middle; font-size: 16px; font-weight: 400;" class="actor actor-box" alignment-baseline="central" dominant-baseline="central" y="501.5" x="75"><tspan dy="0" x="75">User/Process</tspan></text></g><g><line name="R" stroke="#999" stroke-width="0.5px" class="actor-line 200" y2="469" x2="916" y1="5" x1="916" id="actor112"></line><g id="root-112"><rect class="actor actor-top" ry="3" rx="3" name="R" height="65" width="150" stroke="#666" fill="#eaeaea" y="0" x="841"></rect><text style="text-anchor: middle; font-size: 16px; font-weight: 400;" class="actor actor-box" alignment-baseline="central" dominant-baseline="central" y="32.5" x="916"><tspan dy="0" x="916">Resource</tspan></text></g></g><g><line name="AL" stroke="#999" stroke-width="0.5px" class="actor-line 200" y2="469" x2="716" y1="5" x1="716" id="actor111"></line><g id="root-111"><rect class="actor actor-top" ry="3" rx="3" name="AL" height="65" width="150" stroke="#666" fill="#eaeaea" y="0" x="641"></rect><text style="text-anchor: middle; font-size: 16px; font-weight: 400;" class="actor actor-box" alignment-baseline="central" dominant-baseline="central" y="32.5" x="716"><tspan dy="0" x="716">Audit Logger</tspan></text></g></g><g><line name="PR" stroke="#999" stroke-width="0.5px" class="actor-line 200" y2="469" x2="506.5" y1="5" x1="506.5" id="actor110"></line><g id="root-110"><rect class="actor actor-top" ry="3" rx="3" name="PR" height="65" width="169" stroke="#666" fill="#eaeaea" y="0" x="422"></rect><text style="text-anchor: middle; font-size: 16px; font-weight: 400;" class="actor actor-box" alignment-baseline="central" dominant-baseline="central" y="32.5" x="506.5"><tspan dy="0" x="506.5">Permission Registry</tspan></text></g></g><g><line name="CM" stroke="#999" stroke-width="0.5px" class="actor-line 200" y2="469" x2="288" y1="5" x1="288" id="actor109"></line><g id="root-109"><rect class="actor actor-top" ry="3" rx="3" name="CM" height="65" width="168" stroke="#666" fill="#eaeaea" y="0" x="204"></rect><text style="text-anchor: middle; font-size: 16px; font-weight: 400;" class="actor actor-box" alignment-baseline="central" dominant-baseline="central" y="32.5" x="288"><tspan dy="0" x="288">Capability Manager</tspan></text></g></g><g><line name="U" stroke="#999" stroke-width="0.5px" class="actor-line 200" y2="469" x2="75" y1="5" x1="75" id="actor108"></line><g id="root-108"><rect class="actor actor-top" ry="3" rx="3" name="U" height="65" width="150" stroke="#666" fill="#eaeaea" y="0" x="0"></rect><text style="text-anchor: middle; font-size: 16px; font-weight: 400;" class="actor actor-box" alignment-baseline="central" dominant-baseline="central" y="32.5" x="75"><tspan dy="0" x="75">User/Process</tspan></text></g></g><g></g><defs><symbol height="24" width="24" id="computer"><path d="M2 2v13h20v-13h-20zm18 11h-16v-9h16v9zm-10.228 6l.466-1h3.524l.467 1h-4.457zm14.228 3h-24l2-6h2.104l-1.33 4h18.45l-1.297-4h2.073l2 6zm-5-10h-14v-7h14v7z" transform="scale(.5)"></path></symbol></defs><defs><symbol clip-rule="evenodd" fill-rule="evenodd" id="database"><path d="M12.258.001l.256.004.255.005.253.008.251.01.249.012.247.015.246.016.242.019.241.02.239.023.236.024.233.027.231.028.229.031.225.032.223.034.22.036.217.038.214.04.211.041.208.043.205.045.201.046.198.048.194.05.191.051.187.053.183.054.18.056.175.057.172.059.168.06.163.061.16.063.155.064.15.066.074.033.073.033.071.034.07.034.069.035.068.035.067.035.066.035.064.036.064.036.062.036.06.036.06.037.058.037.058.037.055.038.055.038.053.038.052.038.051.039.05.039.048.039.047.039.045.04.044.04.043.04.041.04.04.041.039.041.037.041.036.041.034.041.033.042.032.042.03.042.029.042.027.042.026.043.024.043.023.043.021.043.02.043.018.044.017.043.015.044.013.044.012.044.011.045.009.044.007.045.006.045.004.045.002.045.001.045v17l-.001.045-.002.045-.004.045-.006.045-.007.045-.009.044-.011.045-.012.044-.013.044-.015.044-.017.043-.018.044-.02.043-.021.043-.023.043-.024.043-.026.043-.027.042-.029.042-.03.042-.032.042-.033.042-.034.041-.036.041-.037.041-.039.041-.04.041-.041.04-.043.04-.044.04-.045.04-.047.039-.048.039-.05.039-.051.039-.052.038-.053.038-.055.038-.055.038-.058.037-.058.037-.06.037-.06.036-.062.036-.064.036-.064.036-.066.035-.067.035-.068.035-.069.035-.07.034-.071.034-.073.033-.074.033-.15.066-.155.064-.16.063-.163.061-.168.06-.172.059-.175.057-.18.056-.183.054-.187.053-.191.051-.194.05-.198.048-.201.046-.205.045-.208.043-.211.041-.214.04-.217.038-.22.036-.223.034-.225.032-.229.031-.231.028-.233.027-.236.024-.239.023-.241.02-.242.019-.246.016-.247.015-.249.012-.251.01-.253.008-.255.005-.256.004-.258.001-.258-.001-.256-.004-.255-.005-.253-.008-.251-.01-.249-.012-.247-.015-.245-.016-.243-.019-.241-.02-.238-.023-.236-.024-.234-.027-.231-.028-.228-.031-.226-.032-.223-.034-.22-.036-.217-.038-.214-.04-.211-.041-.208-.043-.204-.045-.201-.046-.198-.048-.195-.05-.19-.051-.187-.053-.184-.054-.179-.056-.176-.057-.172-.059-.167-.06-.164-.061-.159-.063-.155-.064-.151-.066-.074-.033-.072-.033-.072-.034-.07-.034-.069-.035-.068-.035-.067-.035-.066-.035-.064-.036-.063-.036-.062-.036-.061-.036-.06-.037-.058-.037-.057-.037-.056-.038-.055-.038-.053-.038-.052-.038-.051-.039-.049-.039-.049-.039-.046-.039-.046-.04-.044-.04-.043-.04-.041-.04-.04-.041-.039-.041-.037-.041-.036-.041-.034-.041-.033-.042-.032-.042-.03-.042-.029-.042-.027-.042-.026-.043-.024-.043-.023-.043-.021-.043-.02-.043-.018-.044-.017-.043-.015-.044-.013-.044-.012-.044-.011-.045-.009-.044-.007-.045-.006-.045-.004-.045-.002-.045-.001-.045v-17l.001-.045.002-.045.004-.045.006-.045.007-.045.009-.044.011-.045.012-.044.013-.044.015-.044.017-.043.018-.044.02-.043.021-.043.023-.043.024-.043.026-.043.027-.042.029-.042.03-.042.032-.042.033-.042.034-.041.036-.041.037-.041.039-.041.04-.041.041-.04.043-.04.044-.04.046-.04.046-.039.049-.039.049-.039.051-.039.052-.038.053-.038.055-.038.056-.038.057-.037.058-.037.06-.037.061-.036.062-.036.063-.036.064-.036.066-.035.067-.035.068-.035.069-.035.07-.034.072-.034.072-.033.074-.033.151-.066.155-.064.159-.063.164-.061.167-.06.172-.059.176-.057.179-.056.184-.054.187-.053.19-.051.195-.05.198-.048.201-.046.204-.045.208-.043.211-.041.214-.04.217-.038.22-.036.223-.034.226-.032.228-.031.231-.028.234-.027.236-.024.238-.023.241-.02.243-.019.245-.016.247-.015.249-.012.251-.01.253-.008.255-.005.256-.004.258-.001.258.001zm-9.258 20.499v.01l.001.021.003.021.004.022.005.021.006.022.007.022.009.023.01.022.011.023.012.023.013.023.015.023.016.024.017.023.018.024.019.024.021.024.022.025.023.024.024.025.052.049.056.05.061.051.066.051.07.051.075.051.079.052.084.052.088.052.092.052.097.052.102.051.105.052.11.052.114.051.119.051.123.051.127.05.131.05.135.05.139.048.144.049.147.047.152.047.155.047.16.045.163.045.167.043.171.043.176.041.178.041.183.039.187.039.19.037.194.035.197.035.202.033.204.031.209.03.212.029.216.027.219.025.222.024.226.021.23.02.233.018.236.016.24.015.243.012.246.01.249.008.253.005.256.004.259.001.26-.001.257-.004.254-.005.25-.008.247-.011.244-.012.241-.014.237-.016.233-.018.231-.021.226-.021.224-.024.22-.026.216-.027.212-.028.21-.031.205-.031.202-.034.198-.034.194-.036.191-.037.187-.039.183-.04.179-.04.175-.042.172-.043.168-.044.163-.045.16-.046.155-.046.152-.047.148-.048.143-.049.139-.049.136-.05.131-.05.126-.05.123-.051.118-.052.114-.051.11-.052.106-.052.101-.052.096-.052.092-.052.088-.053.083-.051.079-.052.074-.052.07-.051.065-.051.06-.051.056-.05.051-.05.023-.024.023-.025.021-.024.02-.024.019-.024.018-.024.017-.024.015-.023.014-.024.013-.023.012-.023.01-.023.01-.022.008-.022.006-.022.006-.022.004-.022.004-.021.001-.021.001-.021v-4.127l-.077.055-.08.053-.083.054-.085.053-.087.052-.09.052-.093.051-.095.05-.097.05-.1.049-.102.049-.105.048-.106.047-.109.047-.111.046-.114.045-.115.045-.118.044-.12.043-.122.042-.124.042-.126.041-.128.04-.13.04-.132.038-.134.038-.135.037-.138.037-.139.035-.142.035-.143.034-.144.033-.147.032-.148.031-.15.03-.151.03-.153.029-.154.027-.156.027-.158.026-.159.025-.161.024-.162.023-.163.022-.165.021-.166.02-.167.019-.169.018-.169.017-.171.016-.173.015-.173.014-.175.013-.175.012-.177.011-.178.01-.179.008-.179.008-.181.006-.182.005-.182.004-.184.003-.184.002h-.37l-.184-.002-.184-.003-.182-.004-.182-.005-.181-.006-.179-.008-.179-.008-.178-.01-.176-.011-.176-.012-.175-.013-.173-.014-.172-.015-.171-.016-.17-.017-.169-.018-.167-.019-.166-.02-.165-.021-.163-.022-.162-.023-.161-.024-.159-.025-.157-.026-.156-.027-.155-.027-.153-.029-.151-.03-.15-.03-.148-.031-.146-.032-.145-.033-.143-.034-.141-.035-.14-.035-.137-.037-.136-.037-.134-.038-.132-.038-.13-.04-.128-.04-.126-.041-.124-.042-.122-.042-.12-.044-.117-.043-.116-.045-.113-.045-.112-.046-.109-.047-.106-.047-.105-.048-.102-.049-.1-.049-.097-.05-.095-.05-.093-.052-.09-.051-.087-.052-.085-.053-.083-.054-.08-.054-.077-.054v4.127zm0-5.654v.011l.001.021.003.021.004.021.005.022.006.022.007.022.009.022.01.022.011.023.012.023.013.023.015.024.016.023.017.024.018.024.019.024.021.024.022.024.023.025.024.024.052.05.056.05.061.05.066.051.07.051.075.052.079.051.084.052.088.052.092.052.097.052.102.052.105.052.11.051.114.051.119.052.123.05.127.051.131.05.135.049.139.049.144.048.147.048.152.047.155.046.16.045.163.045.167.044.171.042.176.042.178.04.183.04.187.038.19.037.194.036.197.034.202.033.204.032.209.03.212.028.216.027.219.025.222.024.226.022.23.02.233.018.236.016.24.014.243.012.246.01.249.008.253.006.256.003.259.001.26-.001.257-.003.254-.006.25-.008.247-.01.244-.012.241-.015.237-.016.233-.018.231-.02.226-.022.224-.024.22-.025.216-.027.212-.029.21-.03.205-.032.202-.033.198-.035.194-.036.191-.037.187-.039.183-.039.179-.041.175-.042.172-.043.168-.044.163-.045.16-.045.155-.047.152-.047.148-.048.143-.048.139-.05.136-.049.131-.05.126-.051.123-.051.118-.051.114-.052.11-.052.106-.052.101-.052.096-.052.092-.052.088-.052.083-.052.079-.052.074-.051.07-.052.065-.051.06-.05.056-.051.051-.049.023-.025.023-.024.021-.025.02-.024.019-.024.018-.024.017-.024.015-.023.014-.023.013-.024.012-.022.01-.023.01-.023.008-.022.006-.022.006-.022.004-.021.004-.022.001-.021.001-.021v-4.139l-.077.054-.08.054-.083.054-.085.052-.087.053-.09.051-.093.051-.095.051-.097.05-.1.049-.102.049-.105.048-.106.047-.109.047-.111.046-.114.045-.115.044-.118.044-.12.044-.122.042-.124.042-.126.041-.128.04-.13.039-.132.039-.134.038-.135.037-.138.036-.139.036-.142.035-.143.033-.144.033-.147.033-.148.031-.15.03-.151.03-.153.028-.154.028-.156.027-.158.026-.159.025-.161.024-.162.023-.163.022-.165.021-.166.02-.167.019-.169.018-.169.017-.171.016-.173.015-.173.014-.175.013-.175.012-.177.011-.178.009-.179.009-.179.007-.181.007-.182.005-.182.004-.184.003-.184.002h-.37l-.184-.002-.184-.003-.182-.004-.182-.005-.181-.007-.179-.007-.179-.009-.178-.009-.176-.011-.176-.012-.175-.013-.173-.014-.172-.015-.171-.016-.17-.017-.169-.018-.167-.019-.166-.02-.165-.021-.163-.022-.162-.023-.161-.024-.159-.025-.157-.026-.156-.027-.155-.028-.153-.028-.151-.03-.15-.03-.148-.031-.146-.033-.145-.033-.143-.033-.141-.035-.14-.036-.137-.036-.136-.037-.134-.038-.132-.039-.13-.039-.128-.04-.126-.041-.124-.042-.122-.043-.12-.043-.117-.044-.116-.044-.113-.046-.112-.046-.109-.046-.106-.047-.105-.048-.102-.049-.1-.049-.097-.05-.095-.051-.093-.051-.09-.051-.087-.053-.085-.052-.083-.054-.08-.054-.077-.054v4.139zm0-5.666v.011l.001.02.003.022.004.021.005.022.006.021.007.022.009.023.01.022.011.023.012.023.013.023.015.023.016.024.017.024.018.023.019.024.021.025.022.024.023.024.024.025.052.05.056.05.061.05.066.051.07.051.075.052.079.051.084.052.088.052.092.052.097.052.102.052.105.051.11.052.114.051.119.051.123.051.127.05.131.05.135.05.139.049.144.048.147.048.152.047.155.046.16.045.163.045.167.043.171.043.176.042.178.04.183.04.187.038.19.037.194.036.197.034.202.033.204.032.209.03.212.028.216.027.219.025.222.024.226.021.23.02.233.018.236.017.24.014.243.012.246.01.249.008.253.006.256.003.259.001.26-.001.257-.003.254-.006.25-.008.247-.01.244-.013.241-.014.237-.016.233-.018.231-.02.226-.022.224-.024.22-.025.216-.027.212-.029.21-.03.205-.032.202-.033.198-.035.194-.036.191-.037.187-.039.183-.039.179-.041.175-.042.172-.043.168-.044.163-.045.16-.045.155-.047.152-.047.148-.048.143-.049.139-.049.136-.049.131-.051.126-.05.123-.051.118-.052.114-.051.11-.052.106-.052.101-.052.096-.052.092-.052.088-.052.083-.052.079-.052.074-.052.07-.051.065-.051.06-.051.056-.05.051-.049.023-.025.023-.025.021-.024.02-.024.019-.024.018-.024.017-.024.015-.023.014-.024.013-.023.012-.023.01-.022.01-.023.008-.022.006-.022.006-.022.004-.022.004-.021.001-.021.001-.021v-4.153l-.077.054-.08.054-.083.053-.085.053-.087.053-.09.051-.093.051-.095.051-.097.05-.1.049-.102.048-.105.048-.106.048-.109.046-.111.046-.114.046-.115.044-.118.044-.12.043-.122.043-.124.042-.126.041-.128.04-.13.039-.132.039-.134.038-.135.037-.138.036-.139.036-.142.034-.143.034-.144.033-.147.032-.148.032-.15.03-.151.03-.153.028-.154.028-.156.027-.158.026-.159.024-.161.024-.162.023-.163.023-.165.021-.166.02-.167.019-.169.018-.169.017-.171.016-.173.015-.173.014-.175.013-.175.012-.177.01-.178.01-.179.009-.179.007-.181.006-.182.006-.182.004-.184.003-.184.001-.185.001-.185-.001-.184-.001-.184-.003-.182-.004-.182-.006-.181-.006-.179-.007-.179-.009-.178-.01-.176-.01-.176-.012-.175-.013-.173-.014-.172-.015-.171-.016-.17-.017-.169-.018-.167-.019-.166-.02-.165-.021-.163-.023-.162-.023-.161-.024-.159-.024-.157-.026-.156-.027-.155-.028-.153-.028-.151-.03-.15-.03-.148-.032-.146-.032-.145-.033-.143-.034-.141-.034-.14-.036-.137-.036-.136-.037-.134-.038-.132-.039-.13-.039-.128-.041-.126-.041-.124-.041-.122-.043-.12-.043-.117-.044-.116-.044-.113-.046-.112-.046-.109-.046-.106-.048-.105-.048-.102-.048-.1-.05-.097-.049-.095-.051-.093-.051-.09-.052-.087-.052-.085-.053-.083-.053-.08-.054-.077-.054v4.153zm8.74-8.179l-.257.004-.254.005-.25.008-.247.011-.244.012-.241.014-.237.016-.233.018-.231.021-.226.022-.224.023-.22.026-.216.027-.212.028-.21.031-.205.032-.202.033-.198.034-.194.036-.191.038-.187.038-.183.04-.179.041-.175.042-.172.043-.168.043-.163.045-.16.046-.155.046-.152.048-.148.048-.143.048-.139.049-.136.05-.131.05-.126.051-.123.051-.118.051-.114.052-.11.052-.106.052-.101.052-.096.052-.092.052-.088.052-.083.052-.079.052-.074.051-.07.052-.065.051-.06.05-.056.05-.051.05-.023.025-.023.024-.021.024-.02.025-.019.024-.018.024-.017.023-.015.024-.014.023-.013.023-.012.023-.01.023-.01.022-.008.022-.006.023-.006.021-.004.022-.004.021-.001.021-.001.021.001.021.001.021.004.021.004.022.006.021.006.023.008.022.01.022.01.023.012.023.013.023.014.023.015.024.017.023.018.024.019.024.02.025.021.024.023.024.023.025.051.05.056.05.06.05.065.051.07.052.074.051.079.052.083.052.088.052.092.052.096.052.101.052.106.052.11.052.114.052.118.051.123.051.126.051.131.05.136.05.139.049.143.048.148.048.152.048.155.046.16.046.163.045.168.043.172.043.175.042.179.041.183.04.187.038.191.038.194.036.198.034.202.033.205.032.21.031.212.028.216.027.22.026.224.023.226.022.231.021.233.018.237.016.241.014.244.012.247.011.25.008.254.005.257.004.26.001.26-.001.257-.004.254-.005.25-.008.247-.011.244-.012.241-.014.237-.016.233-.018.231-.021.226-.022.224-.023.22-.026.216-.027.212-.028.21-.031.205-.032.202-.033.198-.034.194-.036.191-.038.187-.038.183-.04.179-.041.175-.042.172-.043.168-.043.163-.045.16-.046.155-.046.152-.048.148-.048.143-.048.139-.049.136-.05.131-.05.126-.051.123-.051.118-.051.114-.052.11-.052.106-.052.101-.052.096-.052.092-.052.088-.052.083-.052.079-.052.074-.051.07-.052.065-.051.06-.05.056-.05.051-.05.023-.025.023-.024.021-.024.02-.025.019-.024.018-.024.017-.023.015-.024.014-.023.013-.023.012-.023.01-.023.01-.022.008-.022.006-.023.006-.021.004-.022.004-.021.001-.021.001-.021-.001-.021-.001-.021-.004-.021-.004-.022-.006-.021-.006-.023-.008-.022-.01-.022-.01-.023-.012-.023-.013-.023-.014-.023-.015-.024-.017-.023-.018-.024-.019-.024-.02-.025-.021-.024-.023-.024-.023-.025-.051-.05-.056-.05-.06-.05-.065-.051-.07-.052-.074-.051-.079-.052-.083-.052-.088-.052-.092-.052-.096-.052-.101-.052-.106-.052-.11-.052-.114-.052-.118-.051-.123-.051-.126-.051-.131-.05-.136-.05-.139-.049-.143-.048-.148-.048-.152-.048-.155-.046-.16-.046-.163-.045-.168-.043-.172-.043-.175-.042-.179-.041-.183-.04-.187-.038-.191-.038-.194-.036-.198-.034-.202-.033-.205-.032-.21-.031-.212-.028-.216-.027-.22-.026-.224-.023-.226-.022-.231-.021-.233-.018-.237-.016-.241-.014-.244-.012-.247-.011-.25-.008-.254-.005-.257-.004-.26-.001-.26.001z" transform="scale(.5)"></path></symbol></defs><defs><symbol height="24" width="24" id="clock"><path d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.848 12.459c.202.038.202.333.001.372-1.907.361-6.045 1.111-6.547 1.111-.719 0-1.301-.582-1.301-1.301 0-.512.77-5.447 1.125-7.445.034-.192.312-.181.343.014l.985 6.238 5.394 1.011z" transform="scale(.5)"></path></symbol></defs><defs><marker orient="auto-start-reverse" markerHeight="12" markerWidth="12" markerUnits="userSpaceOnUse" refY="5" refX="7.9" id="arrowhead"><path d="M -1 0 L 10 5 L 0 10 z"></path></marker></defs><defs><marker refY="4.5" refX="4" orient="auto" markerHeight="8" markerWidth="15" id="crosshead"><path style="stroke-dasharray: 0, 0;" d="M 1,2 L 6,7 M 6,2 L 1,7" stroke-width="1pt" stroke="#000000" fill="none"></path></marker></defs><defs><marker orient="auto" markerHeight="28" markerWidth="20" refY="7" refX="15.5" id="filled-head"><path d="M 18,7 L9,13 L14,7 L9,1 Z"></path></marker></defs><defs><marker orient="auto" markerHeight="40" markerWidth="60" refY="15" refX="15" id="sequencenumber"><circle r="6" cy="15" cx="15"></circle></marker></defs><text style="font-size: 16px; font-weight: 400;" dy="1em" class="messageText" alignment-baseline="middle" dominant-baseline="middle" text-anchor="middle" y="80" x="180">Request Operation</text><line style="fill: none;" marker-end="url(#arrowhead)" stroke="none" stroke-width="2" class="messageLine0" y2="113" x2="284" y1="113" x1="76"></line><text style="font-size: 16px; font-weight: 400;" dy="1em" class="messageText" alignment-baseline="middle" dominant-baseline="middle" text-anchor="middle" y="128" x="396">Validate Capability</text><line style="fill: none;" marker-end="url(#arrowhead)" stroke="none" stroke-width="2" class="messageLine0" y2="161" x2="502.5" y1="161" x1="289"></line><text style="font-size: 16px; font-weight: 400;" dy="1em" class="messageText" alignment-baseline="middle" dominant-baseline="middle" text-anchor="middle" y="176" x="399">Capability Valid</text><line style="stroke-dasharray: 3, 3; fill: none;" marker-end="url(#arrowhead)" stroke="none" stroke-width="2" class="messageLine1" y2="209" x2="292" y1="209" x1="505.5"></line><text style="font-size: 16px; font-weight: 400;" dy="1em" class="messageText" alignment-baseline="middle" dominant-baseline="middle" text-anchor="middle" y="224" x="501">Log Access Attempt</text><line style="fill: none;" marker-end="url(#arrowhead)" stroke="none" stroke-width="2" class="messageLine0" y2="257" x2="712" y1="257" x1="289"></line><text style="font-size: 16px; font-weight: 400;" dy="1em" class="messageText" alignment-baseline="middle" dominant-baseline="middle" text-anchor="middle" y="272" x="601">Execute Operation</text><line style="fill: none;" marker-end="url(#arrowhead)" stroke="none" stroke-width="2" class="messageLine0" y2="305" x2="912" y1="305" x1="289"></line><text style="font-size: 16px; font-weight: 400;" dy="1em" class="messageText" alignment-baseline="middle" dominant-baseline="middle" text-anchor="middle" y="320" x="604">Operation Result</text><line style="stroke-dasharray: 3, 3; fill: none;" marker-end="url(#arrowhead)" stroke="none" stroke-width="2" class="messageLine1" y2="353" x2="292" y1="353" x1="915"></line><text style="font-size: 16px; font-weight: 400;" dy="1em" class="messageText" alignment-baseline="middle" dominant-baseline="middle" text-anchor="middle" y="368" x="501">Log Operation Result</text><line style="fill: none;" marker-end="url(#arrowhead)" stroke="none" stroke-width="2" class="messageLine0" y2="401" x2="712" y1="401" x1="289"></line><text style="font-size: 16px; font-weight: 400;" dy="1em" class="messageText" alignment-baseline="middle" dominant-baseline="middle" text-anchor="middle" y="416" x="183">Return Result</text><line style="stroke-dasharray: 3, 3; fill: none;" marker-end="url(#arrowhead)" stroke="none" stroke-width="2" class="messageLine1" y2="449" x2="79" y1="449" x1="287"></line></svg></section></section><section class="chapter"><h2 id="implementa-es-avan-adas" data-toc="implementa-es-avan-adas">Implementa&ccedil;&otilde;es Avan&ccedil;adas</h2><section class="chapter"><h3 id="sistema-de-permiss-es-granular" data-toc="sistema-de-permiss-es-granular">Sistema de Permiss&otilde;es Granular</h3><div class="code-block" data-lang="java">
+public class CapabilityToken {
+    private UUID objectId;
+    private Set&lt;Permission&gt; permissions;
+    private Map&lt;String, String&gt; metadata;
+    private Instant expiration;
+    
+    public boolean isValid() {
+        return !Instant.now().isAfter(expiration);
+    }
+    
+    public boolean hasPermission(Permission required) {
+        return permissions.contains(required);
+    }
+    
+    public Optional&lt;String&gt; getMetadata(String key) {
+        return Optional.ofNullable(metadata.get(key));
+    }
+}
+</div></section><section class="chapter"><h3 id="integra-o-com-blockchain" data-toc="integra-o-com-blockchain">Integra&ccedil;&atilde;o com Blockchain</h3><div class="code-block" data-lang="solidity">
+contract CapabilityToken {
+    struct Capability {
+        address owner;
+        uint256 resourceId;
+        uint256 permissions;
+        uint256 expiration;
+    }
+    
+    mapping(bytes32 =&gt; Capability) public capabilities;
+    
+    function grantCapability(
+        address to,
+        uint256 resourceId,
+        uint256 permissions,
+        uint256 duration
+    ) external {
+        bytes32 capId = keccak256(
+            abi.encodePacked(to, resourceId)
+        );
+        capabilities[capId] = Capability(
+            to,
+            resourceId,
+            permissions,
+            block.timestamp + duration
+        );
+    }
+}
+</div></section></section><section class="chapter"><h2 id="padr-es-de-design-avan-ados" data-toc="padr-es-de-design-avan-ados">Padr&otilde;es de Design Avan&ccedil;ados</h2><section class="chapter"><h3 id="padr-o-de-delega-o-em-cadeia" data-toc="padr-o-de-delega-o-em-cadeia">Padr&atilde;o de Delega&ccedil;&atilde;o em Cadeia</h3><div class="code-block" data-lang="ts">
+interface DelegationChain {
+    readonly source: Principal;
+    readonly intermediaries: Principal[];
+    readonly target: Principal;
+    readonly capabilities: Capability[];
+    readonly constraints: ConstraintSet;
+}
+
+class CapabilityDelegator {
+    delegate(chain: DelegationChain): Result&lt;void, Error&gt; {
+        if (!this.validateChain(chain)) {
+            return Err(new InvalidChainError());
+        }
+        
+        const attenuatedCaps = this.attenuateCapabilities(
+            chain.capabilities,
+            chain.constraints
+        );
+        
+        return this.transferCapabilities(
+            chain.target,
+            attenuatedCaps
+        );
+    }
+}
+</div></section><section class="chapter"><h3 id="sistema-de-auditoria-avan-ado" data-toc="sistema-de-auditoria-avan-ado">Sistema de Auditoria Avan&ccedil;ado</h3><div class="code-block" data-lang="python">
+class AuditLogger:
+    def __init__(self):
+        self.blockchain_client = BlockchainClient()
+        self.local_store = LocalStore()
+    
+    async def log_capability_use(
+        self,
+        capability: Capability,
+        context: ExecutionContext
+    ):
+        # Log locally
+        await self.local_store.append(
+            self.create_audit_entry(capability, context)
+        )
+        
+        # Create blockchain proof
+        proof = self.create_merkle_proof(capability, context)
+        await self.blockchain_client.submit_proof(proof)
+</div></section></section><section class="chapter"><h2 id="seguran-a-qu-ntica" data-toc="seguran-a-qu-ntica">Seguran&ccedil;a Qu&acirc;ntica</h2><section class="chapter"><h3 id="estruturas-resistentes-a-quantum" data-toc="estruturas-resistentes-a-quantum">Estruturas Resistentes a Quantum</h3><div class="code-block" data-lang="python">
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.asymmetric import dilithium
+
+class QuantumSafeCapability:
+    def __init__(self):
+        self.signing_key = dilithium.generate_private_key()
+    
+    def create_capability(self, resource_id: bytes, permissions: int) -&gt; bytes:
+        message = resource_id + permissions.to_bytes(8, 'big')
+        signature = self.signing_key.sign(message)
+        return message + signature
+</div></section><section class="chapter"><h3 id="protocolo-de-verifica-o-p-s-qu-ntico" data-toc="protocolo-de-verifica-o-p-s-qu-ntico">Protocolo de Verifica&ccedil;&atilde;o P&oacute;s-Qu&acirc;ntico</h3><div class="code-block" data-lang="rust">
+struct QuantumVerifier {
+    pub_key: DilithiumPublicKey,
+    lattice_params: LatticeParameters,
+}
+
+impl QuantumVerifier {
+    pub fn verify_capability(&amp;self, cap: &amp;Capability) -&gt; Result&lt;(), Error&gt; {
+        let signature = cap.extract_signature();
+        let message = cap.extract_message();
+        
+        self.pub_key.verify(
+            message,
+            signature,
+            &amp;self.lattice_params
+        )
+    }
+}
+</div></section></section><section class="chapter"><h2 id="integra-o-com-sistemas-modernos" data-toc="integra-o-com-sistemas-modernos">Integra&ccedil;&atilde;o com Sistemas Modernos</h2><section class="chapter"><h3 id="kubernetes-operator-personalizado" data-toc="kubernetes-operator-personalizado">Kubernetes Operator Personalizado</h3><div class="code-block" data-lang="yaml">
+apiVersion: security.k8s.io/v1alpha1
+kind: CapabilityPolicy
+metadata:
+  name: secure-workload-policy
+spec:
+  selector:
+    matchLabels:
+      app: secure-workload
+  capabilities:
+    required:
+      - CAP_NET_BIND_SERVICE
+    forbidden:
+      - CAP_SYS_ADMIN
+      - CAP_NET_RAW
+  attestation:
+    provider: spiffe
+    identity: &quot;spiffe://cluster.local/ns/{{.Namespace}}/sa/{{.ServiceAccount}}&quot;
+</div></section><section class="chapter"><h3 id="integra-o-com-service-mesh" data-toc="integra-o-com-service-mesh">Integra&ccedil;&atilde;o com Service Mesh</h3><div class="code-block" data-lang="yaml">
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: capability-based-auth
+spec:
+  selector:
+    matchLabels:
+      app: secure-service
+  rules:
+  - from:
+    - source:
+        principals: [&quot;cluster.local/ns/default/sa/secure-client&quot;]
+    to:
+    - operation:
+        methods: [&quot;GET&quot;]
+        paths: [&quot;/api/secure/*&quot;]
+    when:
+    - key: request.auth.claims[capabilities]
+      values: [&quot;secure-api-access&quot;]
+</div></section></section><section class="chapter"><h2 id="ferramentas-e-utilit-rios" data-toc="ferramentas-e-utilit-rios">Ferramentas e Utilit&aacute;rios</h2><section class="chapter"><h3 id="cli-para-gerenciamento-de-capacidades" data-toc="cli-para-gerenciamento-de-capacidades">CLI para Gerenciamento de Capacidades</h3><div class="code-block" data-lang="python">
+@click.group()
+def cli():
+    &quot;&quot;&quot;Capability Management CLI&quot;&quot;&quot;
+    pass
+
+@cli.command()
+@click.option('--resource', required=True)
+@click.option('--permissions', required=True)
+@click.option('--duration', default='1h')
+def grant(resource: str, permissions: str, duration: str):
+    &quot;&quot;&quot;Grant new capability&quot;&quot;&quot;
+    capability = CapabilityManager.create(
+        resource=resource,
+        permissions=permissions.split(','),
+        duration=parse_duration(duration)
+    )
+    click.echo(f&quot;Created capability: {capability.id}&quot;)
+
+@cli.command()
+@click.argument('capability_id')
+def revoke(capability_id: str):
+    &quot;&quot;&quot;Revoke existing capability&quot;&quot;&quot;
+    CapabilityManager.revoke(capability_id)
+    click.echo(f&quot;Revoked capability: {capability_id}&quot;)
+</div></section><section class="chapter"><h3 id="api-rest-para-gerenciamento" data-toc="api-rest-para-gerenciamento">API REST para Gerenciamento</h3><div class="code-block" data-lang="ts">
+interface CapabilityAPI {
+    readonly baseUrl: string;
+    
+    async createCapability(
+        request: CreateCapabilityRequest
+    ): Promise&lt;Capability&gt;;
+    
+    async listCapabilities(
+        filter?: CapabilityFilter
+    ): Promise&lt;Capability[]&gt;;
+    
+    async revokeCapability(
+        id: string,
+        reason: RevocationReason
+    ): Promise&lt;void&gt;;
+}
+
+class CapabilityService implements CapabilityAPI {
+    constructor(
+        private readonly client: HttpClient,
+        private readonly baseUrl: string
+    ) {}
+    
+    async createCapability(
+        request: CreateCapabilityRequest
+    ): Promise&lt;Capability&gt; {
+        const response = await this.client.post(
+            `${this.baseUrl}/capabilities`,
+            request
+        );
+        return response.data;
+    }
+}
+</div></section></section><section class="chapter"><h2 id="monitoramento-e-observabilidade" data-toc="monitoramento-e-observabilidade">Monitoramento e Observabilidade</h2><section class="chapter"><h3 id="m-tricas-prometheus" data-toc="m-tricas-prometheus">M&eacute;tricas Prometheus</h3><div class="code-block" data-lang="yaml">
+# prometheus.yml
+scrape_configs:
+  - job_name: 'capability-metrics'
+    static_configs:
+      - targets: ['capability-service:9090']
+    metrics_path: '/metrics'
+    scheme: 'https'
+    tls_config:
+      ca_file: /etc/prometheus/certs/ca.pem
+    basic_auth:
+      username: 'prometheus'
+      password_file: /etc/prometheus/auth/password
+</div></section><section class="chapter"><h3 id="dashboards-grafana" data-toc="dashboards-grafana">Dashboards Grafana</h3><div class="code-block" data-lang="json">
+{
+  &quot;annotations&quot;: {
+    &quot;list&quot;: []
+  },
+  &quot;panels&quot;: [
+    {
+      &quot;title&quot;: &quot;Capability Usage&quot;,
+      &quot;type&quot;: &quot;graph&quot;,
+      &quot;datasource&quot;: &quot;Prometheus&quot;,
+      &quot;targets&quot;: [
+        {
+          &quot;expr&quot;: &quot;sum(rate(capability_usage_total[5m])) by (resource)&quot;,
+          &quot;legendFormat&quot;: &quot;{{resource}}&quot;
+        }
+      ]
+    },
+    {
+      &quot;title&quot;: &quot;Revocations&quot;,
+      &quot;type&quot;: &quot;stat&quot;,
+      &quot;datasource&quot;: &quot;Prometheus&quot;,
+      &quot;targets&quot;: [
+        {
+          &quot;expr&quot;: &quot;sum(increase(capability_revocations_total[24h]))&quot;
+        }
+      ]
+    }
+  ]
+}
+</div></section></section><section class="chapter"><h2 id="refer-ncias-e-recursos-adicionais" data-toc="refer-ncias-e-recursos-adicionais">Refer&ecirc;ncias e Recursos Adicionais</h2><section class="chapter"><h3 id="documenta-o-t-cnica" data-toc="documenta-o-t-cnica">Documenta&ccedil;&atilde;o T&eacute;cnica</h3><ul class="list _bullet" id="qbwajw_47"><li class="list__item" id="qbwajw_48"><p id="qbwajw_53">NIST Special Publication 800-190: Application Container Security Guide</p></li><li class="list__item" id="qbwajw_49"><p id="qbwajw_54">CIS Kubernetes Benchmark v1.6.0</p></li><li class="list__item" id="qbwajw_50"><p id="qbwajw_55">Docker Security Guidelines</p></li><li class="list__item" id="qbwajw_51"><p id="qbwajw_56">Cloud Native Security Whitepaper</p></li><li class="list__item" id="qbwajw_52"><p id="qbwajw_57">Zero Trust Architecture Design Principles</p></li></ul></section><section class="chapter"><h3 id="ferramentas-e-frameworks" data-toc="ferramentas-e-frameworks">Ferramentas e Frameworks</h3><ul class="list _bullet" id="qbwajw_58"><li class="list__item" id="qbwajw_59"><p id="qbwajw_68">Open Policy Agent (OPA)</p></li><li class="list__item" id="qbwajw_60"><p id="qbwajw_69">Kubernetes RBAC</p></li><li class="list__item" id="qbwajw_61"><p id="qbwajw_70">SELinux</p></li><li class="list__item" id="qbwajw_62"><p id="qbwajw_71">AppArmor</p></li><li class="list__item" id="qbwajw_63"><p id="qbwajw_72">Docker Security Scanner</p></li><li class="list__item" id="qbwajw_64"><p id="qbwajw_73">SPIFFE/SPIRE</p></li><li class="list__item" id="qbwajw_65"><p id="qbwajw_74">HashiCorp Vault</p></li><li class="list__item" id="qbwajw_66"><p id="qbwajw_75">AWS IAM</p></li><li class="list__item" id="qbwajw_67"><p id="qbwajw_76">Azure AD</p></li></ul></section><section class="chapter"><h3 id="comunidade-e-suporte" data-toc="comunidade-e-suporte">Comunidade e Suporte</h3><ul class="list _bullet" id="qbwajw_77"><li class="list__item" id="qbwajw_79"><p id="qbwajw_83">CNCF Security TAG</p></li><li class="list__item" id="qbwajw_80"><p id="qbwajw_84">Cloud Native Security Working Group</p></li><li class="list__item" id="qbwajw_81"><p id="qbwajw_85">Docker Security Team</p></li><li class="list__item" id="qbwajw_82"><p id="qbwajw_86">Kubernetes Security Special Interest Group</p></li></ul><div class="code-block" data-lang="none">
+Resource Organization
+┌─────────────────┐
+│ Documentation   │
+├─────────────────┤
+│ Tools           │
+├─────────────────┤
+│ Best Practices  │
+├─────────────────┤
+│ Examples        │
+└─────────────────┘
+</div></section></section><div class="last-modified">15 abril 2025</div><div data-feedback-placeholder="true"></div><div class="navigation-links _bottom"><a href="access-matrix-summary.html" class="navigation-links__prev">Matriz de Acesso (Access Matrix)</a><a href="protection-exercises.html" class="navigation-links__next">Solu&ccedil;&otilde;es dos Exerc&iacute;cios de Prote&ccedil;&atilde;o</a></div></article><div id="disqus_thread"></div></div></section></main></div><script src="https://resources.jetbrains.com/writerside/apidoc/6.22.0-b776/app.js"></script></body></html>
