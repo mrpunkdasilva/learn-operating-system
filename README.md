@@ -15,15 +15,55 @@ Este projeto é um material educacional que combina teoria e prática no ensino 
 
 ## 📋 Conteúdo
 
-O material abrange diversos tópicos, incluindo:
+O material está organizado nos seguintes capítulos:
 
-- Introdução aos Sistemas Operacionais
-- Gerenciamento de Processos
-- Gerenciamento de Memória
-- Sistemas de Arquivos
-- Entrada/Saída
-- Segurança
-- E muito mais!
+1. **Overview**
+   - Hardware e Software
+   - Operação do Computador
+   - Estrutura de Armazenamento
+   - Estrutura de I/O
+   - Arquitetura do Sistema
+
+2. **System Interface**
+   - Interface Usuário-SO
+   - Chamadas de Sistema
+   - Programas do Sistema
+   - Máquinas Virtuais
+   - Boot do Sistema
+
+3. **Process and Scheduler**
+   - Conceitos de Processos
+   - Threads e Multithreading
+   - Escalonamento
+   - Algoritmos de Escalonamento
+
+4. **Memory**
+   - Gerenciamento de Memória
+   - Conceitos Básicos
+   - Associação de Endereços
+   - Segmentação
+   - Exemplo Pentium
+
+5. **Mass Storage Structure**
+   - Arquivos e Atributos
+   - Operações com Arquivos
+   - Estrutura de Arquivos
+   - Métodos de Acesso
+   - Proteção
+
+6. **File System**
+   - Implementação de Sistema de Arquivos
+   - Partições e Montagem
+   - RAID
+   - Sistemas de Arquivos Virtuais
+
+7. **Protection and Security**
+   - Proteção
+   - Domínios de Proteção
+   - Matriz de Acesso
+   - Criptografia
+   - Ameaças e Ataques
+   - Firewalls
 
 ## 🛠️ Tecnologias Utilizadas
 
@@ -36,7 +76,7 @@ O material abrange diversos tópicos, incluindo:
 
 1. Clone o repositório:
 ```bash
-git clone [URL_DO_REPOSITÓRIO]
+git clone https://github.com/mrpunkdasilva/learn-operating-system.git
 ```
 
 2. Navegue até o diretório do projeto:
@@ -59,6 +99,14 @@ Contribuições são bem-vindas! Para contribuir:
 4. Push para a branch (`git push origin feature/NovaFeature`)
 5. Abra um Pull Request
 
+### Diretrizes de Contribuição
+
+- Mantenha as analogias com Minecraft relevantes e educativas
+- Siga o padrão de formatação existente
+- Inclua exemplos práticos quando possível
+- Adicione exercícios com soluções detalhadas
+- Mantenha a documentação atualizada
+
 ## 📄 Licença
 
 Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
@@ -71,9 +119,27 @@ Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalh
 
 ## 🔗 Links Úteis
 
-- [https://mrpunkdasilva.github.io/learn-operating-system/sistemasoperacionais.html](https://mrpunkdasilva.github.io/learn-operating-system/sistemasoperacionais.html)
-- [Wiki do projeto](https://github.com/mrpunkdasilva/learn-operating-system/wiki)
-- [Fórum de discussão](https://github.com/mrpunkdasilva/learn-operating-system/issues)
+- [Documentação Online](https://mrpunkdasilva.github.io/learn-operating-system/sistemasoperacionais.html)
+- [Wiki do Projeto](https://github.com/mrpunkdasilva/learn-operating-system/wiki)
+- [Fórum de Discussão](https://github.com/mrpunkdasilva/learn-operating-system/discussions)
+- [Rastreador de Issues](https://github.com/mrpunkdasilva/learn-operating-system/issues)
+
+## 📊 Status do Projeto
+
+![GitHub Stars](https://img.shields.io/github/stars/mrpunkdasilva/learn-operating-system)
+![GitHub Forks](https://img.shields.io/github/forks/mrpunkdasilva/learn-operating-system)
+![GitHub Issues](https://img.shields.io/github/issues/mrpunkdasilva/learn-operating-system)
+![GitHub Pull Requests](https://img.shields.io/github/issues-pr/mrpunkdasilva/learn-operating-system)
+
+## 🗓️ Roadmap
+
+- [x] Estrutura básica do conteúdo
+- [x] Analogias com Minecraft
+- [x] Exercícios práticos
+- [x] Soluções detalhadas
+- [ ] Vídeos explicativos
+- [ ] Ambiente de laboratório virtual
+- [ ] Tradução para outros idiomas
 
 ---
 
