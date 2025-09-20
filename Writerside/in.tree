@@ -2,34 +2,39 @@
 <!DOCTYPE instance-profile
         SYSTEM "https://resources.jetbrains.com/writerside/1.0/product-profile.dtd">
 
-<instance-profile id="in" 
-                 name="Operating Systems: Architecture, Concepts and Implementation" 
+<instance-profile id="in"
+                 name="Operating Systems: Architecture, Concepts and Implementation"
                  start-page="SistemasOperacionais.md">
     <toc-element topic="SistemasOperacionais.md"/>
 
-    <toc-element toc-title="1. Overview">
+    <toc-element toc-title="1. Introdução">
+        <toc-element topic="mod1/Capitulo-1/001-Introducao.md"/>
         <toc-element topic="1-1.md">
             <toc-element topic="Hardware.md"/>
             <toc-element topic="Software.md"/>
-            <toc-element topic="1-2.md"/>
         </toc-element>
-        <toc-element topic="002-Operacaodocomputador.md"/>
-        <toc-element topic="003-EstruturadeArmazenamento.md"/>
-        <toc-element topic="004-EstruturadeIO.md"/>
-        <toc-element topic="005-ArquiteturadoSistema.md"/>
+        <toc-element topic="1-2.md"/>
+        <toc-element topic="mod1/Capitulo-1/002-OperacaoDoComputador.md"/>
+        <toc-element topic="mod1/Capitulo-1/003-EstruturaDeArmazenamento.md"/>
+        <toc-element topic="mod1/Capitulo-1/004-EstruturaDeIO.md"/>
+        <toc-element topic="mod1/Capitulo-1/005-ArquiteturaDoSistema.md"/>
         <toc-element topic="1-6-Estrutura-do-sistema-operacional.md"/>
         <toc-element topic="1-7-Operacoes-do-Computador.md"/>
         <toc-element topic="1-6-Gerencia-de-processos.md"/>
         <toc-element topic="1-9-Gerencia-de-memoria.md"/>
         <toc-element topic="1-10-Gerencia-de-armazenamento.md"/>
         <toc-element topic="1-11-Protecao-e-seguranca.md"/>
+        <toc-element topic="mod1/Capitulo-1/Sistema-Distribuidos.md"/>
         <toc-element topic="1-12-Sistemas-de-uso-especifico.md"/>
         <toc-element topic="Ambientes-de-Computacao.md"/>
         <toc-element topic="1-14.md"/>
         <toc-element topic="Exercicios-Praticos-Resolvidos1.md"/>
+        <toc-element topic="Questoes.md"/>
+        <toc-element topic="Respostas.md"/>
+        <toc-element topic="Pratica.md"/>
     </toc-element>
 
-    <toc-element toc-title="2. System Interface">
+    <toc-element toc-title="2. Estruturas do Sistema">
         <toc-element topic="Capitulo-2.md"/>
         <toc-element topic="2-2-Interface-usuario-sistema-operacional.md"/>
         <toc-element topic="2-3-Chamadas-de-sistema.md"/>
@@ -42,48 +47,67 @@
         <toc-element topic="Exercicios-Praticos-Resolvidos2.md"/>
     </toc-element>
 
-    <toc-element toc-title="3. Process and Scheduler">
-        <toc-element toc-title="3.1 Process">
-            <toc-element topic="a.md">
-                <toc-element topic="Usos.md"/>
-                <toc-element topic="4-2-Beneficios.md"/>
-                <toc-element topic="4-3-Programação-multicore.md"/>
-                <toc-element topic="4-4-Modelos-de-multiplas-threads-multithreading.md"/>
-                <toc-element topic="4-5-Bibliotecas-de-threads.md"/>
-                <toc-element topic="4-6-Threads-em-Java.md"/>
-                <toc-element topic="4-7-Aspectos-do-Uso-de-Threads.md"/>
-                <toc-element topic="4-8-Exemplos-em-Sistemas-Operacionais.md"/>
-            </toc-element>
-            <toc-element topic="Exercicios-Praticos-4.md"/>
-        </toc-element>
-
-        <toc-element toc-title="3.2 Scheduler">
-            <toc-element topic="Domus-5.md">
-                <toc-element topic="5-1-Conceitos-basicos.md"/>
-                <toc-element topic="5-2-Crterios.md"/>
-                <toc-element topic="5-3-Algortimos-de-Escalonamento.md"/>
-                <toc-element topic="5-4-Escalonamento-de-Thread.md"/>
-                <toc-element topic="5-5-Escalonamento-em-multiprocessadores.md"/>
-                <toc-element topic="5-6-Exemplos-de-Sistema-Operacional.md"/>
-                <toc-element topic="5-7-Avaliacao-do-Algoritmo.md"/>
-            </toc-element>
-            <toc-element topic="Exercicios-Praticos.md"/>
-        </toc-element>
+    <toc-element toc-title="3. Processos">
+        <toc-element topic="mod1/Capitulo-3/3-Processos.md"/>
     </toc-element>
-    <toc-element toc-title="4. Memory">
-        <toc-element topic="00-IntroGerenciadeMemoria.md"/>
-        <toc-element topic="01-ConceitosBasicos.md">
-            <toc-element topic="02-Associacaodeenderecos.md"/>
+
+    <toc-element toc-title="4. Threads">
+        <toc-element topic="a.md"/>
+        <toc-element topic="mod1/Capitulo-4/4-Threads.md"/>
+        <toc-element topic="Usos.md"/>
+        <toc-element topic="4-2-Beneficios.md"/>
+        <toc-element topic="4-3-Programacao-multicore.md"/>
+        <toc-element topic="4-4-Modelos-de-multiplas-threads-multithreading.md"/>
+        <toc-element topic="4-5-Bibliotecas-de-threads.md"/>
+        <toc-element topic="4-6-Threads-em-Java.md"/>
+        <toc-element topic="4-7-Aspectos-do-Uso-de-Threads.md"/>
+        <toc-element topic="4-8-Exemplos-em-Sistemas-Operacionais.md"/>
+        <toc-element topic="Exercicios-Praticos-4.md"/>
+    </toc-element>
+
+    <toc-element toc-title="5. Escalonamento de CPU">
+        <toc-element topic="Domus-5.md"/>
+        <toc-element topic="5-1-Conceitos-basicos.md"/>
+        <toc-element topic="5-2-Criterios.md"/>
+        <toc-element topic="5-3-Algoritmos-de-Escalonamento.md"/>
+        <toc-element topic="5-4-Escalonamento-de-Thread.md"/>
+        <toc-element topic="5-5-Escalonamento-em-multiprocessadores.md"/>
+        <toc-element topic="5-6-Exemplos-de-Sistema-Operacional.md"/>
+        <toc-element topic="5-7-Avaliacao-do-Algoritmo.md"/>
+        <toc-element topic="Exercicios-Praticos.md"/>
+    </toc-element>
+
+    <toc-element toc-title="6. Gerenciamento de Memória">
+        <toc-element topic="mod1/Capitulo-8/00-IntroGerenciadeMemoria.md"/>
+        <toc-element topic="mod1/Capitulo-8/01-ConceitosBasicos.md"/>
+        <toc-element topic="Protec.md"/>
+        <toc-element topic="mod1/Capitulo-8/02-Associacaodeenderecos.md"/>
+        <toc-element topic="Espaco-de-enderecos-logicos-e-fisicos.md"/>
+        <toc-element topic="Carregamento-dinamico.md"/>
+        <toc-element topic="5-Bibliotecas-de-vinculo-dinamico-e-compartilhadas.md"/>
+        <toc-element topic="6-3-Swapping.md"/>
+        <toc-element topic="Alocacao-de-memoria-contigua.md"/>
+        <toc-element topic="6-6.md"/>
+        <toc-element topic="Fragmentacao.md"/>
+        <toc-element topic="6-5-Paginacao.md">
+            <toc-element topic="Metodo-Basico.md"/>
+            <toc-element topic="Suporte-do-hardware.md"/>
+            <toc-element topic="Protecao.md"/>
+            <toc-element topic="Paginas-Compartilhadas.md"/>
+        </toc-element>
+        <toc-element topic="Estrutura-da-tabela-compartilhada.md">
+            <toc-element topic="Paginacao-Hierarquica.md"/>
             <toc-element topic="Tabelas-de-Pagina-Invertidas.md"/>
         </toc-element>
         <toc-element topic="Segmentacao.md"/>
         <toc-element topic="Exemplo-Pentium.md"/>
         <toc-element topic="Exercicios-Praticos-6.md"/>
     </toc-element>
-    <toc-element toc-title="5. Mass Storage Structure">
-        <toc-element topic="00-Intro.md"/>
-        <toc-element topic="01-Arquivo.md">
-            <toc-element topic="01.1-Atributos.md"/>
+
+    <toc-element toc-title="7. Interface do Sistema de Arquivos">
+        <toc-element topic="mod1/Capitulo-10/00-Intro.md"/>
+        <toc-element topic="mod1/Capitulo-10/01-Arquivo.md">
+            <toc-element topic="mod1/Capitulo-10/01.1-Atributos.md"/>
             <toc-element topic="Operacao-de-Arquivos.md"/>
             <toc-element topic="7-1-3-Tipos-de-Arquivos.md"/>
             <toc-element topic="7-1-4-Estrutura-de-Arquivos.md">
@@ -97,17 +121,17 @@
         <toc-element topic="7-6-Protecao.md"/>
         <toc-element topic="Exe07.md"/>
     </toc-element>
-    <toc-element toc-title="6. File System">
-        <toc-element topic="Intro.md"/>
+
+    <toc-element toc-title="8. Implementação do Sistema de Arquivos">
+        <toc-element topic="mod1/Capitulo-11/00-Intro.md"/>
         <toc-element topic="8-1-Estrutura-do-Sistema-de-Arquivos.md"/>
         <toc-element topic="8-2-filesystem-implementation.md">
+            <toc-element topic="8-2-3-sistemas-arquivos-virtuais.md"/>
             <toc-element topic="8-2-1-particoes-e-montagem.md">
                 <toc-element topic="8-2-1-1-layouts-de-disco.md"/>
-            </toc-element>
-            <toc-element topic="8-2-1-2-modelos-organizacao-disco.md">
+                <toc-element topic="8-2-1-2-modelos-organizacao-disco.md"/>
                 <toc-element topic="8-2-1-3-niveis-raid.md"/>
             </toc-element>
-            <toc-element topic="8-2-3-sistemas-arquivos-virtuais.md"/>
         </toc-element>
         <toc-element topic="8-3-implementacao-diretorio.md"/>
         <toc-element topic="8-4.md">
@@ -128,33 +152,37 @@
         <toc-element topic="8-9-wafl.md"/>
         <toc-element topic="exercicios-sistema-arquivos.md"/>
     </toc-element>
-    <toc-element toc-title="7. Protection and Security">
-        <toc-element topic="Introduction.md"/>
-        <toc-element toc-title="7.1 Protection">
+
+    <toc-element toc-title="9. Proteção e Segurança">
+        <toc-element topic="mod1/Capitulo-15/Capitulo-15_00 - Intro.md"/>
+        <toc-element topic="protection-and-security/Introduction.md"/>
+        <toc-element toc-title="Proteção">
             <toc-element topic="Protection-Concepts.md"/>
             <toc-element topic="Protection-Domains.md"/>
-            <toc-element topic="Access-Matrix-Implementation.md"/>
-            <toc-element topic="Role-Based-Access.md"/>
+            <toc-element topic="Access-Matrix-Summary.md">
+                <toc-element topic="Access-Matrix-Example.md"/>
+                <toc-element topic="Access-Matrix-Implementation.md"/>
+            </toc-element>
             <toc-element topic="Access-Rights-Revocation.md"/>
-            <toc-element topic="Protection.md"/>
-            <toc-element topic="Access-Matrix-Example.md"/>
-            <toc-element topic="Access-Matrix-Summary.md"/>
             <toc-element topic="Capability-Based-Systems.md"/>
+            <toc-element topic="Role-Based-Access.md"/>
+            <toc-element topic="protection-and-security/Protection.md"/>
             <toc-element topic="Protection-Exercises.md"/>
+            <toc-element topic="protection-and-security/Protection-Exercises-Solutions.md"/>
         </toc-element>
-        <toc-element toc-title="7.2 Security">
-            <toc-element topic="Security-Concepts.md"/>
+        <toc-element toc-title="Segurança">
             <toc-element topic="Security-Problem.md"/>
+            <toc-element topic="Security-Concepts.md"/>
             <toc-element topic="Program-Threats.md"/>
             <toc-element topic="System-Network-Threats.md"/>
-            <toc-element topic="Crypto-Implementation.md"/>
-            <toc-element topic="Criptografia.md"/>
-            <toc-element topic="Authentication-Summary.md"/>
-            <toc-element topic="Security-Implementation.md"/>
-            <toc-element topic="Firewalls.md"/>
             <toc-element topic="Computer-Security-Classifications.md"/>
-            <toc-element topic="Protection-Exercises-Solutions.md"/>
+            <toc-element topic="Authentication-Summary.md"/>
+            <toc-element topic="Criptografia.md"/>
+            <toc-element topic="Crypto-Implementation.md"/>
+            <toc-element topic="protection-and-security/Firewalls.md"/>
         </toc-element>
     </toc-element>
+
     <toc-element topic="Bibliografia.md"/>
+
 </instance-profile>
