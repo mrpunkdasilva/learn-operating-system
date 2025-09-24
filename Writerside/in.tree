@@ -52,8 +52,7 @@
     </toc-element>
 
     <toc-element toc-title="4. Threads">
-        <toc-element topic="a.md"/>
-        <toc-element topic="mod1/Capitulo-4/4-Threads.md"/>
+        <toc-element topic="4-Threads.md"/>
         <toc-element topic="Usos.md"/>
         <toc-element topic="4-2-Beneficios.md"/>
         <toc-element topic="4-3-Programacao-multicore.md"/>
