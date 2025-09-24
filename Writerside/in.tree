@@ -8,23 +8,23 @@
     <toc-element topic="SistemasOperacionais.md"/>
 
     <toc-element toc-title="1. Introdução">
-        <toc-element topic="mod1/Capitulo-1/001-Introducao.md"/>
+        <toc-element topic="001-Introducao.md"/>
         <toc-element topic="1-1.md">
             <toc-element topic="Hardware.md"/>
             <toc-element topic="Software.md"/>
         </toc-element>
         <toc-element topic="1-2.md"/>
-        <toc-element topic="mod1/Capitulo-1/002-OperacaoDoComputador.md"/>
-        <toc-element topic="mod1/Capitulo-1/003-EstruturaDeArmazenamento.md"/>
-        <toc-element topic="mod1/Capitulo-1/004-EstruturaDeIO.md"/>
-        <toc-element topic="mod1/Capitulo-1/005-ArquiteturaDoSistema.md"/>
+        <toc-element topic="002-OperacaoDoComputador.md"/>
+        <toc-element topic="003-EstruturaDeArmazenamento.md"/>
+        <toc-element topic="004-EstruturaDeIO.md"/>
+        <toc-element topic="005-ArquiteturaDoSistema.md"/>
         <toc-element topic="1-6-Estrutura-do-sistema-operacional.md"/>
         <toc-element topic="1-7-Operacoes-do-Computador.md"/>
         <toc-element topic="1-6-Gerencia-de-processos.md"/>
         <toc-element topic="1-9-Gerencia-de-memoria.md"/>
         <toc-element topic="1-10-Gerencia-de-armazenamento.md"/>
         <toc-element topic="1-11-Protecao-e-seguranca.md"/>
-        <toc-element topic="mod1/Capitulo-1/Sistema-Distribuidos.md"/>
+        <toc-element topic="Sistema-Distribuidos.md"/>
         <toc-element topic="1-12-Sistemas-de-uso-especifico.md"/>
         <toc-element topic="Ambientes-de-Computacao.md"/>
         <toc-element topic="1-14.md"/>
@@ -48,7 +48,7 @@
     </toc-element>
 
     <toc-element toc-title="3. Processos">
-        <toc-element topic="mod1/Capitulo-3/3-Processos.md"/>
+        <toc-element topic="3-Processos.md"/>
     </toc-element>
 
     <toc-element toc-title="4. Threads">
@@ -77,10 +77,10 @@
     </toc-element>
 
     <toc-element toc-title="6. Gerenciamento de Memória">
-        <toc-element topic="mod1/Capitulo-8/00-IntroGerenciadeMemoria.md"/>
-        <toc-element topic="mod1/Capitulo-8/01-ConceitosBasicos.md"/>
+        <toc-element topic="00-IntroGerenciadeMemoria.md"/>
+        <toc-element topic="01-ConceitosBasicos.md"/>
         <toc-element topic="Protec.md"/>
-        <toc-element topic="mod1/Capitulo-8/02-Associacaodeenderecos.md"/>
+        <toc-element topic="02-Associacaodeenderecos.md"/>
         <toc-element topic="Espaco-de-enderecos-logicos-e-fisicos.md"/>
         <toc-element topic="Carregamento-dinamico.md"/>
         <toc-element topic="5-Bibliotecas-de-vinculo-dinamico-e-compartilhadas.md"/>
@@ -104,9 +104,9 @@
     </toc-element>
 
     <toc-element toc-title="7. Interface do Sistema de Arquivos">
-        <toc-element topic="mod1/Capitulo-10/00-Intro.md"/>
-        <toc-element topic="mod1/Capitulo-10/01-Arquivo.md">
-            <toc-element topic="mod1/Capitulo-10/01.1-Atributos.md"/>
+        <toc-element topic="00-Intro.md"/>
+        <toc-element topic="01-Arquivo.md">
+            <toc-element topic="01.1-Atributos.md"/>
             <toc-element topic="Operacao-de-Arquivos.md"/>
             <toc-element topic="7-1-3-Tipos-de-Arquivos.md"/>
             <toc-element topic="7-1-4-Estrutura-de-Arquivos.md">
@@ -122,7 +122,7 @@
     </toc-element>
 
     <toc-element toc-title="8. Implementação do Sistema de Arquivos">
-        <toc-element topic="mod1/Capitulo-11/00-Intro.md"/>
+        <toc-element topic="00-Intro.md"/>
         <toc-element topic="8-1-Estrutura-do-Sistema-de-Arquivos.md"/>
         <toc-element topic="8-2-filesystem-implementation.md">
             <toc-element topic="8-2-3-sistemas-arquivos-virtuais.md"/>
@@ -153,8 +153,8 @@
     </toc-element>
 
     <toc-element toc-title="9. Proteção e Segurança">
-        <toc-element topic="mod1/Capitulo-15/Capitulo-15_00 - Intro.md"/>
-        <toc-element topic="protection-and-security/Introduction.md"/>
+        <toc-element topic="Capitulo-15_00 - Intro.md"/>
+        <toc-element topic="Introduction.md"/>
         <toc-element toc-title="Proteção">
             <toc-element topic="Protection-Concepts.md"/>
             <toc-element topic="Protection-Domains.md"/>
@@ -165,9 +165,9 @@
             <toc-element topic="Access-Rights-Revocation.md"/>
             <toc-element topic="Capability-Based-Systems.md"/>
             <toc-element topic="Role-Based-Access.md"/>
-            <toc-element topic="protection-and-security/Protection.md"/>
+            <toc-element topic="Protection.md"/>
             <toc-element topic="Protection-Exercises.md"/>
-            <toc-element topic="protection-and-security/Protection-Exercises-Solutions.md"/>
+            <toc-element topic="Protection-Exercises-Solutions.md"/>
         </toc-element>
         <toc-element toc-title="Segurança">
             <toc-element topic="Security-Problem.md"/>
@@ -178,7 +178,7 @@
             <toc-element topic="Authentication-Summary.md"/>
             <toc-element topic="Criptografia.md"/>
             <toc-element topic="Crypto-Implementation.md"/>
-            <toc-element topic="protection-and-security/Firewalls.md"/>
+            <toc-element topic="Firewalls.md"/>
         </toc-element>
     </toc-element>
 
